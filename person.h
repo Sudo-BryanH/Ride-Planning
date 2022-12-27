@@ -17,6 +17,7 @@ class person
 
     // Fills in the fields of the person abstract class
     person(string name, string gender, int phone, string group = "N/A"); // : name(name), sex(sex), phone(phone), group(group);
+    person();
     
     // TEST FOR VIRTUAL ABSTRACT FNS
     virtual int whatever() = 0;
