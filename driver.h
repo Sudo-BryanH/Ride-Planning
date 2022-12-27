@@ -11,11 +11,16 @@
 
 using namespace std;
 
+// extends person class, represents a driver and all its data.
 class driver : public person
 {
     public:
     int whatever();
     driver(string name, string gender, int phone, int capacity, string group = "N/A");
+    
+    //getters and setters for capacity
+    int getCapacity();
+    void setCapacity(int cap);
 
     private:
     int capacity;

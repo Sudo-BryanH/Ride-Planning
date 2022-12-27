@@ -14,3 +14,14 @@ driver::driver(string name, string gender, int phone, int capacity, string group
     setGroup(group);
     setPhone(phone);
 }
+
+int driver::getCapacity()
+{
+    return capacity;
+}
+
+void driver::setCapacity(int cap)
+{
+    capacity = cap;
+}
+

@@ -11,6 +11,8 @@
 
 using namespace std;
 
+// represents a person with all required data about them. will be used to represent 
+// passengers while drivers will be its own extension of this class
 class person
 {
     public: 
@@ -20,7 +22,7 @@ class person
     person();
     
     // TEST FOR VIRTUAL ABSTRACT FNS
-    virtual int whatever() = 0;
+
 
     // Setters and getters for private fields
     void setName(string name);

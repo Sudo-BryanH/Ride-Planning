@@ -4,10 +4,6 @@
 #include <stdio.h>
 #include "person.h"
 
-int person :: whatever() 
-{
-
-}
 
 person::person(){}
 
