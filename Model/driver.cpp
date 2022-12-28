@@ -6,7 +6,7 @@
 #include "person.h"
 
 
-driver::driver(string name, string gender, int phone, int capacity, string group = "N/A") : capacity(capacity), person(name, gender, phone, group)
+driver::driver(string name,  int phone, int capacity, string gender, string group) : capacity(capacity), person(name, phone, gender, group)
 {
 
 }

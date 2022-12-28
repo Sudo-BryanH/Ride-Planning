@@ -7,7 +7,7 @@
 
 person::person(){}
 
-person::person(string name, string sex, int phone, string group = "N/A") : name(name), gender(sex), phone(phone), group(group)
+person::person(string name, int phone, string sex, string group) : name(name), gender(sex), phone(phone), group(group)
 {
 
 }

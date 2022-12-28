@@ -14,18 +14,25 @@ using namespace std;
 
 TEST_CASE("person constructor test", "[weight=1][part=construction]")
 {
-    person alpha = person("Ken", "male", 14, "PL");
+    person alpha = person("Ken",14, "male",  "PL");
 
     REQUIRE(alpha.getGroup() == "PL");
     REQUIRE(alpha.getName() == "Ken");
     REQUIRE(alpha.getGender() == "male");
     REQUIRE(alpha.getPhone() == 14);
 
+    person alpha1 = person("Billy", 13);
+
+    REQUIRE(alpha1.getGroup() == "none");
+    REQUIRE(alpha1.getName() == "Billy");
+    REQUIRE(alpha1.getGender() == "none");
+    REQUIRE(alpha1.getPhone() == 13);
+
 }
 
 TEST_CASE("driver constructor test", "[weight=1][part=construction]")
 {
-    driver beta = driver("Rock", "male", 12, 3, "MM");
+    driver beta = driver("Rock", 12, 3, "male", "MM");
 
     REQUIRE(beta.getGroup() == "MM");
     REQUIRE(beta.getName() == "Rock");

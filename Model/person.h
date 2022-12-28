@@ -18,7 +18,7 @@ class person
     public: 
 
     // Fills in the fields of the person abstract class
-    person(string name, string gender, int phone, string group); // : name(name), sex(sex), phone(phone), group(group);
+    person(string name,  int phone, string gender = "none", string group = "none"); // : name(name), sex(sex), phone(phone), group(group);
     person();
     
     
