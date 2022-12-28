@@ -6,13 +6,9 @@
 #include "person.h"
 
 
-driver::driver(string name, string gender, int phone, int capacity, string group = "N/A") : capacity(capacity)
+driver::driver(string name, string gender, int phone, int capacity, string group = "N/A") : capacity(capacity), person(name, gender, phone, group)
 {
 
-    setName(name);
-    setGender(gender);
-    setGroup(group);
-    setPhone(phone);
 }
 
 int driver::getCapacity()
