@@ -1,5 +1,5 @@
 #define CATCH_CONFIG_MAIN
-#define REQUIRE(__VA_ARGS__...) 
+#define REQUIRE(__VA_ARGS__...)
 
 #include "catch.hpp"
 #include "Model/person.h"
@@ -17,7 +17,7 @@ TEST_CASE("person constructor test", "[weight=1][part=construction]")
     person alpha = person("Ken", "male", 14, "PL");
     driver beta = driver("Rock", "male", 12, 3, "MM");
 
-    REQUIRE(alpha.getGroup == "PL");
+    REQUIRE(alpha.getGroup() == "PL");
 
 
 }

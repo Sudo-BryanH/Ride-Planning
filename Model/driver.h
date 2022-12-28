@@ -16,7 +16,7 @@ class driver : public person
 {
     public:
     int whatever();
-    driver(string name, string gender, int phone, int capacity, string group = "N/A");
+    driver(string name, string gender, int phone, int capacity, string group);
     
     //getters and setters for capacity
     int getCapacity();
