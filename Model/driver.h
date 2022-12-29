@@ -4,6 +4,7 @@
 
 
 #include "person.h"
+#include "plist.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
@@ -25,6 +26,7 @@ class driver : public person
 
     private:
     int capacity;
+    plist * passengers;
     
 
 };

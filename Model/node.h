@@ -11,18 +11,16 @@ using namespace std;
 class node
 {
     public: 
-    // Constructors 
+    // Constructors.  
     node();
     node(person p);
 
-    // Destructor
-    ~node();
 
     node * next;
     node * prev;
 
-    // getters and setters for person's fields
-    int getCapacity();
+    
+    // int getCapacity(); this will be for the driver subclass
 
     private:
     person p;
