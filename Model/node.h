@@ -20,7 +20,7 @@ class node
     node * next;
     node * prev;
 
-    
+    bool operator==(node d) const;
     // int getCapacity(); this will be for the driver subclass
 
     private:

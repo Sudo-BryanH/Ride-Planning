@@ -17,3 +17,8 @@ person node::getPerson()
     return p;
 }
 
+bool node::operator==(node d) const {
+
+    return d.getPerson() == p;
+}
+

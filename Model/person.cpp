@@ -63,7 +63,7 @@ bool person::getCanBus()
 }
 
 
-bool person::operator==(person p) {
+bool person::operator==(person p) const {
 
     bool nom = p.getName() == name;
     bool gen = p.getGender() == gender;
