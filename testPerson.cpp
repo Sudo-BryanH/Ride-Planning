@@ -4,6 +4,8 @@
 #include "catch.hpp"
 #include "Model/person.h"
 #include "Model/driver.h"
+#include "Model/plist.h"
+#include "Model/node.h"
 #include <string> 
 #include <vector> 
 #include <iostream>

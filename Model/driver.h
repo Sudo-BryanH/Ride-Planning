@@ -9,7 +9,7 @@
 #include <vector> 
 #include <iostream>
 #include <stdio.h>
-// #include <unordered_map>
+
 
 using namespace std;
 
@@ -23,6 +23,8 @@ class driver : public person
     //getters and setters for capacity
     int getCapacity();
     void setCapacity(int cap);
+
+    // TODO make a display method where when called will publish the driver and the group to a .json file
 
     private:
     int capacity;

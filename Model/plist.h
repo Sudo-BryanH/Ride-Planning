@@ -1,9 +1,9 @@
 #ifndef PLIST_H
 #define PLIST_H
 
+
+
 #include "node.h"
-#include "driver.h"
-#include "person.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
