@@ -9,9 +9,14 @@
 #include <iostream>
 #include <stdio.h>
 
+
+using namespace std;
+
 // class stored in the driver class. aside from the sentinel, this structure holds at most cap nodes
 class plist 
 {
+
+    // TODO make tests for this class and fix person tests
 
     public:
     // constructor

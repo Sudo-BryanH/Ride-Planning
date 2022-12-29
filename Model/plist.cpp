@@ -6,6 +6,7 @@
 #include <iostream>
 #include <stdio.h>
 
+
 plist::plist(int capacity) : cap(capacity)
 {
     sentinel = new node();

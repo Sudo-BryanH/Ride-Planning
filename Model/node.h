@@ -10,6 +10,7 @@ using namespace std;
 // Linked list structured storing persons. subclasses will be made for passengers and drivers pnode and dnode
 class node
 {
+    //TODO make tests for this class
     public: 
     // Constructors.  
     node();
@@ -29,12 +30,12 @@ class node
 
 };
 
-
-
-
-
-
 #endif
+
+
+
+
+
 
 
 
