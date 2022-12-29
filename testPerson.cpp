@@ -14,12 +14,13 @@ using namespace std;
 
 TEST_CASE("person constructor test", "[weight=1][part=construction]")
 {
-    person alpha = person("Ken",14, "male",  "PL");
+    person alpha = person("Ken",14, "male",  "PL", false);
 
     REQUIRE(alpha.getGroup() == "PL");
     REQUIRE(alpha.getName() == "Ken");
     REQUIRE(alpha.getGender() == "male");
     REQUIRE(alpha.getPhone() == 14);
+    REQUIRE(alpha.getCanBus() == false);
 
     person alpha1 = person("Billy", 13);
 
@@ -27,6 +28,7 @@ TEST_CASE("person constructor test", "[weight=1][part=construction]")
     REQUIRE(alpha1.getName() == "Billy");
     REQUIRE(alpha1.getGender() == "none");
     REQUIRE(alpha1.getPhone() == 13);
+    REQUIRE(alpha1.getCanBus() == true);
 
 }
 
@@ -38,6 +40,6 @@ TEST_CASE("driver constructor test", "[weight=1][part=construction]")
     REQUIRE(beta.getName() == "Rock");
     REQUIRE(beta.getGender() == "male");
     REQUIRE(beta.getPhone() == 12);
-
+    REQUIRE(beta.getCanBus() == false);
     REQUIRE(beta.getCapacity() == 3);
 }

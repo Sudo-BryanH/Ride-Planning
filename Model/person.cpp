@@ -7,11 +7,10 @@
 
 person::person(){}
 
-person::person(string name, int phone, string sex, string group) : name(name), gender(sex), phone(phone), group(group)
+person::person(string name, int phone, string sex, string group, bool canBus) : name(name), gender(sex), phone(phone), group(group), canBus(canBus)
 {
 
 }
-
 void person::setName(string name)
 {
     name = name;
@@ -52,3 +51,14 @@ string person::getGroup()
 {
     return group;
 }
+
+void person::setCanBus(bool cb)
+{
+   canBus = cb;
+}
+
+bool person::getCanBus()
+{
+    return canBus;
+}
+

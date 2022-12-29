@@ -16,7 +16,7 @@ using namespace std;
 class driver : public person
 {
     public:
-    int whatever();
+    
     driver(string name, int phone, int capacity, string gender = "none", string group = "none");
     
     //getters and setters for capacity

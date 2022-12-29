@@ -1,6 +1,6 @@
 
-#ifndef PNODE_H
-#define PNODE_H
+#ifndef NODE_H
+#define NODE_H
 
 #include "person.h"
 
