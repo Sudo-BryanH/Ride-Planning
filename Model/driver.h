@@ -17,12 +17,16 @@ using namespace std;
 class driver : public person
 {
     public:
-    
+    driver();
+    // Constructor to declare the capacity, super class, and plist = NULL
     driver(string name, int phone, int capacity, string gender = "none", string group = "none");
     
     //getters and setters for capacity
     int getCapacity();
     void setCapacity(int cap);
+    plist * getplist();
+
+    // bool operator==(driver p);
 
     // TODO make a display method where when called will publish the driver and the group to a .json file
 

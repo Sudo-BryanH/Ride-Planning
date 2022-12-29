@@ -21,7 +21,7 @@ class person
     person(string name,  int phone, string gender = "none", string group = "none", bool canBus = true); // : name(name), sex(sex), phone(phone), group(group);
     person();
     
-    
+    bool operator==(person p);
 
 
     // Setters and getters for private fields

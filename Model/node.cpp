@@ -6,9 +6,14 @@
 #include <stdio.h>
 
 
-node::node() :  next(this), prev(this)
+node::node()
 {}
 
 node::node(person p) : p(p), next(NULL), prev(NULL)
 {}
+
+person node::getPerson()
+{
+    return p;
+}
 

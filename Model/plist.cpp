@@ -8,8 +8,10 @@
 
 plist::plist(){
 
-        sentinel = new node();
+    sentinel = new node();
     last = sentinel;
+    sentinel->next = sentinel;
+    sentinel->prev = sentinel;
 }
 plist::plist(int capacity) : cap(capacity)
 {

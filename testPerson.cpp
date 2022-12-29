@@ -45,3 +45,19 @@ TEST_CASE("driver constructor test", "[weight=1][part=construction]")
     REQUIRE(beta.getCanBus() == false);
     REQUIRE(beta.getCapacity() == 3);
 }
+
+TEST_CASE("person equality test", "[weight=1][part=construction]")
+{
+    person alpha = person("Ken",14, "male",  "PL", false);
+    person alpha1 = person("Billy", 13);
+    person alpha2 = person("Blly", 13);
+
+    REQUIRE((alpha == alpha) == true);
+    REQUIRE((alpha == alpha1) == false);
+    REQUIRE((alpha2 == alpha1) == false);
+
+    driver beta = driver("Rock", 12, 3, "male", "MM");
+    
+    REQUIRE((beta == beta) == true);
+    REQUIRE((beta == alpha1) == false);
+}

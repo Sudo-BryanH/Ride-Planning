@@ -1,20 +1,27 @@
 #ifndef DNODE_H
-#define DENODE_H
+#define DNODE_H
 
 #include "node.h"
-#include "person.h"
+
 #include "driver.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
 #include <stdio.h>
 
+using namespace std;
 
+// extends node. the node class for drivers
 class dnode : public node
 {
+    public:
+    dnode();
+    dnode(driver d);
 
-dnode();
-dnode(driver d);
+    driver getDriver();
+
+    private: 
+    driver d;
 
 
 };

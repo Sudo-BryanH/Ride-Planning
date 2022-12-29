@@ -62,3 +62,15 @@ bool person::getCanBus()
     return canBus;
 }
 
+
+bool person::operator==(person p) {
+
+    bool nom = p.getName() == name;
+    bool gen = p.getGender() == gender;
+    bool ph = p.getPhone() == phone;
+    bool grp = p.getGroup() == group;
+    bool cb = p.getCanBus() == canBus;
+
+    return nom && gen && ph && grp && cb;
+
+}
