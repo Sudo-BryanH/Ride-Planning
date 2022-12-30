@@ -29,6 +29,10 @@ class plist
     // Adds a node to the end of the last node, and this new node points to the sentinel. 
     void addNode(node* n);
 
+    node * getSentinel();
+
+    int getCapacity();
+
     private: 
     node * sentinel;
     node * last;

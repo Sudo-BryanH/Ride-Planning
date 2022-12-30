@@ -2,7 +2,7 @@
 
 
 
-all: planride testperson testnode
+all: planride testperson testnode testplist
 
 planride : main.o
 	clang++ main.o -std=c++14 -o planride
@@ -13,6 +13,9 @@ testperson : testPerson.o person.o driver.o plist.o node.o
 testnode : testNode.o person.o driver.o node.o dnode.o
 	clang++ testNode.o person.o driver.o dnode.o node.o -std=c++14 -o testnode
 
+testplist : testPList.o person.o plist.o node.o
+	clang++ testPList.o person.o plist.o node.o -std=c++14 -o testplist
+
 main.o: main.cpp
 	clang++ -std=c++14 -c -g main.cpp
 
@@ -21,6 +24,9 @@ testPerson.o: testPerson.cpp Model/person.h Model/driver.h Model/plist.h Model/n
 
 testNode.o: testNode.cpp Model/person.h Model/driver.h Model/dnode.h Model/node.h
 	clang++ -std=c++14 -c -g testNode.cpp
+
+testPList.o: testPList.cpp Model/person.h Model/node.h Model/plist.h
+	clang++ -std=c++14 -c -g testPList.cpp
 
 person.o: Model/person.h Model/person.cpp 
 	clang++ -std=c++14 -c -g Model/person.cpp
@@ -38,4 +44,4 @@ dnode.o: Model/node.h Model/driver.h Model/dnode.h Model/dnode.cpp
 	clang++ -std=c++14 -c -g Model/dnode.cpp
 
 clean:
-	rm *.o planride testperson testnode
+	rm *.o planride testperson testnode testplist
