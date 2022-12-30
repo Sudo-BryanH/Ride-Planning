@@ -48,9 +48,9 @@ TEST_CASE("dnode constructor test w/ driver", "[weight=1][part=construction]")
 
     REQUIRE(n->next == NULL);
     REQUIRE(n->prev == NULL);
-    REQUIRE(n->getDriver() == p);
-    REQUIRE(n->getDriver().getName() == "Ken");
-    REQUIRE(n->getDriver().getCapacity() == 3);
+    REQUIRE(n->getPerson() == p);
+    REQUIRE(n->getPerson().getName() == "Ken");
+    REQUIRE(n->getPerson().getCapacity() == 3);
 
     delete(n);
     

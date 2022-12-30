@@ -8,7 +8,7 @@ dnode::dnode(driver d) : d(d), node(d)
 
 }
 
-driver dnode::getDriver()
+driver dnode::getPerson()
 {
     return d;
 }
