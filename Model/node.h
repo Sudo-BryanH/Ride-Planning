@@ -14,13 +14,13 @@ class node
     public: 
     // Constructors.  
     node();
-    node(person p);
+    node(person & p);
 
     person getPerson();
     node * next;
     node * prev;
 
-    bool operator==(node d) const;
+    bool operator==(node & d) const;
     // int getCapacity(); this will be for the driver subclass
 
     private:

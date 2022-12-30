@@ -25,6 +25,7 @@ class driver : public person
     int getCapacity();
     void setCapacity(int cap);
     plist * getplist();
+    void setplist(plist * p);
 
     // bool operator==(driver p);
 

@@ -3,7 +3,7 @@
 
 dnode::dnode() : node(d) {}
 
-dnode::dnode(driver d) : d(d), node(d)
+dnode::dnode(driver & d) : d(d), node(d)
 {
 
 }

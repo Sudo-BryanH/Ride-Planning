@@ -61,7 +61,7 @@ TEST_CASE("plist add node", "[weight=1][part=construction]")
     REQUIRE(n1->prev ==n);
     REQUIRE(n1->next == sen);
 
-
+    
 
     delete(n);
     delete(n1);

@@ -20,6 +20,19 @@ void driver::setCapacity(int cap)
     capacity = cap;
 }
 
+plist * driver::driver::getplist()
+{
+
+    return passengers;
+
+}
+
+void driver::setplist(plist * p)
+{
+
+    passengers = p;
+}
+
 
 // bool driver::operator==(driver p) {
 //     return p == this && 

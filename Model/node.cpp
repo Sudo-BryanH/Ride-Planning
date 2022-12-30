@@ -9,7 +9,7 @@
 node::node()
 {}
 
-node::node(person p) : p(p), next(NULL), prev(NULL)
+node::node(person & p) : p(p), next(NULL), prev(NULL)
 {}
 
 person node::getPerson()
@@ -17,7 +17,7 @@ person node::getPerson()
     return p;
 }
 
-bool node::operator==(node d) const {
+bool node::operator==(node & d) const {
 
     return d.getPerson() == p;
 }

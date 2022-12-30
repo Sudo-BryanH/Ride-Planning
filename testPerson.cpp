@@ -61,3 +61,46 @@ TEST_CASE("person equality test", "[weight=1][part=construction]")
     REQUIRE((beta == beta) == true);
     REQUIRE((beta == alpha1) == false);
 }
+
+TEST_CASE("driver get plist", "[weight = 1][part = construction]")
+{
+    driver beta = driver("Rock", 12, 3, "male", "MM");
+    plist tester = plist(2);
+    person alpha = person("Ken",14, "male",  "PL", false);
+    person alpha1 = person("Kenneth",16, "male",  "PL", true);
+    node * n = new node(alpha);
+    node * n1 = new node(alpha1);
+    node * sen = tester.getSentinel();
+
+    REQUIRE(tester.getCapacity() == 2);
+    REQUIRE(sen->next == tester.getSentinel());
+
+
+    tester.addNode(n);
+
+
+    REQUIRE(tester.getCapacity() == 1);
+    REQUIRE(sen->next == n);
+    REQUIRE(n->next == sen);
+    REQUIRE(n->prev == sen);
+
+    tester.addNode(n1);
+
+
+    REQUIRE(tester.getCapacity() == 0);
+    REQUIRE(sen->next == n);
+    REQUIRE(n->next == n1);
+    REQUIRE(n->prev == sen);
+    REQUIRE(n1->prev ==n);
+    REQUIRE(n1->next == sen);
+
+    beta.setplist(&tester);
+
+    REQUIRE(beta.getplist() == &tester);
+
+    delete(n);
+    delete(n1);
+
+
+
+}

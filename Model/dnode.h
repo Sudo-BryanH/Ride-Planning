@@ -16,7 +16,7 @@ class dnode : public node
 {
     public:
     dnode();
-    dnode(driver d);
+    dnode(driver & d);
 
     driver getPerson();
 
