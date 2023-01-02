@@ -1,3 +1,5 @@
+// CITATIONS: catch.hpp is copied from https://github.com/catchorg/Catch2.git
+
 #define CATCH_CONFIG_MAIN
 #define REQUIRE(__VA_ARGS__...)
 
