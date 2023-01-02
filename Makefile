@@ -4,44 +4,44 @@
 
 all: planride testperson testnode testplist
 
-planride : main.o
-	clang++ main.o -std=c++14 -o planride
+planride : Main.o
+	clang++ Main.o -std=c++14 -o planride
 	
-testperson : testPerson.o person.o driver.o plist.o node.o
-	clang++ testPerson.o person.o driver.o plist.o node.o -std=c++14 -o testperson
+testperson : TestPerson.o Person.o Driver.o PList.o Node.o
+	clang++ TestPerson.o Person.o Driver.o PList.o Node.o -std=c++14 -o testperson
 
-testnode : testNode.o person.o driver.o node.o dnode.o
-	clang++ testNode.o person.o driver.o dnode.o node.o -std=c++14 -o testnode
+testnode : TestNode.o Person.o Driver.o Node.o DNode.o
+	clang++ TestNode.o Person.o Driver.o DNode.o Node.o -std=c++14 -o testnode
 
-testplist : testPList.o person.o plist.o node.o
-	clang++ testPList.o person.o plist.o node.o -std=c++14 -o testplist
+testplist : TestPList.o Person.o PList.o Node.o
+	clang++ TestPList.o Person.o PList.o Node.o -std=c++14 -o testplist
 
-main.o: main.cpp
-	clang++ -std=c++14 -c -g main.cpp
+Main.o: Main.cpp
+	clang++ -std=c++14 -c -g Main.cpp
 
-testPerson.o: testPerson.cpp Model/person.h Model/driver.h Model/plist.h Model/node.h
-	clang++ -std=c++14 -c -g testPerson.cpp
+TestPerson.o: TestPerson.cpp Model/Person.h Model/Driver.h Model/PList.h Model/Node.h
+	clang++ -std=c++14 -c -g TestPerson.cpp
 
-testNode.o: testNode.cpp Model/person.h Model/driver.h Model/dnode.h Model/node.h
-	clang++ -std=c++14 -c -g testNode.cpp
+TestNode.o: TestNode.cpp Model/Person.h Model/Driver.h Model/DNode.h Model/Node.h
+	clang++ -std=c++14 -c -g TestNode.cpp
 
-testPList.o: testPList.cpp Model/person.h Model/node.h Model/plist.h
-	clang++ -std=c++14 -c -g testPList.cpp
+TestPList.o: TestPList.cpp Model/Person.h Model/Node.h Model/PList.h
+	clang++ -std=c++14 -c -g TestPList.cpp
 
-person.o: Model/person.h Model/person.cpp 
-	clang++ -std=c++14 -c -g Model/person.cpp
+Person.o: Model/Person.h Model/Person.cpp 
+	clang++ -std=c++14 -c -g Model/Person.cpp
 
-driver.o: Model/person.h Model/driver.h Model/driver.cpp Model/plist.h
-	clang++ -std=c++14 -c -g Model/driver.cpp
+Driver.o: Model/Person.h Model/Driver.h Model/Driver.cpp Model/PList.h
+	clang++ -std=c++14 -c -g Model/Driver.cpp
 
-plist.o: Model/node.h Model/driver.h Model/plist.h Model/plist.cpp
-	clang++ -std=c++14 -c -g Model/plist.cpp
+PList.o: Model/Node.h Model/Driver.h Model/PList.h Model/PList.cpp
+	clang++ -std=c++14 -c -g Model/PList.cpp
 
-node.o: Model/node.h Model/node.cpp Model/person.h 
-	clang++ -std=c++14 -c -g Model/node.cpp
+Node.o: Model/Node.h Model/Node.cpp Model/Person.h 
+	clang++ -std=c++14 -c -g Model/Node.cpp
 
-dnode.o: Model/node.h Model/driver.h Model/dnode.h Model/dnode.cpp
-	clang++ -std=c++14 -c -g Model/dnode.cpp
+DNode.o: Model/Node.h Model/Driver.h Model/DNode.h Model/DNode.cpp
+	clang++ -std=c++14 -c -g Model/DNode.cpp
 
 clean:
 	rm *.o planride testperson testnode testplist

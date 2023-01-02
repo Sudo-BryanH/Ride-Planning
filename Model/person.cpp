@@ -2,68 +2,68 @@
 #include <vector> 
 #include <iostream>
 #include <stdio.h>
-#include "person.h"
+#include "Person.h"
 
 
-person::person(){}
+Person::Person(){}
 
-person::person(string name, int phone, string sex, string group, bool canBus) : name(name), gender(sex), phone(phone), group(group), canBus(canBus)
+Person::Person(string name, int phone, string sex, string group, bool canBus) : name(name), gender(sex), phone(phone), group(group), canBus(canBus)
 {
 
 }
-void person::setName(string name)
+void Person::setName(string name)
 {
     name = name;
 }
 
-string person::getName()
+string Person::getName()
 {
     return name;
 }
 
-void person::setGender(string sex)
+void Person::setGender(string sex)
 {
     gender = sex;
 }
 
-string person::getGender()
+string Person::getGender()
 {
     return gender;
 }
 
 
-void person::setPhone(int phone)
+void Person::setPhone(int phone)
 {
     phone = phone;
 }
 
-int person::getPhone()
+int Person::getPhone()
 {
     return phone;
 }
 
-void person::setGroup(string grp)
+void Person::setGroup(string grp)
 {
     group = grp;
 }
 
-string person::getGroup()
+string Person::getGroup()
 {
     return group;
 }
 
-void person::setCanBus(bool cb)
+void Person::setCanBus(bool cb)
 {
    canBus = cb;
 }
 
-bool person::getCanBus()
+bool Person::getCanBus()
 {
     return canBus;
 }
 
 
-bool person::operator==(person p) const {
+bool Person::operator==(Person p) const {
 
     bool nom = p.getName() == name;
     bool gen = p.getGender() == gender;

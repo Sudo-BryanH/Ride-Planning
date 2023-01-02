@@ -13,15 +13,15 @@ using namespace std;
 
 // represents a person with all required data about them. will be used to represent 
 // passengers while drivers will be its own extension of this class
-class person
+class Person
 {
     public: 
 
     // Fills in the fields of the person abstract class
-    person(string name,  int phone, string gender = "none", string group = "none", bool canBus = true); // : name(name), sex(sex), phone(phone), group(group);
-    person();
+    Person(string name,  int phone, string gender = "none", string group = "none", bool canBus = true); // : name(name), sex(sex), phone(phone), group(group);
+    Person();
     
-    bool operator==(person p) const;
+    bool operator==(Person p) const;
 
 
     // Setters and getters for private fields

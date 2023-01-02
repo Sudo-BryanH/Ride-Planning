@@ -1,4 +1,4 @@
-#include "node.h"
+#include "Node.h"
 #include <iostream>
 #include <string> 
 #include <vector> 
@@ -6,18 +6,18 @@
 #include <stdio.h>
 
 
-node::node()
+Node::Node()
 {}
 
-node::node(person & p) : p(p), next(NULL), prev(NULL)
+Node::Node(Person & p) : p(p), next(NULL), prev(NULL)
 {}
 
-person node::getPerson()
+Person Node::getPerson()
 {
     return p;
 }
 
-bool node::operator==(node & d) const {
+bool Node::operator==(Node & d) const {
 
     return d.getPerson() == p;
 }

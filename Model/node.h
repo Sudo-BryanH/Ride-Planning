@@ -2,29 +2,29 @@
 #ifndef NODE_H
 #define NODE_H
 
-#include "person.h"
+#include "Person.h"
 
 
 using namespace std;
 
-// Linked list structured storing persons. subclasses will be made for passengers and drivers pnode and dnode
-class node
+// Linked list structured storing persons. subclasses will be made for passengers and drivers pnode and DNode
+class Node
 {
     //TODO make tests for this class
     public: 
     // Constructors.  
-    node();
-    node(person & p);
+    Node();
+    Node(Person & p);
 
-    person getPerson();
-    node * next;
-    node * prev;
+    Person getPerson();
+    Node * next;
+    Node * prev;
 
-    bool operator==(node & d) const;
-    // int getCapacity(); this will be for the driver subclass
+    bool operator==(Node & d) const;
+    // int getCapacity(); this will be for the Driver subclass
 
     private:
-    person p;
+    Person p;
 
 
 

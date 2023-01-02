@@ -1,14 +1,14 @@
 
-#include "dnode.h"
+#include "DNode.h"
 
-dnode::dnode() : node(d) {}
+DNode::DNode() : Node(d) {}
 
-dnode::dnode(driver & d) : d(d), node(d)
+DNode::DNode(Driver & d) : d(d), Node(d)
 {
 
 }
 
-driver dnode::getPerson()
+Driver DNode::getPerson()
 {
     return d;
 }

@@ -2,10 +2,10 @@
 #define REQUIRE(__VA_ARGS__...)
 
 #include "catch.hpp"
-#include "Model/person.h"
-#include "Model/driver.h"
-#include "Model/plist.h"
-#include "Model/node.h"
+#include "Model/Person.h"
+#include "Model/Driver.h"
+#include "Model/PList.h"
+#include "Model/Node.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
@@ -16,7 +16,7 @@ using namespace std;
 
 TEST_CASE("person constructor test", "[weight=1][part=construction]")
 {
-    person alpha = person("Ken",14, "male",  "PL", false);
+    Person alpha = Person("Ken",14, "male",  "PL", false);
 
     REQUIRE(alpha.getGroup() == "PL");
     REQUIRE(alpha.getName() == "Ken");
@@ -24,7 +24,7 @@ TEST_CASE("person constructor test", "[weight=1][part=construction]")
     REQUIRE(alpha.getPhone() == 14);
     REQUIRE(alpha.getCanBus() == false);
 
-    person alpha1 = person("Billy", 13);
+    Person alpha1 = Person("Billy", 13);
 
     REQUIRE(alpha1.getGroup() == "none");
     REQUIRE(alpha1.getName() == "Billy");
@@ -34,9 +34,9 @@ TEST_CASE("person constructor test", "[weight=1][part=construction]")
 
 }
 
-TEST_CASE("driver constructor test", "[weight=1][part=construction]")
+TEST_CASE("Driver constructor test", "[weight=1][part=construction]")
 {
-    driver beta = driver("Rock", 12, 3, "male", "MM");
+    Driver beta = Driver("Rock", 12, 3, "male", "MM");
 
     REQUIRE(beta.getGroup() == "MM");
     REQUIRE(beta.getName() == "Rock");
@@ -48,29 +48,29 @@ TEST_CASE("driver constructor test", "[weight=1][part=construction]")
 
 TEST_CASE("person equality test", "[weight=1][part=construction]")
 {
-    person alpha = person("Ken",14, "male",  "PL", false);
-    person alpha1 = person("Billy", 13);
-    person alpha2 = person("Blly", 13);
+    Person alpha = Person("Ken",14, "male",  "PL", false);
+    Person alpha1 = Person("Billy", 13);
+    Person alpha2 = Person("Blly", 13);
 
     REQUIRE((alpha == alpha) == true);
     REQUIRE((alpha == alpha1) == false);
     REQUIRE((alpha2 == alpha1) == false);
 
-    driver beta = driver("Rock", 12, 3, "male", "MM");
+    Driver beta = Driver("Rock", 12, 3, "male", "MM");
     
     REQUIRE((beta == beta) == true);
     REQUIRE((beta == alpha1) == false);
 }
 
-TEST_CASE("driver get plist", "[weight = 1][part = construction]")
+TEST_CASE("Driver get plist", "[weight = 1][part = construction]")
 {
-    driver beta = driver("Rock", 12, 3, "male", "MM");
-    plist tester = plist(2);
-    person alpha = person("Ken",14, "male",  "PL", false);
-    person alpha1 = person("Kenneth",16, "male",  "PL", true);
-    node * n = new node(alpha);
-    node * n1 = new node(alpha1);
-    node * sen = tester.getSentinel();
+    Driver beta = Driver("Rock", 12, 3, "male", "MM");
+    PList tester = PList(2);
+    Person alpha = Person("Ken",14, "male",  "PL", false);
+    Person alpha1 = Person("Kenneth",16, "male",  "PL", true);
+    Node * n = new Node(alpha);
+    Node * n1 = new Node(alpha1);
+    Node * sen = tester.getSentinel();
 
     REQUIRE(tester.getCapacity() == 2);
     REQUIRE(sen->next == tester.getSentinel());

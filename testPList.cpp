@@ -2,26 +2,26 @@
 #define REQUIRE(__VA_ARGS__...)
 
 #include "catch.hpp"
-#include "Model/person.h"
+#include "Model/Person.h"
 
-#include "Model/node.h"
-#include "Model/plist.h"
+#include "Model/Node.h"
+#include "Model/PList.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
 #include <stdio.h>
 
-TEST_CASE("plist constructor test with 1", "[weight=1][part=construction]")
+TEST_CASE("PList constructor test with 1", "[weight=1][part=construction]")
 {
-    plist tester = plist(1);
-    node * sen = tester.getSentinel();
+    PList tester = PList(1);
+    Node * sen = tester.getSentinel();
 
     REQUIRE(tester.getCapacity() == 1);
     REQUIRE(sen->next == tester.getSentinel());
 
 
-    plist tester1 = plist(2);
-    node*sen1 = tester1.getSentinel();
+    PList tester1 = PList(2);
+    Node*sen1 = tester1.getSentinel();
 
     REQUIRE(tester1.getCapacity() == 2);
     REQUIRE(sen1->next == tester1.getSentinel());
@@ -30,14 +30,14 @@ TEST_CASE("plist constructor test with 1", "[weight=1][part=construction]")
 
 }
 
-TEST_CASE("plist add node", "[weight=1][part=construction]")
+TEST_CASE("PList add node", "[weight=1][part=construction]")
 {
-    plist tester = plist(2);
-    person alpha = person("Ken",14, "male",  "PL", false);
-    person alpha1 = person("Kenneth",16, "male",  "PL", true);
-    node * n = new node(alpha);
-    node * n1 = new node(alpha1);
-    node * sen = tester.getSentinel();
+    PList tester = PList(2);
+    Person alpha = Person("Ken",14, "male",  "PL", false);
+    Person alpha1 = Person("Kenneth",16, "male",  "PL", true);
+    Node * n = new Node(alpha);
+    Node * n1 = new Node(alpha1);
+    Node * sen = tester.getSentinel();
 
     REQUIRE(tester.getCapacity() == 2);
     REQUIRE(sen->next == tester.getSentinel());

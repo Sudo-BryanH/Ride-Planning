@@ -4,10 +4,10 @@
 #define REQUIRE(__VA_ARGS__...)
 
 #include "catch.hpp"
-#include "Model/person.h"
-#include "Model/driver.h"
-#include "Model/node.h"
-#include "Model/dnode.h"
+#include "Model/Person.h"
+#include "Model/Driver.h"
+#include "Model/Node.h"
+#include "Model/DNode.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
@@ -19,7 +19,7 @@ using namespace std;
 
 TEST_CASE("default node constructor test", "[weight=1][part=construction]")
 {
-    node * n = new node();
+    Node * n = new Node();
 
     REQUIRE(n->next == NULL);
     REQUIRE(n->prev == NULL);
@@ -30,9 +30,9 @@ TEST_CASE("default node constructor test", "[weight=1][part=construction]")
 
 TEST_CASE("node constructor test w/ passenger", "[weight=1][part=construction]")
 {
-    person p = person("Ken",14, "male",  "PL", false);
-    node * n = new node(p);
-    person a = n->getPerson();
+    Person p = Person("Ken",14, "male",  "PL", false);
+    Node * n = new Node(p);
+    Person a = n->getPerson();
 
     REQUIRE(n->next == NULL);
     REQUIRE(n->prev == NULL);
@@ -43,10 +43,10 @@ TEST_CASE("node constructor test w/ passenger", "[weight=1][part=construction]")
 }
 
 
-TEST_CASE("dnode constructor test w/ driver", "[weight=1][part=construction]")
+TEST_CASE("DNode constructor test w/ Driver", "[weight=1][part=construction]")
 {
-    driver p = driver("Ken",14, 3 , "male",  "PL");
-    dnode * n = new dnode(p);
+    Driver p = Driver("Ken",14, 3 , "male",  "PL");
+    DNode * n = new DNode(p);
 
     REQUIRE(n->next == NULL);
     REQUIRE(n->prev == NULL);
@@ -62,11 +62,11 @@ TEST_CASE("dnode constructor test w/ driver", "[weight=1][part=construction]")
 TEST_CASE("connecting nodes", "[weight=1][part=construction]")
 {
 
-    person p = person("Anakin", 14, "male",  "Jedi", false);
-    node * n = new node(p);
+    Person p = Person("Anakin", 14, "male",  "Jedi", false);
+    Node * n = new Node(p);
 
-    person q = person("Obi Wan", 15, "male", "Jedi", true);
-    node * m = new node(q);
+    Person q = Person("Obi Wan", 15, "male", "Jedi", true);
+    Node * m = new Node(q);
 
     n->next = m;
     m->prev = n;

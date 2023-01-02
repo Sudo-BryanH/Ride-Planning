@@ -3,8 +3,8 @@
 
 
 
-#include "person.h"
-#include "plist.h"
+#include "Person.h"
+#include "PList.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
@@ -13,27 +13,27 @@
 
 using namespace std;
 
-// extends person class, represents a driver and all its data.
-class driver : public person
+// extends person class, represents a Driver and all its data.
+class Driver : public Person
 {
     public:
-    driver();
-    // Constructor to declare the capacity, super class, and plist = NULL
-    driver(string name, int phone, int capacity, string gender = "none", string group = "none");
+    Driver();
+    // Constructor to declare the capacity, super class, and PList = NULL
+    Driver(string name, int phone, int capacity, string gender = "none", string group = "none");
     
     //getters and setters for capacity
     int getCapacity();
     void setCapacity(int cap);
-    plist * getplist();
-    void setplist(plist * p);
+    PList * getplist();
+    void setplist(PList * p);
 
-    // bool operator==(driver p);
+    // bool operator==(Driver p);
 
-    // TODO make a display method where when called will publish the driver and the group to a .json file
+    // TODO make a display method where when called will publish the Driver and the group to a .json file
 
     private:
     int capacity;
-    plist * passengers;
+    PList * passengers;
     
 
 };

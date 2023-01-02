@@ -23,7 +23,7 @@ class planner
     public: 
     // constructors
     planner();
-    planner(unordered_map<string, dnode> & driverlist, unordered_map<string, node> & passengerlist, vector<string> & grouplist);
+    planner(unordered_map<string, DNode> & driverlist, unordered_map<string, Node> & passengerlist, vector<string> & grouplist);
 
     //uses the two maps to assign passengers to drivers
     void planride();
@@ -32,8 +32,8 @@ class planner
     // to iterate over an unordered map, use https://www.geeksforgeeks.org/set-cbegin-and-cend-function-in-c-stl/
     private: 
 
-    unordered_map<string, dnode> driverlist;
-    unordered_map<string, node> passengerlist;
+    unordered_map<string, DNode> driverlist;
+    unordered_map<string, Node> passengerlist;
     vector<string> grouplist;
 
 

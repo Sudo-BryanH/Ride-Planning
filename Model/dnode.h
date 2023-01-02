@@ -1,9 +1,9 @@
 #ifndef DNODE_H
 #define DNODE_H
 
-#include "node.h"
+#include "Node.h"
 
-#include "driver.h"
+#include "Driver.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
@@ -12,16 +12,16 @@
 using namespace std;
 
 // extends node. the node class for drivers
-class dnode : public node
+class DNode : public Node
 {
     public:
-    dnode();
-    dnode(driver & d);
+    DNode();
+    DNode(Driver & d);
 
-    driver getPerson();
+    Driver getPerson();
 
     private: 
-    driver d;
+    Driver d;
 
 
 };

@@ -2,38 +2,38 @@
 #include <vector> 
 #include <iostream>
 #include <stdio.h>
-#include "driver.h"
+#include "Driver.h"
 
-driver::driver() {}
+Driver::Driver() {}
 
-driver::driver(string name, int phone, int capacity, string gender, string group) : passengers(NULL), capacity(capacity), person(name, phone, gender, group, false)
+Driver::Driver(string name, int phone, int capacity, string gender, string group) : passengers(NULL), capacity(capacity), Person(name, phone, gender, group, false)
 {
 }    
 
-int driver::getCapacity()
+int Driver::getCapacity()
 {
     return capacity;
 }
 
-void driver::setCapacity(int cap)
+void Driver::setCapacity(int cap)
 {
     capacity = cap;
 }
 
-plist * driver::driver::getplist()
+PList * Driver::Driver::getplist()
 {
 
     return passengers;
 
 }
 
-void driver::setplist(plist * p)
+void Driver::setplist(PList * p)
 {
 
     passengers = p;
 }
 
 
-// bool driver::operator==(driver p) {
+// bool Driver::operator==(Driver p) {
 //     return p == this && 
 // }

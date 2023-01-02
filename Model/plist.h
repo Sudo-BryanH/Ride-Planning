@@ -3,7 +3,7 @@
 
 
 
-#include "node.h"
+#include "Node.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
@@ -12,30 +12,30 @@
 
 using namespace std;
 
-// class stored in the driver class. aside from the sentinel, this structure holds at most cap nodes
-class plist 
+// class stored in the Driver class. aside from the sentinel, this structure holds at most cap nodes
+class PList 
 {
 
-    // TODO make tests for this class and fix person tests
+    // TODO make tests for this class and fix Person tests
 
     public:
     // constructor
-    plist();
-    plist(int capacity);
+    PList();
+    PList(int capacity);
 
     // destructor
-    ~plist();
+    ~PList();
 
     // Adds a node to the end of the last node, and this new node points to the sentinel. 
-    void addNode(node* n);
+    void addNode(Node* n);
 
-    node * getSentinel();
+    Node * getSentinel();
 
     int getCapacity();
 
     private: 
-    node * sentinel;
-    node * last;
+    Node * sentinel;
+    Node * last;
     int cap;
 
 

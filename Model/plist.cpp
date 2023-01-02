@@ -1,24 +1,24 @@
 
 
-#include "plist.h"
+#include "PList.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
 #include <stdio.h>
 
-plist::plist(){
+PList::PList(){
 
 }
-plist::plist(int capacity) : cap(capacity)
+PList::PList(int capacity) : cap(capacity)
 {
-    sentinel = new node();
+    sentinel = new Node();
     last = sentinel;
     sentinel->next = sentinel;
     sentinel->prev = NULL;
 
 }
 
-void plist::addNode(node* n) 
+void PList::addNode(Node* n) 
 {
 
     n->next = sentinel;
@@ -30,17 +30,17 @@ void plist::addNode(node* n)
 
 }
 
-node* plist::plist::getSentinel()
+Node* PList::PList::getSentinel()
 {
     return sentinel;
 }
 
-plist::~plist()
+PList::~PList()
 {
     
 }
 
-int plist::getCapacity()
+int PList::getCapacity()
 {
     return cap;
 }
