@@ -1,0 +1,56 @@
+{
+    "passengers": [
+        {
+            
+            "name": "p1",
+            "group": "PL",
+            "canBus": false,
+            "gender": "male",
+            "phone": 604
+
+        }, 
+        {
+            "name": "p2",
+            "group": "SU",
+            "canBus": false,
+            "gender": "female",
+            "phone": 778
+        }, 
+        {
+            "name": "p3",
+            "group": "PL",
+            "canBus": true,
+            "gender": "male",
+            "phone": 672
+        }
+
+
+    ], 
+
+    "drivers": [
+
+
+        {
+            
+            "name": "d1",
+            "group": "PL",
+            "capcacity": 3,
+            "gender": "male",
+            "phone": 6041
+
+        }, 
+        {
+            "name": "d2",
+            "group": "SU",
+            "capacity": 3,
+            "gender": "female",
+            "phone": 7781
+        }
+
+
+    ]
+
+
+
+
+}

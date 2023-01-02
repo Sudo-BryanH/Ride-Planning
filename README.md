@@ -13,3 +13,4 @@ Passengers will be identified by their name, contacts, gender, and group. Driver
 ## Citations
 
 catch.hpp used for testing is copied from https://github.com/catchorg/Catch2.git
+nlohmann JSON for C++ used to read and edit json files is from https://github.com/nlohmann/json.git
