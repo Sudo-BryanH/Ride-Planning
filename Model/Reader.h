@@ -1,23 +1,42 @@
 #ifndef READER_H
 #define READER_H
 
-#include "person.h"
+#include "Person.h"
 #include <nlohmann/json.hpp>
-#include "plist.h"
-#include "node.h"
-#include "dnode.h"
+#include "PList.h"
+#include "Node.h"
+#include "DNode.h"
 #include <unordered_map>
 
 using namespace std;
+using json = nlohmann::json;
 
 
-
+// This class will take a json object and use it to derive a hashmap for passengers and drivers
 class Reader 
 {
 
+    public: 
+    // Constructor. stores the json data file and create hashmaps for drivers and passengers
+    Reader(json & data);
+
+    // constructs an unordered_map for passengers
+    void extractPassengers();
+
+    // constructs an unordered_map for drivers
+    void extractDrivers();
+
+    //getters for pmap and dmap
+    unordered_map<string, Node *> getPmap();
+
+    unordered_map<string, DNode *> getDmap();
 
 
-
+    private: 
+    unordered_map<string, Node *> pmap;
+    unordered_map<string, DNode *> dmap;
+    
+    json data;
 
 
 };
