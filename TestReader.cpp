@@ -22,20 +22,32 @@ using json = nlohmann::json;
 
 TEST_CASE("Reader constructor", "[weight=1][part=construction]")
 {
+    cout << __LINE__ << endl;
     std::ifstream f("testinput.json");
+
+    cout << __LINE__ << endl;
     json data = json::parse(f);
 
     Reader r = Reader(data);
 
+    cout << __LINE__ << endl;
     REQUIRE(data == r.getData());
 
 }
 
 TEST_CASE("extract passengers test", "[weight=1][part=construction]")
 {
+
+    cout << __LINE__ << endl;
     std::ifstream f("testinput.json");
+
+    cout << __LINE__ << endl;
     json data = json::parse(f);
+
+    cout << __LINE__ << endl;
     Reader r = Reader(data);
+
+    cout << __LINE__ << endl;
     r.extractPassengers();
 
     unordered_map<string, Node*> testmap;
@@ -44,15 +56,20 @@ TEST_CASE("extract passengers test", "[weight=1][part=construction]")
     Person p2 = Person("p2", 778, "female", "SU", false);
     Person p3 = Person("p3", 672, "male", "PL", true);
 
-    Node * n1 = new Node(p1);
-    Node * n2 = new Node(p2);
-    Node * n3 = new Node(p3);
+    cout << __LINE__ << endl;
+    Node n1 = Node(p1);
+    Node n2 = Node(p2);
+    Node n3 = Node(p3);
 
-    Node * PL = r.getPmap().find("PL")->second;
-    Node * SU = r.getPmap().find("PL")->second;
+    Node *PL = r.getPmap().find("PL")->second;
+    Node *SU = r.getPmap().find("PL")->second;
 
-    REQUIRE(*n1 == *PL->next);
-    REQUIRE(*n2 == *SU->next);
-    REQUIRE(*n3 == *PL->next->next);
+    Node u1 = *(PL->next);
+    Node u2 = *(SU->next);
+    Node u3 = *(PL->next->next);
+
+    REQUIRE(n1.getPerson() == u1.getPerson());
+    REQUIRE(n2.getPerson() == u2.getPerson());
+    REQUIRE(n3.getPerson() == u3.getPerson());
 
 }

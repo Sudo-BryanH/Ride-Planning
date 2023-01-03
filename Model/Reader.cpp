@@ -36,7 +36,7 @@ void Reader::extractPassengers()
     unordered_map<string, Node*> pm;
 
 
-    array passengers = json::parse("passengers");
+    auto passengers = json::parse("passengers");
 
     for(auto& a : passengers) {
         Person p = Person(json::parse("name"), json::parse("phone"), json::parse("gender"), json::parse("group"), json::parse("canBus"));
@@ -51,6 +51,7 @@ void Reader::extractPassengers()
             n->next = sentinel;
 
             pm.emplace(make_pair(json::parse("group"), sentinel));
+            //TODO make cases for no groups
 
 
         } else {

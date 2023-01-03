@@ -17,7 +17,7 @@ testplist : TestPList.o Person.o PList.o Node.o
 	clang++ TestPList.o Person.o PList.o Node.o -std=c++11 -o testplist
 
 testreader : TestReader.o Person.o Driver.o Node.o DNode.o Reader.o 
-	clang++ TestReader.o Person.o Driver.o Node.o DNode.o Reader.o  -std=c++11 testreader
+	clang++ TestReader.o Person.o Driver.o Node.o DNode.o Reader.o -std=c++11 -o testreader
 
 Main.o: Main.cpp
 	clang++ -std=c++11 -c -g Main.cpp
@@ -31,7 +31,7 @@ TestNode.o: TestNode.cpp Model/Person.h Model/Driver.h Model/DNode.h Model/Node.
 TestPList.o: TestPList.cpp Model/Person.h Model/Node.h Model/PList.h
 	clang++ -std=c++11 -c -g TestPList.cpp
 
-TestReader.o: TestReader.cpp Model/Reader.h Model/Driver.h Model/DNode.h Model/Node.h json.hpp
+TestReader.o: TestReader.cpp Model/Reader.h Model/Driver.h Model/DNode.h Model/Node.h #json.hpp
 	clang++ -std=c++11 -c -g TestReader.cpp
 
 Person.o: Model/Person.h Model/Person.cpp 
@@ -49,11 +49,11 @@ Node.o: Model/Node.h Model/Node.cpp Model/Person.h
 DNode.o: Model/Node.h Model/Driver.h Model/DNode.h Model/DNode.cpp
 	clang++ -std=c++11 -c -g Model/DNode.cpp
 
-Reader.o: Model/Reader.h Model/Reader.cpp Model/Person.h Model/Dnode.h Model/Node.h json.hpp
+Reader.o: Model/Reader.h Model/Reader.cpp Model/Person.h Model/Dnode.h Model/Node.h #json.hpp
 	clang++ -std=c++11 -c -g Model/Reader.cpp
 
-json.o: json.hpp
-	clang++ -std=c++11 -c -g Model/Reader.cpp json.hpp
+#json.o: json.hpp
+	#clang++ -std=c++11 -c -g json.hpp
 
 clean:
 	rm *.o planride testperson testnode testplist testreader
