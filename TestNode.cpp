@@ -4,10 +4,10 @@
 #define REQUIRE(__VA_ARGS__...)
 
 #include "catch.hpp"
-#include "Model/Person.h"
-#include "Model/Driver.h"
-#include "Model/Node.h"
-#include "Model/DNode.h"
+#include "model/Person.h"
+#include "model/Driver.h"
+#include "model/Node.h"
+#include "model/DNode.h"
 #include <string> 
 #include <vector> 
 #include <iostream>
