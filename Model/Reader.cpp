@@ -25,6 +25,12 @@ void Reader::extractDrivers()
 
 }
 
+json Reader::getData()
+{
+    return data;
+}
+
+
 void Reader::extractPassengers()
 {
     unordered_map<string, Node*> pm;

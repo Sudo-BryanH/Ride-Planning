@@ -26,7 +26,8 @@ class Reader
     // constructs an unordered_map for drivers
     void extractDrivers();
 
-    //getters for pmap and dmap
+    //getters for data, pmap and dmap
+    json getData();
     unordered_map<string, Node *> getPmap();
 
     unordered_map<string, DNode *> getDmap();
