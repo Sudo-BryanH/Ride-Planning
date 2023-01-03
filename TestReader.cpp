@@ -7,7 +7,7 @@
 #include "Model/Node.h"
 #include "Model/DNode.h"
 #include "Model/Reader.h"
-#include <nlohmann/json.hpp>
+#include "json.hpp"
 #include <string> 
 #include <unordered_map>
 #include <vector> 
@@ -46,6 +46,11 @@ TEST_CASE("extract passengers test", "[weight=1][part=construction]")
     Node * n2 = new Node(p2);
     Node * n3 = new Node(p3);
 
-    
+    Node * PL = r.getPmap().find("PL")->second;
+    Node * SU = r.getPmap().find("PL")->second;
+
+    REQUIRE(*n1 == *PL->next);
+    REQUIRE(*n2 == *SU->next);
+    REQUIRE(*n3 == *PL->next->next);
 
 }

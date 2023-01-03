@@ -2,8 +2,8 @@
 #define READER_H
 
 #include "Person.h"
-#include <nlohmann/json.hpp>
-#include "PList.h"
+#include "json.hpp"
+
 #include "Node.h"
 #include "DNode.h"
 #include <unordered_map>
