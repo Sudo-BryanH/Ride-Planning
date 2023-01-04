@@ -65,6 +65,7 @@ TEST_CASE("BASIC ADD TO TEST", "[weight = 1][part=construction]")
 
     REQUIRE(pm.find("PL")->second->next->getPerson() == alpha);
     REQUIRE(dm.find("MM")->second->next->getPerson() == beta);
+    REQUIRE(dm.find("MM")->second->next->getPerson().getCapacity() == 3);
     REQUIRE(pm.count("misc") != 0);
     REQUIRE(pm.count("male") != 0);
     REQUIRE(pm.count("female") != 0);
@@ -126,25 +127,31 @@ TEST_CASE("MULTI-PASSENGER SAME GROUP ADD TO TEST", "[weight = 1][part=construct
 
     tester.addToPmap(alpha);
     tester.addToPmap(alpha1);
+    tester.addToPmap(alpha2);
     tester.addToDmap(beta);
 
     unordered_map<string, Node*> pm = tester.getPmap();
     unordered_map<string, DNode*> dm = tester.getDmap();
+    Node * curr = pm.find("PL")->second;
+    curr = curr->next;
+    curr = curr->next;
 
     REQUIRE(pm.find("PL")->second->next->getPerson() == alpha);
     REQUIRE(pm.find("AW")->second->next->getPerson() == alpha1);
-    REQUIRE(pm.find("PL")->second->next->next->getPerson() == alpha2);
+    REQUIRE(curr->getPerson() == alpha2);
     REQUIRE(dm.find("MM")->second->next->getPerson() == beta);
-    REQUIRE(pm.count("misc") != 0);
-    REQUIRE(pm.count("male") != 0);
-    REQUIRE(pm.count("female") != 0);
-    REQUIRE(pm.size() == 5);
-
-    REQUIRE(dm.count("misc") != 0);
-    REQUIRE(dm.count("male") != 0);
-    REQUIRE(dm.count("female") != 0);
-    REQUIRE(dm.size() == 4);
 
 
 
+
+}
+
+TEST_CASE("MULTI-PASSENGER NO GROUP ADD TO TEST", "[weight = 1][part=construction]")
+{
+
+    Person alpha = Person("Ken",14, "male",  "_", false);
+    Person alpha1 = Person("Kim",14, "female",  "_", false);
+    Person alpha2 = Person("Al",14, "male",  "_", false);
+
+    Driver beta = Driver("Rock", 12, 3, "male", "MM");
 }

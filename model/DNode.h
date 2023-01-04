@@ -20,6 +20,9 @@ class DNode : public Node
 
     Driver getPerson();
 
+    DNode * next;
+    DNode * prev;
+
     private: 
     Driver d;
 

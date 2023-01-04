@@ -76,3 +76,20 @@ TEST_CASE("connecting nodes", "[weight=1][part=construction]")
 
 }
 
+TEST_CASE("connecting dnodes", "[weight=1][part=construction]")
+{
+
+    Driver p = Driver("Anakin", 14, 2, "male",  "Jedi");
+    DNode * n = new DNode(p);
+
+    Driver q = Driver("Obi Wan", 15, 2, "male", "Jedi");
+    DNode * m = new DNode(q);
+
+    n->next = m;
+    m->prev = n;
+
+    REQUIRE(n->next == m);
+    REQUIRE(m->prev == n);
+
+}
+
