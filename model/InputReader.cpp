@@ -14,13 +14,13 @@ InputReader::InputReader()
     DNode * dmisc = new DNode();
 
 
-    pmap.emplace(make_pair("male", pmale));
-    pmap.emplace(make_pair("female", pfemale));
-    pmap.emplace(make_pair("misc", pmisc));
+    pmap.emplace("male", pmale);
+    pmap.emplace("female", pfemale);
+    pmap.emplace("misc", pmisc);
 
-    dmap.emplace(make_pair("male", dmale));
-    dmap.emplace(make_pair("female", dfemale));
-    dmap.emplace(make_pair("misc", dmisc));
+    dmap.emplace("male", dmale);
+    dmap.emplace("female", dfemale);
+    dmap.emplace("misc", dmisc);
 
 }
 
@@ -38,7 +38,7 @@ void InputReader::addToDmap(Driver & d)
             sentinel->prev = n;
             n->next = sentinel;
 
-            dmap.emplace(make_pair(d.getGroup(), sentinel));
+            dmap.emplace(d.getGroup(), sentinel);
         } else {
             DNode * at = dmap.find(d.getGroup())->second;
             addDNode(at, n);
@@ -81,9 +81,9 @@ void InputReader::addToPmap(Person & d)
             sentinel->prev = n;
             n->next = sentinel;
 
-            dmap.emplace(make_pair(d.getGroup(), sentinel));
+            pmap.emplace(d.getGroup(), sentinel);
         } else {
-            Node * at = dmap.find(d.getGroup())->second;
+            Node * at = pmap.find(d.getGroup())->second;
             addNode(at, n);
         }
 
