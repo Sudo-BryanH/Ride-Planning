@@ -16,6 +16,7 @@ class Node
     Node();
     Node(Person & p);
 
+
     Person getPerson();
     Node * next;
     Node * prev;

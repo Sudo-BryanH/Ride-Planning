@@ -6,7 +6,7 @@
 #include <stdio.h>
 
 
-Node::Node()
+Node::Node() : next(this), prev(this)
 {}
 
 Node::Node(Person & p) : p(p), next(NULL), prev(NULL)

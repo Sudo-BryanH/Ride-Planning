@@ -6,7 +6,10 @@
 #include <vector> 
 #include <iostream>
 #include <stdio.h>
-#include <model>
+#include "Person.h"
+#include "Driver.h"
+#include "DNode.h"
+#include "Node.h"
 
 using namespace std;
 
@@ -19,20 +22,21 @@ class InputReader
     InputReader();
 
     // functions to add a person or a driver to the pmap or dmap. If their group already exists for
-    addToDmap(driver d);
-    addToPmap(person p);
+    void addToDmap(Driver & d);
+    void addToPmap(Person & p);
 
     // getters for pmap and dmap
     unordered_map<string, Node*> getPmap();
     unordered_map<string, DNode*> getDmap();
 
-
-
     private:
     // storage containers tha represent <group, passengers/drivers>. Default categories will be the genders and misc.
     unordered_map<string, Node*> pmap;
     unordered_map<string, DNode*> dmap;
-    
+
+    // adds a node to the linked list
+
+    void addNode(Node * at, Node * n);
 
 };
 #endif
