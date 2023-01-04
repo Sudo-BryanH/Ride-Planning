@@ -1,8 +1,5 @@
 
-
-
-
-all: planride testperson testnode testplist
+all: planride testperson testnode testplist testinreader
 
 planride : Main.o
 	clang++ Main.o -std=c++14 -o planride
@@ -16,6 +13,9 @@ testnode : TestNode.o Person.o Driver.o Node.o DNode.o
 testplist : TestPList.o Person.o PList.o Node.o
 	clang++ TestPList.o Person.o PList.o Node.o -std=c++14 -o testplist
 
+testinreader : TestReader.o Person.o Node.o Driver.o DNode.o InputReader.o
+	clang++ TestReader.o Person.o Node.o Driver.o DNode.o InputReader.o -std=c++14 -o testinreader
+
 Main.o: Main.cpp
 	clang++ -std=c++14 -c -g Main.cpp
 
@@ -27,6 +27,9 @@ TestNode.o: TestNode.cpp model/Person.h model/Driver.h model/DNode.h model/Node.
 
 TestPList.o: TestPList.cpp model/Person.h model/Node.h model/PList.h
 	clang++ -std=c++14 -c -g TestPList.cpp
+
+TestReader.o: TestReader.cpp model/InputReader.h model/Node.h model/DNode.h model/Driver.h
+	clang++ -std=c++14 -c -g TestReader.cpp
 
 Person.o: model/Person.h model/Person.cpp 
 	clang++ -std=c++14 -c -g model/Person.cpp
@@ -43,5 +46,8 @@ Node.o: model/Node.h model/Node.cpp model/Person.h
 DNode.o: model/Node.h model/Driver.h model/DNode.h model/DNode.cpp
 	clang++ -std=c++14 -c -g model/DNode.cpp
 
+InputReader.o: model/InputReader.h model/InputReader.cpp model/Person.h model/Driver.h model/Node.h model/DNode.h
+	clang++ -std=c++14 -c -g model/InputReader.cpp
+
 clean:
-	rm *.o planride testperson testnode testplist
+	rm *.o planride testperson testnode testplist testinreader

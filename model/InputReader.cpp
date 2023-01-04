@@ -9,9 +9,9 @@ InputReader::InputReader()
     Node * pfemale = new Node();
     Node * pmisc = new Node();
 
-    Node * dmale = new Node();
-    Node * dfemale = new Node();
-    Node * dmisc = new Node();
+    DNode * dmale = new DNode();
+    DNode * dfemale = new DNode();
+    DNode * dmisc = new DNode();
 
 
     pmap.emplace(make_pair("male", pmale));
@@ -32,7 +32,7 @@ void InputReader::addToDmap(Driver & d)
     {
         if (dmap.count(d.getGroup()) == 0)
         {
-            Node * sentinel = new Node();
+            DNode * sentinel = new DNode();
             sentinel->next = n;
             n->prev = sentinel;
             sentinel->prev = n;
@@ -40,28 +40,28 @@ void InputReader::addToDmap(Driver & d)
 
             dmap.emplace(make_pair(d.getGroup(), sentinel));
         } else {
-            Node * at = dmap.find(d.getGroup())->second;
-            addNode(at, n);
+            DNode * at = dmap.find(d.getGroup())->second;
+            addDNode(at, n);
         }
 
     } else if (d.getGender() != "none")
     {
         if (d.getGender() == "female")
         {
-            Node * at = dmap.find("female")->second;
-            addNode(at, n);
+            DNode * at = dmap.find("female")->second;
+            addDNode(at, n);
 
         } else
         {
-            Node * at = dmap.find("male")->second;
-            addNode(at, n);
+            DNode * at = dmap.find("male")->second;
+            addDNode(at, n);
         }
         
     } else
     {
-        Node * at = dmap.find("misc")->second;
+        DNode * at = dmap.find("misc")->second;
 
-        addNode(at, n);
+        addDNode(at, n);
     }
 
 
@@ -121,6 +121,16 @@ void InputReader::addNode(Node * at, Node * n)
         n->next = at;
         n->prev = temp;
         temp->next = n;
+}
+
+void InputReader::addDNode(DNode * at, DNode * n)
+{
+
+        // DNode * temp = at->prev;
+        // at->prev = n;
+        // n->next = at;
+        // n->prev = temp;
+        // temp->next = n;
 }
 
 unordered_map<string, Node*> InputReader::getPmap()

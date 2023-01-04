@@ -21,8 +21,8 @@ TEST_CASE("default node constructor test", "[weight=1][part=construction]")
 {
     Node * n = new Node();
 
-    REQUIRE(n->next == NULL);
-    REQUIRE(n->prev == NULL);
+    REQUIRE(n->next == n);
+    REQUIRE(n->prev == n);
     //REQUIRE(n->getPerson() == NULL);
     delete(n);
 

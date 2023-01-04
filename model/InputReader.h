@@ -35,7 +35,7 @@ class InputReader
     unordered_map<string, DNode*> dmap;
 
     // adds a node to the linked list
-
+    void addDNode(DNode * at, DNode * n);
     void addNode(Node * at, Node * n);
 
 };
