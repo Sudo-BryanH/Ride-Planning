@@ -39,6 +39,9 @@ void InputReader::addToDmap(Driver & d)
             n->next = sentinel;
 
             dmap.emplace(make_pair(d.getGroup(), sentinel));
+        } else {
+            Node * at = dmap.find(d.getGroup())->second;
+            addNode(at, n);
         }
 
     } else if (d.getGender() != "none")
@@ -64,12 +67,60 @@ void InputReader::addToDmap(Driver & d)
 
 }
 
+void InputReader::addToPmap(Person & d)
+{
+    Node * n = new Node(d);
+
+    if (d.getGroup() != "none")
+    {
+        if (pmap.count(d.getGroup()) == 0)
+        {
+            Node * sentinel = new Node();
+            sentinel->next = n;
+            n->prev = sentinel;
+            sentinel->prev = n;
+            n->next = sentinel;
+
+            dmap.emplace(make_pair(d.getGroup(), sentinel));
+        } else {
+            Node * at = dmap.find(d.getGroup())->second;
+            addNode(at, n);
+        }
+
+    } else if (d.getGender() != "none")
+    {
+        if (d.getGender() == "female")
+        {
+            Node * at = pmap.find("female")->second;
+            addNode(at, n);
+
+        } else
+        {
+            Node * at = pmap.find("male")->second;
+            addNode(at, n);
+        }
+        
+    } else
+    {
+        Node * at = pmap.find("misc")->second;
+
+        addNode(at, n);
+    }
+
+
+}
+
 void InputReader::addNode(Node * at, Node * n)
 {
-        Node * temp = at->next;
-        at->next = n;
-        n->next = temp;
-        n->prev = at;
+        // Node * temp = at->next;
+        // at->next = n;
+        // n->next = temp;
+        // n->prev = at;
+        Node * temp = at->prev;
+        at->prev = n;
+        n->next = at;
+        n->prev = temp;
+        temp->next = n;
 }
 
 unordered_map<string, Node*> InputReader::getPmap()
