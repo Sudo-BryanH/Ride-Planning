@@ -6,7 +6,7 @@
 Publisher::Publisher(){}
 
 
-void Publisher::Publish(DNode * m)
+void Publisher::publish(DNode * m)
 {
     cout << "________" << endl;
     Driver d = m->getPerson();
@@ -26,8 +26,16 @@ void Publisher::Publish(DNode * m)
 
 }
 
-void Publisher::Publish(vector<Node *> n)
+void Publisher::publishextra(Node * n)
 {
+    cout << "There were not enough rides to assign the following to a ride" << endl;
 
+    Node * curr = n;
+
+    while(curr) 
+    {
+         Person per = curr->getPerson();
+        cout << " - " << per.getName() << " " << per.getGroup() << " " << per.getPhone() << endl;
+    }
 
 }

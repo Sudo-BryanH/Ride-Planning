@@ -20,10 +20,10 @@ class Publisher
     Publisher();
 
     //Prints out assigned drivers
-    void Publish(DNode * d);
+    void publish(DNode * d);
 
     //Prints out remaining people
-    void Publish(vector<Node *> n);
+    void publishextra(Node* n);
 
 
 };
