@@ -28,7 +28,8 @@ void Publisher::publish(DNode * m)
 
 void Publisher::publishextra(Node * n)
 {
-    cout << "There were not enough rides to assign the following to a ride" << endl;
+    cout << "________" << endl;
+    cout << "There were not enough rides to assign the following to a ride:" << endl;
 
     Node * curr = n;
 

@@ -8,22 +8,23 @@
 #include <unordered_map>
 #include <utility>
 
-#include "person.h"
-#include "driver.h"
-#include "node.h"
-#include "plist.h"
-#include "dnode.h"
+#include "Person.h"
+#include "Driver.h"
+#include "Node.h"
+#include "PList.h"
+#include "DNode.h"
+#include "Publisher.h"
 
 using namespace std;
 
 // This class is in charge of the assignment of passengers and drivers. class is made to ensure ease of testing
-class planner
+class Planner
 {
 
     public: 
     // constructors
-    planner();
-    planner(unordered_map<string, DNode> & driverlist, unordered_map<string, Node> & passengerlist, vector<string> & grouplist);
+   
+    Planner(unordered_map<string, DNode *> & driverlist, unordered_map<string, Node *> & passengerlist, vector<string> & grouplist);
 
     //uses the two maps to assign passengers to drivers
     void planride();

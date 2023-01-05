@@ -37,7 +37,8 @@ void InputReader::addToDmap(Driver & d)
             n->prev = sentinel;
             sentinel->prev = n;
             n->next = sentinel;
-
+            
+            grouplist.push_back(d.getGroup());
             dmap.emplace(d.getGroup(), sentinel);
         } else {
             DNode * at = dmap.find(d.getGroup())->second;
@@ -82,6 +83,7 @@ void InputReader::addToPmap(Person & d)
             sentinel->prev = n;
             n->next = sentinel;
 
+            grouplist.push_back(d.getGroup());
             pmap.emplace(d.getGroup(), sentinel);
         } else {
             Node * at = pmap.find(d.getGroup())->second;
