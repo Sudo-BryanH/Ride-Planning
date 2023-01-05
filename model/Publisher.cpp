@@ -25,3 +25,9 @@ void Publisher::Publish(DNode * m)
     cout << "with " << d.getCapacity() << " seats remaining" << endl;
 
 }
+
+void Publisher::Publish(vector<Node *> n)
+{
+
+
+}

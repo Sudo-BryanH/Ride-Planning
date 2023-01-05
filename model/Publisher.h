@@ -19,8 +19,11 @@ class Publisher
     public:
     Publisher();
 
-    //Prints out 
+    //Prints out assigned drivers
     void Publish(DNode * d);
+
+    //Prints out remaining people
+    void Publish(vector<Node *> n);
 
 
 };
