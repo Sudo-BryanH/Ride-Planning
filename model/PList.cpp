@@ -45,7 +45,19 @@ Node* PList::PList::getSentinel()
 
 PList::~PList()
 {
-    
+
+    last->next = NULL;
+    sentinel->prev = NULL;
+    deletion(sentinel);
+}
+
+void PList::deletion(Node * curr)
+{
+    if (curr)
+    {
+        Node * temp = curr->next;
+        deletion(temp);
+    }
 }
 
 int PList::getCapacity()

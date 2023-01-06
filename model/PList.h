@@ -38,6 +38,9 @@ class PList
     Node * last;
     int cap;
 
+    //helper for destructor
+    void deletion(Node * curr);
+
 
 
 
