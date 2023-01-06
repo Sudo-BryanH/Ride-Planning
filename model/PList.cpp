@@ -21,11 +21,19 @@ PList::PList(int capacity) : cap(capacity)
 void PList::addNode(Node* n) 
 {
 
+    //remove the node
+    Node * temp = n->prev;
+    n->prev->next = n->next;
+    n->next->prev = temp;
+
+    //add node to plist
     n->next = sentinel;
     last->next = n;
     n->prev = last;
 
     last = n;
+
+
     cap--;
 
 }

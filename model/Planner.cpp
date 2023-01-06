@@ -58,9 +58,10 @@ void Planner::sort(unordered_map<string, DNode *>::iterator dl, unordered_map<st
 
             while(curd)
             {
-                while(curd->getPerson().getCapacity() != 0 && curp)
+                PList p = PList(curd->getPerson().getCapacity());
+                while(p.getCapacity() != 0 && curp)
                 {
-
+                    p.addNode(curp);
                 }
                 curd = curd->next;
             }

@@ -22,7 +22,7 @@ void Publisher::publish(DNode * m)
         cout << " - " << per.getName() << " " << per.getGroup() << " " << per.getPhone() << endl;
     }
 
-    cout << "with " << d.getCapacity() << " seats remaining" << endl;
+    cout << "with " << p.getCapacity() << " seats remaining" << endl;
 
 }
 
