@@ -38,7 +38,7 @@ void Planner::planride()
 
 }
 
-void Planner::sort(unordered_map<string, DNode *>::iterator dl, unordered_map<string, Node *>::iterator pl)
+void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
 {
 
     //reminder to use plist's regular add node fn
@@ -62,7 +62,9 @@ void Planner::sort(unordered_map<string, DNode *>::iterator dl, unordered_map<st
                 PList p = PList(curd->getPerson().getCapacity());
                 while(p.getCapacity() != 0 && curp != pl->second);
                 {
-                    p.addNode(curp);
+                    if (curp->getPerson().getCanBus()) addNodeBack(curp, "misc");
+
+                    else p.addNode(curp);
                     
                 }
 
@@ -88,21 +90,37 @@ void Planner::sort(unordered_map<string, DNode *>::iterator dl, unordered_map<st
         Node * curr = pl->second->next;
         while(curr != pl->second)
         {
-            if (curr->getPerson().getGender() == "male")
-            {
+            if (curr->getPerson().getGender() == "male") addNode(curr, "male");
 
-            } 
-            else if (curr->getPerson().getGender() == "female")
-            {
+            else if (curr->getPerson().getGender() == "female") addNode(curr, "female");
 
-            }
-            else
-            {
-
-            }
+            else addNode(curr, "misc");
         }
 
 
 
 
+}
+
+void Planner::addNodeBack(Node * n, string destination)
+{
+        Node * at = passengerlist.find(destination)->second;
+        
+        Node * temp = at->prev;
+        at->prev = n;
+        n->next = at;
+        n->prev = temp;
+        temp->next = n;
+}
+
+void Planner::addNode(Node * n, string destination)
+{
+        Node * at = passengerlist.find(destination)->second;
+        
+        Node * temp = at->next;
+        at->next = n;
+        n->prev = at;
+        n->next = temp;
+        // TODO fix these
+        temp->prev = n;
 }
