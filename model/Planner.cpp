@@ -23,18 +23,11 @@ void Planner::planride()
         sort(dl, pl);
     }
 
-    auto dl = driverlist.find("male");
-    auto pl = passengerlist.find("male");
+    sortgen("female");
 
+    sortgen("male");
 
-    auto dl = driverlist.find("female");
-    auto pl = passengerlist.find("female");
-
-
-    auto dl = driverlist.find("misc");
-    auto pl = passengerlist.find("misc");
-
-
+    sortmisc();
 
 }
 
@@ -102,6 +95,29 @@ void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<
 
 }
 
+void Planner::sortgen(string gen)
+{
+    
+    auto dl = driverlist.find(gen);
+    auto pl = passengerlist.find(gen);
+
+    Node * curr = pl->second->next;
+
+    while(curr)
+    {
+        for(string grp : grouplist)
+        {}
+        curr = curr->next;
+    }
+
+
+}
+
+void Planner::sortmisc()
+{
+
+}
+
 void Planner::addNodeBack(Node * n, string destination)
 {
         Node * at = passengerlist.find(destination)->second;
@@ -121,6 +137,7 @@ void Planner::addNode(Node * n, string destination)
         at->next = n;
         n->prev = at;
         n->next = temp;
-        // TODO fix these
+
         temp->prev = n;
 }
+

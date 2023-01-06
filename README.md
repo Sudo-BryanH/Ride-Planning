@@ -12,7 +12,7 @@ Passengers will be identified by their name, contacts, gender, and group. Driver
 1) Say a group is co-ed. This since this software first distinguishes between group, then gender, gender will be irrelevant as groups will be prioritized and a car assignment may be co-ed. This can be reconciled by creating a subgroup that splits genders.
 - e.g. Say you have a group "AA" that is co-ed. You may separate this into "AA-f" and "AA-m" to allow the program to distinguish between male and female riders and drivers.
 
-2) The worst case of this algorithm is θ(n + m) given n passengers and d drivers delcared. This occurs when theere are no matching groups between driver and passenger and driver gender is not labelled. This will cause all passengers to be shuffled from the group selection stage, the gender selection stage and then the miscellanious selection stage, each pass taking O(n) time. 
+2) The worst case of this algorithm is θ(n*m) given n passengers and d drivers delcared. This occurs when theere are no matching groups between driver and passenger and driver gender is not labelled. This will cause all passengers to be shuffled from the group selection stage, the gender selection stage and then the miscellanious selection stage, each pass taking O(n) time. 
 
 
 
