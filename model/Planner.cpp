@@ -77,17 +77,32 @@ void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<
 
 
 
+
+
         }
 
         // Reassign leftover nodes
         Node * curr = pl->second->next;
+        DNode * curd = dl->second->next;
         while(curr != pl->second)
         {
-            if (curr->getPerson().getGender() == "male") addNode(curr, "male");
+            if (curr->getPerson().getGender() == "male")
+            {
+                removeNode(curr);
+                addNode(curr, "male");
+            }
 
-            else if (curr->getPerson().getGender() == "female") addNode(curr, "female");
+            else if (curr->getPerson().getGender() == "female") 
+            {
+                removeNode(curr);
+                addNode(curr, "female");
+            }
 
             else addNode(curr, "misc");
+             {
+                removeNode(curr);
+                addNode(curr, "misc");
+            }
         }
 
 
@@ -103,7 +118,7 @@ void Planner::sortgen(string gen)
 
     Node * curr = pl->second->next;
 
-    while(curr)
+    while(curr != pl->second)
     {
         for(string grp : grouplist)
         {}
@@ -139,5 +154,27 @@ void Planner::addNode(Node * n, string destination)
         n->next = temp;
 
         temp->prev = n;
+}
+
+void Planner::addNode(DNode * n, string destination)
+{
+        DNode * at = driverlist.find(destination)->second;
+        // TODO look into dupliating instead of moving driver nodes
+        DNode * temp = at->next;
+        at->next = n;
+        n->prev = at;
+        n->next = temp;
+
+        temp->prev = n;
+}
+
+void Planner::removeNode(Node * n)
+{
+    Node * temp = n->prev;
+    n->prev->next = n->next;
+    n->next->prev = temp;
+
+    n->next = NULL;
+    n->prev = NULL;
 }
 

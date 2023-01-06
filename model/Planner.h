@@ -52,10 +52,15 @@ class Planner
 
     //helper to add node to the back of a linked list of a grouping
     void addNodeBack(Node * n, string destination);
-
+    
 
     //helper to add node to the front of a linked list of a grouping
     void addNode(Node * n, string destination);
+    void addNode(DNode * n, string destination);
+
+    //helper to remove a node from a list by reassigning neighbour pointers
+    void removeNode(Node * n);
+    void removeNode(DNode * n);
 
     /*
     Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender
