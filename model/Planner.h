@@ -29,6 +29,14 @@ class Planner
     //uses the two maps to assign passengers to drivers. Any remaining passengers/drivers will remain in the 
     void planride();
 
+    
+    unordered_map<string, DNode *> getDList();
+    unordered_map<string, Node *> getPList();
+    vector<string> getGList();
+
+    void addNodeBackPub(Node * n, string destination);
+    void addNodePub(Node * n, string destination);
+    void removeNodePub(Node * n);           
 
     
 

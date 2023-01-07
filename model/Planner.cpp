@@ -53,7 +53,7 @@ void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<
             while(curd != dl->second)
             {
                 PList p = PList(curd->getPerson().getCapacity());
-                while(p.getCapacity() != 0 && curp != pl->second);
+                while(p.getCapacity() != 0 && curp != pl->second)
                 {
                     if (curp->getPerson().getCanBus()) addNodeBack(curp, "misc");
 
@@ -135,6 +135,8 @@ void Planner::sortmisc()
 
 void Planner::addNodeBack(Node * n, string destination)
 {
+    if (passengerlist.count(destination) != 0) 
+    {
         Node * at = passengerlist.find(destination)->second;
         
         Node * temp = at->prev;
@@ -142,10 +144,13 @@ void Planner::addNodeBack(Node * n, string destination)
         n->next = at;
         n->prev = temp;
         temp->next = n;
+    }
 }
 
 void Planner::addNode(Node * n, string destination)
 {
+     if (passengerlist.count(destination) != 0) 
+    {
         Node * at = passengerlist.find(destination)->second;
         
         Node * temp = at->next;
@@ -154,18 +159,22 @@ void Planner::addNode(Node * n, string destination)
         n->next = temp;
 
         temp->prev = n;
+    }
 }
 
 void Planner::addNode(DNode * n, string destination)
 {
+    if (driverlist.count(destination) != 0) 
+    {
         DNode * at = driverlist.find(destination)->second;
-        // TODO look into dupliating instead of moving driver nodes
+        
         DNode * temp = at->next;
         at->next = n;
         n->prev = at;
         n->next = temp;
 
         temp->prev = n;
+    }
 }
 
 void Planner::removeNode(Node * n)
@@ -178,3 +187,34 @@ void Planner::removeNode(Node * n)
     n->prev = NULL;
 }
 
+
+
+
+unordered_map<string, Node *> Planner::getPList()
+{
+    return passengerlist;
+}
+
+unordered_map<string, DNode *> Planner::getDList()
+{
+    return driverlist;
+}
+
+vector<string> Planner:: getGList()
+{
+    return grouplist;
+}
+
+void Planner::addNodeBackPub(Node * n, string destination)
+{
+    addNodeBack(n, destination);
+}
+
+void Planner::addNodePub(Node * n, string destination)
+{
+    addNode(n, destination);
+}
+void Planner::removeNodePub(Node * n)
+{
+    removeNode(n);
+}

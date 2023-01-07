@@ -96,7 +96,9 @@ TEST_CASE("MULTI-PASSENGER ADD TO TEST", "[weight = 1][part=construction]")
 
     unordered_map<string, Node*> pm = tester.getPmap();
     unordered_map<string, DNode*> dm = tester.getDmap();
+    vector<string> gl = tester.getGroupList();
 
+    REQUIRE(tester.getGroupList().size() == 3);
     REQUIRE(pm.find("PL")->second->next->getPerson() == alpha);
     REQUIRE(pm.find("AW")->second->next->getPerson() == alpha1);
     REQUIRE(dm.find("MM")->second->next->getPerson() == beta);
@@ -135,7 +137,9 @@ TEST_CASE("MULTI-PASSENGER SAME GROUP ADD TO TEST", "[weight = 1][part=construct
     Node * curr = pm.find("PL")->second;
     curr = curr->next;
     curr = curr->next;
+       vector<string> gl = tester.getGroupList();
 
+    REQUIRE(tester.getGroupList().size() == 3);
     REQUIRE(pm.find("PL")->second->next->getPerson() == alpha);
     REQUIRE(pm.find("AW")->second->next->getPerson() == alpha1);
     REQUIRE(curr->getPerson() == alpha2);
@@ -154,4 +158,6 @@ TEST_CASE("MULTI-PASSENGER NO GROUP ADD TO TEST", "[weight = 1][part=constructio
     Person alpha2 = Person("Al",14, "male",  "_", false);
 
     Driver beta = Driver("Rock", 12, 3, "male", "MM");
+
+    
 }

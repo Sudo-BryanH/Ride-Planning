@@ -145,3 +145,8 @@ unordered_map<string, DNode*> InputReader::getDmap()
 {
     return dmap;
 }
+
+vector<string> InputReader::getGroupList()
+{
+    return grouplist;
+}
