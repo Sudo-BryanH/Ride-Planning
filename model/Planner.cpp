@@ -5,12 +5,12 @@
 
 
 
-Planner::Planner(unordered_map<string, DNode * > & driverlist, unordered_map<string, Node * > & passengerlist, vector<string> & grouplist) 
+Planner::Planner(unordered_map<string, DNode * > & dlist, unordered_map<string, Node * > & plist, vector<string> & glist) 
 {
     pub = Publisher();
-    driverlist = driverlist;
-    passengerlist = passengerlist;
-    grouplist = grouplist;
+    driverlist = dlist;
+    passengerlist = plist;
+    grouplist = glist;
 
 }
 
@@ -18,7 +18,7 @@ void Planner::planride()
 {
     for(string g : grouplist)
     {
-        auto dl = driverlist.find(g);
+        auto dl = driverlist.find(g); // TODO use at instead of find
         auto pl = passengerlist.find(g);
         sort(dl, pl);
     }

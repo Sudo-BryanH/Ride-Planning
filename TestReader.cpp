@@ -70,11 +70,13 @@ TEST_CASE("BASIC ADD TO TEST", "[weight = 1][part=construction]")
     REQUIRE(pm.count("male") != 0);
     REQUIRE(pm.count("female") != 0);
     REQUIRE(pm.size() == 4);
-
+    REQUIRE(pm.count("PL") != 0);
+    //REQUIRE(pm.count("AW") != 0);
     REQUIRE(dm.count("misc") != 0);
     REQUIRE(dm.count("male") != 0);
     REQUIRE(dm.count("female") != 0);
     REQUIRE(dm.size() == 4);
+    REQUIRE(dm.count("MM") != 0);
 
 
 
@@ -106,7 +108,8 @@ TEST_CASE("MULTI-PASSENGER ADD TO TEST", "[weight = 1][part=construction]")
     REQUIRE(pm.count("male") != 0);
     REQUIRE(pm.count("female") != 0);
     REQUIRE(pm.size() == 5);
-
+    REQUIRE(pm.count("PL") != 0);
+    REQUIRE(pm.count("AW") != 0);
     REQUIRE(dm.count("misc") != 0);
     REQUIRE(dm.count("male") != 0);
     REQUIRE(dm.count("female") != 0);
