@@ -41,9 +41,7 @@ void Planner::planride()
         sort(dl, pl);
     }
 
-    sortgen("female");
-
-    sortgen("male");
+    sortgen();
 
     sortmisc();
 
@@ -77,12 +75,13 @@ void Planner::sort(DNode * dl, Node* pl)
                     if (curp->getPerson().getCanBus()) addNodeBack(curp, "misc");
 
                     else p.addNode(curp);
-                    
+                    curd = curd->next;
                 }
 
                 Node * temp = curd;
-                curd = curd->next;
+                // curd = curd->next;
                 // publish and remove driver if full
+                //TODO add plist to curd
                 if (p.getCapacity() == 0)
                 {
                     pub.publish(curd);
@@ -129,19 +128,24 @@ void Planner::sort(DNode * dl, Node* pl)
 
 }
 
-void Planner::sortgen(string gen)
+void Planner::sortgen()
 {
     
-    auto dl = dmap.find(gen);
-    auto pl = pmap.find(gen);
-
-    Node * curr = pl->second->next;
-
-    while(curr != pl->second)
+    for(auto it = dmap.cbegin(); it != dmap.cend(); it++)
     {
-        for(string grp : grouplist)
-        {}
-        curr = curr->next;
+        DNode * dn = it->second->next;
+        string gender = dn->getPerson().getGender();
+        int cap = dn->getPerson().getplist()->getCapacity();
+
+        Node * curr = pmap.at(gender)->next;
+
+        PList p = PList(cap);
+        while(p.getCapacity() != 0 && curr != pmap.at(gender))
+        {
+            p.addNode(curr);
+            curr = curr->next;
+        }
+
     }
 
 

@@ -49,7 +49,7 @@ class Planner
     Publisher pub;
 
         /*
-        TODO for testing, make sure these are public and have getters for private fields
+
     Helper for planride. Based on capacity c of a driver, a pmap will be used to group c passenger nodes and assign them to 
     a driver. 
     - After a driver is filled, it's assignment will be published
@@ -74,7 +74,7 @@ class Planner
     Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender
      It will identify a driver that is most optimal for it
     */
-   void sortgen(string gender);
+   void sortgen();
         /*
     Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender and misc.
      It will identify a driver that is most optimal for it
