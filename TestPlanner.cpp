@@ -154,7 +154,7 @@ TEST_CASE("test remove node", "[weight = 1][part construction]")
 
     // Node * n = new Node(alpha2);
 
-    tester.removeNodePub(tester.getPList().at("PL")->next);
+    tester.removeNodePub(tester.getpmap().at("PL")->next);
     
     REQUIRE(tester.getPList().find("PL")->second->next == tester.getPList().find("PL")->second);
     

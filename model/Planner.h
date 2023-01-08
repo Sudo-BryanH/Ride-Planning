@@ -24,14 +24,14 @@ class Planner
     public: 
     // constructors
    
-    Planner(unordered_map<string, DNode *> & driverlist, unordered_map<string, Node *> & passengerlist, vector<string> & grouplist);
+    Planner(unordered_map<string, DNode * > & dmap, unordered_map<string, Node * > & pmap, vector<string> & glist);
 
     //uses the two maps to assign passengers to drivers. Any remaining passengers/drivers will remain in the 
     void planride();
 
     
-    unordered_map<string, DNode *> getDList();
-    unordered_map<string, Node *> getPList();
+    unordered_map<string, DNode *> getdmap();
+    unordered_map<string, Node *> getpmap();
     vector<string> getGList();
 
     void addNodeBackPub(Node * n, string destination);
@@ -43,21 +43,21 @@ class Planner
     // to iterate over an unordered map, use https://www.geeksforgeeks.org/set-cbegin-and-cend-function-in-c-stl/
     private: 
 
-    unordered_map<string, DNode *> driverlist;
-    unordered_map<string, Node *> passengerlist;
+    unordered_map<string, DNode *> dmap;
+    unordered_map<string, Node *> pmap;
     vector<string> grouplist;
     Publisher pub;
 
         /*
         TODO for testing, make sure these are public and have getters for private fields
-    Helper for planride. Based on capacity c of a driver, a plist will be used to group c passenger nodes and assign them to 
+    Helper for planride. Based on capacity c of a driver, a pmap will be used to group c passenger nodes and assign them to 
     a driver. 
     - After a driver is filled, it's assignment will be published
     - If at the end, driver(s) are not filled, it will remain untouched
     - if there are remaining passengers, or the passenger could bus, they will be moved to their respective genders or misc. 
     */
-   void sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl);
-
+  // void sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl);
+    void sort(DNode * dl, Node* pl);
     //helper to add node to the back of a linked list of a grouping
     void addNodeBack(Node * n, string destination);
     

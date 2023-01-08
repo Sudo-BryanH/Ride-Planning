@@ -5,11 +5,11 @@
 
 
 
-Planner::Planner(unordered_map<string, DNode * > & dlist, unordered_map<string, Node * > & plist, vector<string> & glist) 
+Planner::Planner(unordered_map<string, DNode * > & dmap, unordered_map<string, Node * > & pmap, vector<string> & glist) 
 {
     pub = Publisher();
-    driverlist = dlist;
-    passengerlist = plist;
+    dmap = dmap;
+    pmap = pmap;
     grouplist = glist;
 
 }
@@ -18,8 +18,26 @@ void Planner::planride()
 {
     for(string g : grouplist)
     {
-        auto dl = driverlist.find(g); // TODO use at instead of find
-        auto pl = passengerlist.find(g);
+        DNode * dl;
+        Node * pl;
+        try
+        {
+            dl = dmap.at(g); 
+        } 
+        catch (std::out_of_range)
+        {
+            dl = NULL;
+        }
+
+        try
+        {
+            pl = pmap.at(g); 
+        } 
+        catch (std::out_of_range)
+        {
+            pl = NULL;
+        }
+        // auto pl = pmap.find(g);
         sort(dl, pl);
     }
 
@@ -31,29 +49,30 @@ void Planner::planride()
 
 }
 
-void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
+// void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
+void Planner::sort(DNode * dl, Node* pl)
 {
 
-    //reminder to use plist's regular add node fn
+    //reminder to use pmap's regular add node fn
 
-        // if (dl != driverlist.end() && pl == passengerlist.end())
+        // if (dl != dmap.end() && pl == pmap.end())
         // {
           
         // }
-        // else if (dl == driverlist.end() && pl != passengerlist.end())
+        // else if (dl == dmap.end() && pl != pmap.end())
         // {
             
         // }
         // else
-        if (dl != driverlist.end() && pl != passengerlist.end())
+        if (dl && pl)
         {
-            Node * curp = pl->second->next;
-            DNode * curd = dl->second->next;
+            Node * curp = pl->next;
+            DNode * curd = dl->next;
 
-            while(curd != dl->second)
+            while(curd != dl)
             {
                 PList p = PList(curd->getPerson().getCapacity());
-                while(p.getCapacity() != 0 && curp != pl->second)
+                while(p.getCapacity() != 0 && curp != pl)
                 {
                     if (curp->getPerson().getCanBus()) addNodeBack(curp, "misc");
 
@@ -82,9 +101,9 @@ void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<
         }
 
         // Reassign leftover nodes
-        Node * curr = pl->second->next;
-        DNode * curd = dl->second->next;
-        while(curr != pl->second)
+        Node * curr = pl->next;
+        DNode * curd = dl->next;
+        while(curr != pl)
         {
             if (curr->getPerson().getGender() == "male")
             {
@@ -113,8 +132,8 @@ void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<
 void Planner::sortgen(string gen)
 {
     
-    auto dl = driverlist.find(gen);
-    auto pl = passengerlist.find(gen);
+    auto dl = dmap.find(gen);
+    auto pl = pmap.find(gen);
 
     Node * curr = pl->second->next;
 
@@ -135,9 +154,9 @@ void Planner::sortmisc()
 
 void Planner::addNodeBack(Node * n, string destination)
 {
-    if (passengerlist.count(destination) != 0) 
+    if (pmap.count(destination) != 0) 
     {
-        Node * at = passengerlist.find(destination)->second;
+        Node * at = pmap.find(destination)->second;
         
         Node * temp = at->prev;
         at->prev = n;
@@ -149,9 +168,9 @@ void Planner::addNodeBack(Node * n, string destination)
 
 void Planner::addNode(Node * n, string destination)
 {
-     if (passengerlist.count(destination) != 0) 
+     if (pmap.count(destination) != 0) 
     {
-        Node * at = passengerlist.find(destination)->second;
+        Node * at = pmap.find(destination)->second;
         
         Node * temp = at->next;
         at->next = n;
@@ -164,9 +183,9 @@ void Planner::addNode(Node * n, string destination)
 
 void Planner::addNode(DNode * n, string destination)
 {
-    if (driverlist.count(destination) != 0) 
+    if (dmap.count(destination) != 0) 
     {
-        DNode * at = driverlist.find(destination)->second;
+        DNode * at = dmap.find(destination)->second;
         
         DNode * temp = at->next;
         at->next = n;
@@ -190,14 +209,14 @@ void Planner::removeNode(Node * n)
 
 
 
-unordered_map<string, Node *> Planner::getPList()
+unordered_map<string, Node *> Planner::getpmap()
 {
-    return passengerlist;
+    return pmap;
 }
 
-unordered_map<string, DNode *> Planner::getDList()
+unordered_map<string, DNode *> Planner::getdmap()
 {
-    return driverlist;
+    return dmap;
 }
 
 vector<string> Planner:: getGList()
