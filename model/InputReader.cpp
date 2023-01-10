@@ -105,12 +105,27 @@ void InputReader::addToPmap(Person & d)
         
     } else
     {
-        Node * at = pmap.find("misc")->second;
+        
+        Node * at = pmap.at("misc");
 
-        addNode(at, n);
+        if (n->getPerson().getCanBus()) addBackNode(at, n);
+
+
+        else addNode(at, n);
     }
 
 
+}
+
+void InputReader::addBackNode(Node * at, Node * n)
+{
+
+    Node * temp = at->prev;
+    at->prev = n;
+    n->next = at;
+    n->prev = temp;
+    temp->next = n;
+    
 }
 
 void InputReader::addNode(Node * at, Node * n)

@@ -41,6 +41,7 @@ class InputReader
     // adds a node to the linked list
     void addDNode(DNode * at, DNode * n);
     void addNode(Node * at, Node * n);
+    void addBackNode(Node * at, Node * n);
 
 };
 #endif
