@@ -20,17 +20,22 @@ PList::PList(int capacity) : cap(capacity)
 
 void PList::addNode(Node* n) 
 {
-
+    cout << __LINE__ << endl;
     //remove the node
     Node * temp = n->prev;
+    cout << __LINE__ << endl;
     n->prev->next = n->next;
+    cout << __LINE__ << endl;
     n->next->prev = temp;
 
     //add node to plist
+    cout << __LINE__ << endl;
     n->next = sentinel;
+    cout << __LINE__ << endl;
     last->next = n;
+    cout << __LINE__ << endl;
     n->prev = last;
-
+cout << __LINE__ << endl;
     last = n;
 
 

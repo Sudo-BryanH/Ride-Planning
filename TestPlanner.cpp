@@ -62,8 +62,8 @@ TEST_CASE("test planner constructor", "[weight = 1][part construction]")
     // TESTS FOR PLANNER
     Planner tester = Planner(dm, pm, gl);
     REQUIRE(tester.getGList() == gl);
-    REQUIRE(tester.getDList().size() == dm.size());
-    REQUIRE(tester.getPList().size() == pm.size());
+    REQUIRE(tester.getdmap().size() == dm.size());
+    REQUIRE(tester.getpmap().size() == pm.size());
     
     
 
@@ -94,9 +94,9 @@ TEST_CASE("test add node", "[weight = 1][part construction]")
     cout << __LINE__ << endl;
     tester.addNodePub(n, "PL");
      cout << __LINE__ << endl;
-    //iterator<string, Node*> pl = tester.getPList().at("PL");
+    //iterator<string, Node*> pl = tester.getpmap().at("PL");
     cout << __LINE__ << endl;
-    REQUIRE(tester.getPList().at("PL")->next == n);
+    REQUIRE(tester.getpmap().at("PL")->next == n);
      
     delete n;
 }
@@ -126,7 +126,7 @@ TEST_CASE("test add back node", "[weight = 1][part construction]")
 
     tester.addNodeBackPub(n, "PL");
     
-    REQUIRE(tester.getPList().at("PL")->prev == n);
+    REQUIRE(tester.getpmap().at("PL")->prev == n);
     
     delete n;
 }
@@ -134,6 +134,40 @@ TEST_CASE("test add back node", "[weight = 1][part construction]")
 TEST_CASE("test remove node", "[weight = 1][part construction]")
 {
         Person alpha = Person("Ken",14, "male",  "PL", false);
+    Person alpha1 = Person("Kim",14, "female",  "AW", false);
+    Person alpha2 = Person("Al",14, "male",  "PL", false);
+
+
+    Driver beta = Driver("Rock", 12, 3, "male", "MM");
+
+    InputReader ir = InputReader();
+
+    ir.addToPmap(alpha);
+    ir.addToPmap(alpha1);
+    ir.addToDmap(beta);
+    //ir.addToPmap(alpha2);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+
+    Planner tester = Planner(dm, pm, gl);
+
+    // Node * n = new Node(alpha2);
+
+    tester.removeNodePub(tester.getpmap().at("PL")->next);
+    
+    REQUIRE(tester.getpmap().find("PL")->second->next == tester.getpmap().find("PL")->second);
+    // TODO may want to do one more test here where a node is sandwiched 
+}
+
+
+// TESTED SO FAR: add, add back, remove
+// TO TEST: checkerase, canpublish, assigngen, sortgen
+
+TEST_CASE("test checkErase", "[weight = 1][part construction")
+{
+    Person alpha = Person("Ken",14, "male",  "PL", false);
     Person alpha1 = Person("Kim",14, "female",  "AW", false);
     //Person alpha2 = Person("Al",14, "male",  "PL", false);
 
@@ -153,9 +187,47 @@ TEST_CASE("test remove node", "[weight = 1][part construction]")
     Planner tester = Planner(dm, pm, gl);
 
     // Node * n = new Node(alpha2);
+    tester.checkErasePmapPub(tester.getpmap().at("PL"), "PL");
+    REQUIRE(tester.getpmap().count("PL") != 0);
 
     tester.removeNodePub(tester.getpmap().at("PL")->next);
-    
-    REQUIRE(tester.getPList().find("PL")->second->next == tester.getPList().find("PL")->second);
-    
+    //tester.removeDNodePub(tester.getdmap().at("MM")->next);
+    tester.checkErasePmapPub(tester.getpmap().at("PL"), "PL");
+    //tester.checkEraseDmapPub(tester.getdmap().at("MM"), "MM");
+    REQUIRE(tester.getpmap().count("PL") == 0);
+    //REQUIRE(tester.getdmap().count("MM") == 0);
+
+}
+
+TEST_CASE("test canPublish", "[weight = 1][part construction")
+{
+    Driver d = Driver("Touma", 604, 2, "female");
+    Person p1 = Person("Haruki", 778, "male");
+    Person p2 = Person("Setsuna", 672, "female");
+
+    DNode * dn = new DNode(d);
+    Node * pn1 = new Node(p1);
+    Node * pn2 = new Node(p2);
+    PList * pl = new PList(2);
+
+    d.setplist(pl);
+
+    cout << __LINE__ << endl;
+    Planner p = Planner();
+
+    cout << __LINE__ << endl;
+    REQUIRE(p.canPublishPub(dn) == FALSE);
+    cout << __LINE__ << endl;
+    pl->addNode(pn1);
+
+    cout << __LINE__ << endl;
+
+    REQUIRE(p.canPublishPub(dn) == FALSE);
+    pl->addNode(pn2);
+
+    cout << __LINE__ << endl;
+    REQUIRE(p.canPublishPub(dn) == TRUE);
+
+    cout << __LINE__ << endl;
+
 }

@@ -38,6 +38,8 @@ class InputReader
     //list of all groups
     vector<string> grouplist;
 
+ 
+
     // adds a node to the linked list
     void addDNode(DNode * at, DNode * n);
     void addNode(Node * at, Node * n);

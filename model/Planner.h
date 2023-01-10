@@ -23,7 +23,7 @@ class Planner
 
     public: 
     // constructors
-   
+    Planner();
     Planner(unordered_map<string, DNode * > & dmap, unordered_map<string, Node * > & pmap, vector<string> & glist);
 
     //uses the two maps to assign passengers to drivers. Any remaining passengers/drivers will remain in the 
@@ -36,7 +36,9 @@ class Planner
 
     void addNodeBackPub(Node * n, string destination);
     void addNodePub(Node * n, string destination);
-    void removeNodePub(Node * n);           
+    void removeNodePub(Node * n);     
+    void checkErasePmapPub(Node * pl, string group);    
+    bool canPublishPub(DNode * d);  
 
     
 
@@ -71,7 +73,10 @@ class Planner
     void removeNode(DNode * n);
 
     // helper to decide if a driver should be published and publish if yes
-    void canPublish(DNode * d);
+    bool canPublish(DNode * d);
+
+       // Assigns based on gender
+    void assignGen(DNode * n);
 
     // helper to remove empty elements in the maps
     void checkEraseDmap(DNode * dl, string group);

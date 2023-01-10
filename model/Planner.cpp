@@ -2,14 +2,14 @@
 
 
 
+Planner::Planner(){}
 
 
-
-Planner::Planner(unordered_map<string, DNode * > & dmap, unordered_map<string, Node * > & pmap, vector<string> & glist) 
+Planner::Planner(unordered_map<string, DNode * > & drmap, unordered_map<string, Node * > & pamap, vector<string> & glist) 
 {
     pub = Publisher();
-    dmap = dmap;
-    pmap = pmap;
+    dmap = drmap;
+    pmap = pamap;
     grouplist = glist;
 
 }
@@ -91,7 +91,7 @@ void Planner::sort(DNode * dl, Node* pl)
 
 
                 dl->getPerson().setplist(p);
-                canPublish(curd);
+                bool b = canPublish(curd);
                 
             }
 
@@ -127,52 +127,67 @@ void Planner::sort(DNode * dl, Node* pl)
 
 }
 
+
+void Planner::assignGen(DNode * dn)
+{
+    DNode * base = dn;
+    dn = dn->next;
+    while(dn != base)
+    {
+        Driver dr = dn->getPerson();
+        string gender = dr.getGender();
+        int cap = dr.getplist()->getCapacity();
+
+
+        Node * curr = pmap.at(gender)->next;
+        
+        PList * p;
+        if (dr.getplist() == NULL)
+        {
+            p = new PList(cap);
+            dr.setplist(p);
+        }
+        else
+        {
+            p = dr.getplist();
+        }
+
+        // while car isn't full and there are still people of that gender to get, add them to plist.
+        while(p->getCapacity() != 0 && curr != pmap.at(gender))
+        {
+
+            if (curr->getPerson().getCanBus()) addNodeBack(curr, "misc");
+            p->addNode(curr);
+            curr = curr->next;
+        }
+
+        // publish and delete
+        DNode * temp = dn;
+        dn = dn->next;
+
+        bool b = canPublish(temp);
+        checkEraseDmap(temp, gender);
+        
+    }
+}
+
 void Planner::sortgen()
 {
     // Goes through each remaining driver, takes passengers from pmap.
+    // TODO make it so it goes through gender first ebfore looping the groups
+    // Loop through driver gender groups
+    DNode * dn = dmap.at("male");
+    assignGen(dn);
+    dn = dmap.at("female");
+    assignGen(dn);
+
+    // Loop through driver groups
     for(auto it = dmap.cbegin(); it != dmap.cend(); it++)
     {
         if (it->first != "misc"){
             
-            
-            DNode * dn = it->second->next;
-            while(dn != it->second)
-            {
-                Driver dr = dn->getPerson();
-                string gender = dr.getGender();
-                int cap = dr.getplist()->getCapacity();
-
-
-                Node * curr = pmap.at(gender)->next;
-                
-                PList * p;
-                if (dr.getplist() == NULL)
-                {
-                    p = new PList(cap);
-                    dr.setplist(p);
-                }
-                else
-                {
-                    p = dr.getplist();
-                }
-
-                // while car isn't full and there are still people of that gender to get, add them to plist.
-                while(p->getCapacity() != 0 && curr != pmap.at(gender))
-                {
-
-                    if (curr->getPerson().getCanBus()) addNodeBack(curr, "misc");
-                    p->addNode(curr);
-                    curr = curr->next;
-                }
-
-                // publish and delete
-                DNode * temp = dn;
-                dn = dn->next;
-
-                canPublish(temp);
-                checkEraseDmap(temp, gender);
-                
-            }
+            dn = it->second;
+            assignGen(dn);
 
         }
     }
@@ -201,11 +216,7 @@ void Planner::sortmisc()
 
     while(curr != pmap.at("misc"))
     {
-        Person p = curr->getPerson();
 
-        //if (p.getGroup() != )
-
-        curr = curr->next;
     }
 }
 
@@ -297,16 +308,23 @@ void Planner::removeNodePub(Node * n)
     removeNode(n);
 }
 
-void Planner::canPublish(DNode * dn)
+bool Planner::canPublish(DNode * dn)
 {
+    cout << __LINE__ << endl;
     PList * p = dn->getPerson().getplist();
+    int cap = p->getCapacity();
+    cout << cap << endl;
     if (p->getCapacity() == 0)
     {
+        cout << __LINE__ << endl;
         pub.publish(dn);
-
-        p->~PList();
+        cout << __LINE__ << endl;
+        //p->~PList();
         delete dn;
+        cout << __LINE__ << endl;
+        return true;
     }
+    return false;
 }
 
 void Planner::checkEraseDmap(DNode * dl, string g)
@@ -327,4 +345,14 @@ void Planner::checkErasePmap(Node * pl, string g)
         delete pl;
         pmap.erase(g);
     }
+}
+
+void Planner::checkErasePmapPub(Node * pl, string group)
+{
+    checkErasePmap(pl, group);
+}
+
+bool Planner::canPublishPub(DNode * d)
+{
+    return canPublish(d);
 }

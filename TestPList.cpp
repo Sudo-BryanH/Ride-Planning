@@ -32,22 +32,26 @@ TEST_CASE("PList constructor test with 1", "[weight=1][part=construction]")
 
 TEST_CASE("PList add node", "[weight=1][part=construction]")
 {
+    
     PList tester = PList(2);
     Person alpha = Person("Ken",14, "male",  "PL", false);
     Person alpha1 = Person("Kenneth",16, "male",  "PL", true);
     Node * n = new Node(alpha);
     Node * n1 = new Node(alpha1);
     Node * sen = tester.getSentinel();
-
+cout << __LINE__ << endl;
     REQUIRE(tester.getCapacity() == 2);
     REQUIRE(sen->next == tester.getSentinel());
 
-
+cout << __LINE__ << endl;
     tester.addNode(n);
 
-
+cout << __LINE__ << endl;
     REQUIRE(tester.getCapacity() == 1);
+    cout << __LINE__ << endl;
     REQUIRE(sen->next == n);
+
+    cout << __LINE__ << endl;
     REQUIRE(n->next == sen);
     REQUIRE(n->prev == sen);
 
