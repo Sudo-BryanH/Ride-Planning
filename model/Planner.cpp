@@ -86,7 +86,7 @@ void Planner::sort(DNode * dl, Node* pl)
                 }
 
                 Node * temp = curd;
-                // curd = curd->next;
+                curd = curd->next;
                 // publish and remove driver if full
 
 
@@ -103,7 +103,7 @@ void Planner::sort(DNode * dl, Node* pl)
 
         // Reassign leftover nodes
         Node * curr = pl->next;
-        DNode * curd = dl->next;
+       
         while(curr != pl)
         {
             if (curr->getPerson().getGender() == "male")

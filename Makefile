@@ -62,4 +62,4 @@ Publisher.o : model/Publisher.h model/Publisher.cpp model/DNode.h model/Node.h m
 	clang++ -std=c++14 -c -g model/Publisher.cpp
 
 clean:
-	rm *.o planride testperson testnode testplist testinreader
+	rm *.o planride testperson testnode testplist testinreader testplanner
