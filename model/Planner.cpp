@@ -39,6 +39,19 @@ void Planner::planride()
         }
         // auto pl = pmap.find(g);
         sort(dl, pl);
+
+        // deletes any groups that are now empty. makes it asymptotically easier to determine if there remains any member in a group
+        if (pl->next == pl)
+        {
+            delete pl;
+            pmap.erase(g);
+        }
+
+        if (dl->next == dl)
+        {
+            delete dl;
+            dmap.erase(g); 
+        }
     }
 
     sortgen();
@@ -81,17 +94,10 @@ void Planner::sort(DNode * dl, Node* pl)
                 Node * temp = curd;
                 // curd = curd->next;
                 // publish and remove driver if full
-                //TODO add plist to curd
+
 
                 dl->getPerson().setplist(p);
-                if (p->getCapacity() == 0)
-                {
-                    pub.publish(curd);
-
-                    p->~PList();
-                    delete curd;
-
-                }
+                canPublish(curd);
                 
             }
 
@@ -132,40 +138,85 @@ void Planner::sort(DNode * dl, Node* pl)
 
 void Planner::sortgen()
 {
-    
+    // Goes through each remaining driver, takes passengers from pmap.
     for(auto it = dmap.cbegin(); it != dmap.cend(); it++)
     {
-        DNode * dn = it->second->next;
-        Driver dr = dn->getPerson();
-        string gender = dr.getGender();
-        int cap = dr.getplist()->getCapacity();
+        if (it->first != "misc"){
+            
+            DNode * dn = it->second->next;
+            Driver dr = dn->getPerson();
+            string gender = dr.getGender();
+            int cap = dr.getplist()->getCapacity();
 
-        Node * curr = pmap.at(gender)->next;
+            Node * curr = pmap.at(gender)->next;
+            
+            PList * p;
+            if (dr.getplist() == NULL)
+            {
+                p = new PList(cap);
+                dr.setplist(p);
+            }
+            else
+            {
+                p = dr.getplist();
+            }
 
-        PList * p = new PList(cap);
-        while(p->getCapacity() != 0 && curr != pmap.at(gender))
-        {
-            p->addNode(curr);
-            curr = curr->next;
+            // while car isn't full and there are still people of that gender to get, add them to plist.
+            while(p->getCapacity() != 0 && curr != pmap.at(gender))
+            {
+                p->addNode(curr);
+                curr = curr->next;
+            }
+
+            // publish and delete
+            canPublish(dn);
+
+
         }
-
-        dr.setplist(p);
-        if (p->getCapacity() == 0)
-        {
-             pub.publish(dn);
-
-            p->~PList();
-            delete dn;
-        }
-
     }
 
+    // reassign leftover passengers to misc of high priority
+    Node * m = pmap.at("male")->next;
+    Node * f = pmap.at("female")->next;
+
+    while(m != pmap.at("male"))
+    {
+        addNode(m, "misc");
+        
+    }
+
+    while(f != pmap.at("female"))
+    {
+        addNode(m, "misc");
+        
+    }
 
 }
 
 void Planner::sortmisc()
 {
+    Node * curr = pmap.at("misc")->next;
 
+    while(curr != pmap.at("misc"))
+    {
+        Person p = curr->getPerson();
+
+        //if (p.getGroup() != )
+
+        curr = curr->next;
+    }
+}
+
+void Planner::canPublish(DNode * dn)
+{
+    PList * p = dn->getPerson().getplist();
+    if (p->getCapacity() == 0)
+    {
+        pub.publish(dn);
+
+        p->~PList();
+        delete dn;
+    }
 }
 
 void Planner::addNodeBack(Node * n, string destination)

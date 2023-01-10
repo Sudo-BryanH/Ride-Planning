@@ -70,6 +70,9 @@ class Planner
     void removeNode(Node * n);
     void removeNode(DNode * n);
 
+    // helper to decide if a driver should be published and publish if yes
+    void canPublish(DNode * d);
+
     /*
     Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender
      It will identify a driver that is most optimal for it
