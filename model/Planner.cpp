@@ -41,17 +41,8 @@ void Planner::planride()
         sort(dl, pl);
 
         // deletes any groups that are now empty. makes it asymptotically easier to determine if there remains any member in a group
-        if (pl->next == pl)
-        {
-            delete pl;
-            pmap.erase(g);
-        }
-
-        if (dl->next == dl)
-        {
-            delete dl;
-            dmap.erase(g); 
-        }
+        checkEraseDmap(dl, g);
+        checkErasePmap(pl, g);
     }
 
     sortgen();
@@ -59,6 +50,8 @@ void Planner::planride()
     sortmisc();
 
 }
+
+
 
 // void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
 void Planner::sort(DNode * dl, Node* pl)
@@ -85,10 +78,11 @@ void Planner::sort(DNode * dl, Node* pl)
                 PList * p = new PList(curd->getPerson().getCapacity());
                 while(p->getCapacity() != 0 && curp != pl)
                 {
+                    Node * temp = curp->next;
                     if (curp->getPerson().getCanBus()) addNodeBack(curp, "misc");
 
-                    else p->addNode(curp);
-                    curd = curd->next;
+                    else p->addNode(curp); // TODO may have to update curp pointer
+                    curp = temp;
                 }
 
                 Node * temp = curd;
@@ -131,9 +125,6 @@ void Planner::sort(DNode * dl, Node* pl)
             }
         }
 
-
-
-
 }
 
 void Planner::sortgen()
@@ -143,34 +134,45 @@ void Planner::sortgen()
     {
         if (it->first != "misc"){
             
-            DNode * dn = it->second->next;
-            Driver dr = dn->getPerson();
-            string gender = dr.getGender();
-            int cap = dr.getplist()->getCapacity();
-
-            Node * curr = pmap.at(gender)->next;
             
-            PList * p;
-            if (dr.getplist() == NULL)
+            DNode * dn = it->second->next;
+            while(dn != it->second)
             {
-                p = new PList(cap);
-                dr.setplist(p);
-            }
-            else
-            {
-                p = dr.getplist();
-            }
+                Driver dr = dn->getPerson();
+                string gender = dr.getGender();
+                int cap = dr.getplist()->getCapacity();
 
-            // while car isn't full and there are still people of that gender to get, add them to plist.
-            while(p->getCapacity() != 0 && curr != pmap.at(gender))
-            {
-                p->addNode(curr);
-                curr = curr->next;
+
+                Node * curr = pmap.at(gender)->next;
+                
+                PList * p;
+                if (dr.getplist() == NULL)
+                {
+                    p = new PList(cap);
+                    dr.setplist(p);
+                }
+                else
+                {
+                    p = dr.getplist();
+                }
+
+                // while car isn't full and there are still people of that gender to get, add them to plist.
+                while(p->getCapacity() != 0 && curr != pmap.at(gender))
+                {
+
+                    if (curr->getPerson().getCanBus()) addNodeBack(curr, "misc");
+                    p->addNode(curr);
+                    curr = curr->next;
+                }
+
+                // publish and delete
+                DNode * temp = dn;
+                dn = dn->next;
+
+                canPublish(temp);
+                checkEraseDmap(temp, gender);
+                
             }
-
-            // publish and delete
-            canPublish(dn);
-
 
         }
     }
@@ -207,23 +209,13 @@ void Planner::sortmisc()
     }
 }
 
-void Planner::canPublish(DNode * dn)
-{
-    PList * p = dn->getPerson().getplist();
-    if (p->getCapacity() == 0)
-    {
-        pub.publish(dn);
 
-        p->~PList();
-        delete dn;
-    }
-}
 
 void Planner::addNodeBack(Node * n, string destination)
 {
     if (pmap.count(destination) != 0) 
     {
-        Node * at = pmap.find(destination)->second;
+        Node * at = pmap.at(destination);
         
         Node * temp = at->prev;
         at->prev = n;
@@ -303,4 +295,36 @@ void Planner::addNodePub(Node * n, string destination)
 void Planner::removeNodePub(Node * n)
 {
     removeNode(n);
+}
+
+void Planner::canPublish(DNode * dn)
+{
+    PList * p = dn->getPerson().getplist();
+    if (p->getCapacity() == 0)
+    {
+        pub.publish(dn);
+
+        p->~PList();
+        delete dn;
+    }
+}
+
+void Planner::checkEraseDmap(DNode * dl, string g)
+{
+
+
+    if (dl->next == dl)
+    {
+        delete dl;
+        dmap.erase(g); 
+    }
+}
+
+void Planner::checkErasePmap(Node * pl, string g)
+{
+        if (pl->next == pl)
+    {
+        delete pl;
+        pmap.erase(g);
+    }
 }

@@ -73,6 +73,10 @@ class Planner
     // helper to decide if a driver should be published and publish if yes
     void canPublish(DNode * d);
 
+    // helper to remove empty elements in the maps
+    void checkEraseDmap(DNode * dl, string group);
+    void checkErasePmap(Node * pl, string group);
+
     /*
     Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender
      It will identify a driver that is most optimal for it
