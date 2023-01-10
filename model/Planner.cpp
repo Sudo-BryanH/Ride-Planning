@@ -69,12 +69,12 @@ void Planner::sort(DNode * dl, Node* pl)
 
             while(curd != dl)
             {
-                PList p = PList(curd->getPerson().getCapacity());
-                while(p.getCapacity() != 0 && curp != pl)
+                PList * p = new PList(curd->getPerson().getCapacity());
+                while(p->getCapacity() != 0 && curp != pl)
                 {
                     if (curp->getPerson().getCanBus()) addNodeBack(curp, "misc");
 
-                    else p.addNode(curp);
+                    else p->addNode(curp);
                     curd = curd->next;
                 }
 
@@ -82,11 +82,13 @@ void Planner::sort(DNode * dl, Node* pl)
                 // curd = curd->next;
                 // publish and remove driver if full
                 //TODO add plist to curd
-                if (p.getCapacity() == 0)
+
+                dl->getPerson().setplist(p);
+                if (p->getCapacity() == 0)
                 {
                     pub.publish(curd);
 
-                    p.~PList();
+                    p->~PList();
                     delete curd;
 
                 }
@@ -134,16 +136,26 @@ void Planner::sortgen()
     for(auto it = dmap.cbegin(); it != dmap.cend(); it++)
     {
         DNode * dn = it->second->next;
-        string gender = dn->getPerson().getGender();
-        int cap = dn->getPerson().getplist()->getCapacity();
+        Driver dr = dn->getPerson();
+        string gender = dr.getGender();
+        int cap = dr.getplist()->getCapacity();
 
         Node * curr = pmap.at(gender)->next;
 
-        PList p = PList(cap);
-        while(p.getCapacity() != 0 && curr != pmap.at(gender))
+        PList * p = new PList(cap);
+        while(p->getCapacity() != 0 && curr != pmap.at(gender))
         {
-            p.addNode(curr);
+            p->addNode(curr);
             curr = curr->next;
+        }
+
+        dr.setplist(p);
+        if (p->getCapacity() == 0)
+        {
+             pub.publish(dn);
+
+            p->~PList();
+            delete dn;
         }
 
     }
