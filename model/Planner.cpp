@@ -2,7 +2,10 @@
 
 
 
-Planner::Planner(){}
+Planner::Planner()
+{
+    pub = Publisher();
+}
 
 
 Planner::Planner(unordered_map<string, DNode * > & drmap, unordered_map<string, Node * > & pamap, vector<string> & glist) 
@@ -79,9 +82,20 @@ void Planner::sort(DNode * dl, Node* pl)
                 while(p->getCapacity() != 0 && curp != pl)
                 {
                     Node * temp = curp->next;
-                    if (curp->getPerson().getCanBus()) addNodeBack(curp, "misc");
 
-                    else p->addNode(curp); // TODO may have to update curp pointer
+                    if (curp->getPerson().getCanBus()) 
+                    {
+                        addNodeBack(curp, "misc");
+                    }
+                    //remove the node
+
+                    else
+                    { 
+                        removeNode(curp);
+                        p->addNode(curp);
+                         // TODO may have to update curp pointer
+                        
+                    }
                     curp = temp;
                 }
 
@@ -157,6 +171,9 @@ void Planner::assignGen(DNode * dn)
         {
 
             if (curr->getPerson().getCanBus()) addNodeBack(curr, "misc");
+
+                // //remove the node
+            removeNode(curr);
             p->addNode(curr);
             curr = curr->next;
         }
@@ -312,8 +329,8 @@ bool Planner::canPublish(DNode * dn)
 {
     cout << __LINE__ << endl;
     PList * p = dn->getPerson().getplist();
-    int cap = p->getCapacity();
-    cout << cap << endl;
+    
+    cout << __LINE__ << endl;
     if (p->getCapacity() == 0)
     {
         cout << __LINE__ << endl;

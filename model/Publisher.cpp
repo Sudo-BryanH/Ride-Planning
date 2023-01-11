@@ -16,10 +16,11 @@ void Publisher::publish(DNode * m)
     cout << "drives: " << endl;
     Node * curr = p.getSentinel()->next;
 
-    while (curr)
+    while (curr != p.getSentinel())
     {
         Person per = curr->getPerson();
         cout << " - " << per.getName() << " " << per.getGroup() << " " << per.getPhone() << endl;
+        curr = curr->next;
     }
 
     cout << "with " << p.getCapacity() << " seats remaining" << endl;
@@ -31,12 +32,13 @@ void Publisher::publishextra(Node * n)
     cout << "________" << endl;
     cout << "There were not enough rides to assign the following to a ride:" << endl;
 
-    Node * curr = n;
+    Node * curr = n->next;
 
-    while(curr) 
+    while(curr != n) 
     {
          Person per = curr->getPerson();
         cout << " - " << per.getName() << " " << per.getGroup() << " " << per.getPhone() << endl;
+        curr = curr->next;
     }
 
 }

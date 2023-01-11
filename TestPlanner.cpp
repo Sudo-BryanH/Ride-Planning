@@ -201,33 +201,38 @@ TEST_CASE("test checkErase", "[weight = 1][part construction")
 
 TEST_CASE("test canPublish", "[weight = 1][part construction")
 {
+
+    // TODO THIS TEST CREATES CREATES THE PLIST IN DRIVER BEFORE ADDING IT TO A NODE. IF TESTS FAIL OR SEGFAULT, TRY THIS IMPLEMENTATION
     Driver d = Driver("Touma", 604, 2, "female");
     Person p1 = Person("Haruki", 778, "male");
     Person p2 = Person("Setsuna", 672, "female");
 
-    DNode * dn = new DNode(d);
+    
     Node * pn1 = new Node(p1);
     Node * pn2 = new Node(p2);
     PList * pl = new PList(2);
 
-    d.setplist(pl);
-
-    cout << __LINE__ << endl;
     Planner p = Planner();
 
-    cout << __LINE__ << endl;
+    d.setplist(pl);
+    DNode * dn = new DNode(d);
+    REQUIRE(dn->getPerson() == d);
+    REQUIRE(d.getplist() == pl);
+    REQUIRE(pl->getCapacity() == 2);
+    //cout << __LINE__ << endl;
     REQUIRE(p.canPublishPub(dn) == FALSE);
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
     pl->addNode(pn1);
-
-    cout << __LINE__ << endl;
+    REQUIRE(pl->getCapacity() == 1);
+    //cout << __LINE__ << endl;
 
     REQUIRE(p.canPublishPub(dn) == FALSE);
     pl->addNode(pn2);
 
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
     REQUIRE(p.canPublishPub(dn) == TRUE);
+    REQUIRE(pl->getCapacity() == 0);
 
-    cout << __LINE__ << endl;
+   // cout << __LINE__ << endl;
 
 }
