@@ -78,7 +78,8 @@ void Planner::sort(DNode * dl, Node* pl)
 
             while(curd != dl)
             {
-                PList * p = new PList(curd->getPerson().getCapacity());
+                //PList * p = new PList(curd->getPerson().getCapacity());
+                PList * p = dl->getPerson().getplist();
                 while(p->getCapacity() != 0 && curp != pl)
                 {
                     Node * temp = curp->next;
@@ -93,7 +94,6 @@ void Planner::sort(DNode * dl, Node* pl)
                     { 
                         removeNode(curp);
                         p->addNode(curp);
-                         // TODO may have to update curp pointer
                         
                     }
                     curp = temp;
@@ -155,16 +155,8 @@ void Planner::assignGen(DNode * dn)
 
         Node * curr = pmap.at(gender)->next;
         
-        PList * p;
-        if (dr.getplist() == NULL)
-        {
-            p = new PList(cap);
-            dr.setplist(p);
-        }
-        else
-        {
-            p = dr.getplist();
-        }
+        PList * p = dr.getplist();
+
 
         // while car isn't full and there are still people of that gender to get, add them to plist.
         while(p->getCapacity() != 0 && curr != pmap.at(gender))
