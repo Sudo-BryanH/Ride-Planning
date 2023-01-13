@@ -365,3 +365,8 @@ bool Planner::canPublishPub(DNode * d)
 {
     return canPublish(d);
 }
+
+void Planner::assignGenPub(DNode * d)
+{
+    assignGen(d);
+}

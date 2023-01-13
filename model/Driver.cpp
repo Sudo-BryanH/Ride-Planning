@@ -8,7 +8,7 @@ Driver::Driver() {}
 
 Driver::Driver(string name, int phone, int capacity, string gender, string group) : passengers(NULL), capacity(capacity), Person(name, phone, gender, group, false)
 {
-    passengers = new PList(cap);
+    passengers = new PList(capacity);
 }    
 
 int Driver::getCapacity()

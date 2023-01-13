@@ -13,8 +13,8 @@ testnode : TestNode.o Person.o Driver.o Node.o DNode.o
 testplist : TestPList.o Person.o PList.o Node.o
 	clang++ TestPList.o Person.o PList.o Node.o -std=c++14 -o testplist
 
-testinreader : TestReader.o Person.o Node.o Driver.o DNode.o InputReader.o
-	clang++ TestReader.o Person.o Node.o Driver.o DNode.o InputReader.o -std=c++14 -o testinreader
+testinreader : TestReader.o Person.o Node.o Driver.o DNode.o InputReader.o PList.o
+	clang++ TestReader.o Person.o Node.o Driver.o DNode.o InputReader.o PList.o -std=c++14 -o testinreader
 
 testplanner : TestPlanner.o Planner.o InputReader.o Person.o Node.o Driver.o DNode.o PList.o Publisher.o
 	clang++  TestPlanner.o Planner.o InputReader.o Person.o Node.o Driver.o DNode.o PList.o Publisher.o -std=c++14 -o testplanner

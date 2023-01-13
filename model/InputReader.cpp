@@ -30,6 +30,7 @@ void InputReader::addToDmap(Driver & d)
 
     if (d.getGroup() != "_")
     {
+       // //cout << __LINE__ << endl;
         if (dmap.count(d.getGroup()) == 0)
         {
             DNode * sentinel = new DNode();
@@ -41,28 +42,33 @@ void InputReader::addToDmap(Driver & d)
             grouplist.push_back(d.getGroup());
             dmap.emplace(d.getGroup(), sentinel);
         } else {
-            DNode * at = dmap.find(d.getGroup())->second;
-            addNode(at, n);
+            DNode * at = dmap.at(d.getGroup());
+            addDNode(at, n);
         }
 
     } else if (d.getGender() != "_")
     {
+        ////cout << __LINE__ << endl;
         if (d.getGender() == "female")
         {
-            DNode * at = dmap.find("female")->second;
-            addNode(at, n);
+            DNode * at = dmap.at("female");
+            addDNode(at, n);
 
         } else
         {
-            DNode * at = dmap.find("male")->second;
-            addNode(at, n);
+            
+            DNode * at = dmap.at("male");
+
+            addDNode(at, n);
+            cout << __LINE__ << endl;
         }
         
     } else
     {
-        DNode * at = dmap.find("misc")->second;
+        ////cout << __LINE__ << endl;
+        DNode * at = dmap.at("misc");
 
-        addNode(at, n);
+        addDNode(at, n);
 
     }
 
@@ -134,21 +140,31 @@ void InputReader::addNode(Node * at, Node * n)
         // at->next = n;
         // n->next = temp;
         // n->prev = at;
+        //cout << __LINE__ << endl;
         Node * temp = at->prev;
+        //cout << __LINE__ << endl;
         at->prev = n;
+        //cout << __LINE__ << endl;
         n->next = at;
+        //cout << __LINE__ << endl;
         n->prev = temp;
+        //cout << __LINE__ << endl;
         temp->next = n;
 }
 
 void InputReader::addDNode(DNode * at, DNode * n)
 {
-
-        DNode * temp = at->prev;
+        
+        DNode * last = at->prev;
+        
         at->prev = n;
+        
         n->next = at;
-        n->prev = temp;
-        temp->next = n;
+        
+        n->prev = last;
+        
+        last->next = n;
+        
 }
 
 unordered_map<string, Node*> InputReader::getPmap()

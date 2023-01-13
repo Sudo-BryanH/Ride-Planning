@@ -39,6 +39,7 @@ class Planner
     void removeNodePub(Node * n);     
     void checkErasePmapPub(Node * pl, string group);    
     bool canPublishPub(DNode * d);  
+    void assignGenPub(DNode * d);
 
     
 
