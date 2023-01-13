@@ -60,7 +60,7 @@ void InputReader::addToDmap(Driver & d)
             DNode * at = dmap.at("male");
 
             addDNode(at, n);
-            cout << __LINE__ << endl;
+            
         }
         
     } else
@@ -77,6 +77,8 @@ void InputReader::addToDmap(Driver & d)
 
 void InputReader::addToPmap(Person & d)
 {
+   
+    
     Node * n = new Node(d);
 
     if (d.getGroup() != "_")
@@ -91,6 +93,7 @@ void InputReader::addToPmap(Person & d)
 
             grouplist.push_back(d.getGroup());
             pmap.emplace(d.getGroup(), sentinel);
+
         } else {
             Node * at = pmap.find(d.getGroup())->second;
             addNode(at, n);
@@ -106,6 +109,7 @@ void InputReader::addToPmap(Person & d)
         } else
         {
             Node * at = pmap.find("male")->second;
+             //cout << d.getName() << endl;
             addNode(at, n);
         }
         

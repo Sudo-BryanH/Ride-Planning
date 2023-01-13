@@ -161,6 +161,41 @@ TEST_CASE("test remove node", "[weight = 1][part construction]")
     // TODO may want to do one more test here where a node is sandwiched 
 }
 
+TEST_CASE("test remove node sandwiched", "[weight = 1][part construction]")
+{
+        Person alpha = Person("Ken",14, "male",  "PL", false);
+    Person alpha1 = Person("Kim",14, "female",  "AW", false);
+    Person alpha2 = Person("Al",14, "male",  "PL", false);
+
+
+    Driver beta = Driver("Rock", 12, 3, "male", "MM");
+
+    InputReader ir = InputReader();
+
+    ir.addToPmap(alpha);
+    ir.addToPmap(alpha1);
+    ir.addToDmap(beta);
+    ir.addToPmap(alpha2);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+
+    Planner tester = Planner(dm, pm, gl);
+
+    Node * n = new Node(alpha2);
+
+    Node * n1 = tester.getpmap().at("PL")->next->next;
+
+    tester.removeNodePub(tester.getpmap().at("PL")->next);
+    
+
+    REQUIRE(n1->getPerson() == tester.getpmap().at("PL")->next->getPerson());
+    // TODO may want to do one more test here where a node is sandwiched 
+    delete(n);
+
+}
+
 
 // TESTED SO FAR: add, add back, remove
 // TO TEST: checkerase, canpublish, assigngen, sortgen
@@ -245,36 +280,37 @@ TEST_CASE("test assignGen, already in gen", "[weight = 1]")
     Person p2 = Person("Kageyama", 778, "male");
     Person p3 = Person("Nishinoya", 772, "male", "_", true);
     Person p4 = Person("Yachi", 423, "female");
-    cout << __LINE__ << endl;
+    
     Driver d1 = Driver("Ukai", 602, 3, "male");
     Driver d2 = Driver("Sawko", 609, 4, "female", "none");
-    cout << __LINE__ << endl;
+    
     ir.addToPmap(p1);
     ir.addToPmap(p2);
     ir.addToPmap(p3);
     ir.addToPmap(p4);
-    cout << __LINE__ << endl;
+    
     ir.addToDmap(d2);
     ir.addToDmap(d1);
     //ir.addToDmap(d2);
-    cout << __LINE__ << endl;
+    
     unordered_map<string, Node*> pm = ir.getPmap();
     unordered_map<string, DNode*> dm = ir.getDmap();
     vector<string> gl = ir.getGroupList();
 
-    cout << __LINE__ << endl;
+    cout << pm.at("male")->next->next->getPerson().getName()<<endl;
     Planner plan = Planner(dm, pm, gl);
 
-    cout << __LINE__ << endl;
+    
     REQUIRE(plan.getdmap() == dm);
-    cout << __LINE__ << endl;
+    
     REQUIRE(plan.getpmap() == pm);
     REQUIRE(plan.getGList() == gl);
-    cout << __LINE__ << endl;
+    
 
     plan.assignGenPub(dm.at("male"));
-
+    cout << __LINE__ << endl;
     DNode * dn1 = plan.getdmap().at("male")->next;
+    
     REQUIRE(dn1->getPerson().getplist()->getCapacity() == 1);
     REQUIRE(plan.getdmap().at("female")->next != plan.getdmap().at("female"));
     REQUIRE(plan.getdmap().at("misc")->next != plan.getdmap().at("misc"));

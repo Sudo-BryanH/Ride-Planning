@@ -145,9 +145,15 @@ void Planner::sort(DNode * dl, Node* pl)
 void Planner::assignGen(DNode * dn)
 {
     DNode * base = dn;
+
+    cout << __LINE__ << endl;
     dn = dn->next;
+
+    cout << __LINE__ << endl;
     while(dn != base)
     {
+
+   
         Driver dr = dn->getPerson();
         string gender = dr.getGender();
         int cap = dr.getplist()->getCapacity();
@@ -159,15 +165,19 @@ void Planner::assignGen(DNode * dn)
 
 
         // while car isn't full and there are still people of that gender to get, add them to plist.
-        while(p->getCapacity() != 0 && curr != pmap.at(gender))
+        
+        while(curr && p->getCapacity() > 0 && curr != pmap.at(gender))
         {
-
+            Node * tempnext = curr->next;
+            removeNode(curr);
+            
             if (curr->getPerson().getCanBus()) addNodeBack(curr, "misc");
 
                 // //remove the node
-            removeNode(curr);
-            p->addNode(curr);
-            curr = curr->next;
+            
+            else p->addNode(curr);
+            
+            curr = tempnext;
         }
 
         // publish and delete
@@ -277,11 +287,17 @@ void Planner::addNode(DNode * n, string destination)
 
 void Planner::removeNode(Node * n)
 {
+    cout << "REMOVE" << endl;
+    
     Node * temp = n->prev;
+    cout << __LINE__ << endl; 
     n->prev->next = n->next;
+    cout << __LINE__ << endl; //unseen
     n->next->prev = temp;
+    cout << __LINE__ << endl;
 
     n->next = NULL;
+    cout << __LINE__ << endl;
     n->prev = NULL;
 }
 
