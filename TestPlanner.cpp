@@ -236,3 +236,31 @@ TEST_CASE("test canPublish", "[weight = 1][part construction")
    // cout << __LINE__ << endl;
 
 }
+
+TEST_CASE("test assignGen, already in gen", "[weight = 1]")
+{
+    InputReader ir = InputReader();
+    
+    Person p1 = Person("Hinata", 604, "male");
+    Person p2 = Person("Kageyama", 778 "male");
+    Person p3 = Person("Nishinoya", 772, "male", "_", true);
+    Person p4 = Person("Yachi", 423, "female");
+
+    Driver d1 = Person("Ukai", 602, 3, "male");
+
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    ir.addToPmap(p4);
+    ir.addToDmap(d1);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+
+    Planner plan = Planner(dm, pm, gl);
+
+    plan.assignGen(pm.at("male"));
+    
+
+}

@@ -319,18 +319,18 @@ void Planner::removeNodePub(Node * n)
 
 bool Planner::canPublish(DNode * dn)
 {
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
     PList * p = dn->getPerson().getplist();
     
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
     if (p->getCapacity() == 0)
     {
-        cout << __LINE__ << endl;
+        //cout << __LINE__ << endl;
         pub.publish(dn);
-        cout << __LINE__ << endl;
+        //cout << __LINE__ << endl;
         //p->~PList();
         delete dn;
-        cout << __LINE__ << endl;
+        //cout << __LINE__ << endl;
         return true;
     }
     return false;
