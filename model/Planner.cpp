@@ -214,7 +214,7 @@ void Planner::sortgen()
     // Loop through driver groups
     for(auto it = dmap.cbegin(); it != dmap.cend();)
     {
-
+        cout << __LINE__ << endl;
         if (it->first != "misc" && it->first != "female" && it->first != "male"){
             
             dn = it->second;
@@ -222,6 +222,7 @@ void Planner::sortgen()
 
         }
         it++;
+        cout << __LINE__ << endl;
     }
 
     // reassign leftover passengers to misc of high priority
