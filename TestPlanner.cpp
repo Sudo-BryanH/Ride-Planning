@@ -541,3 +541,112 @@ TEST_CASE("sortgen driver in groups", "[weight = 1]")
     REQUIRE(dn1->getPerson().getplist()->getCapacity() == 3);
 
 }
+
+TEST_CASE("sortgen, already in gen multiple driver", "[weight = 1]")
+{
+    InputReader ir = InputReader();
+    
+    Person p1 = Person("Hinata", 604, "male");
+    Person p2 = Person("Kageyama", 778, "male");
+    Person p4 = Person("Nishinoya", 772, "male");
+    Person p3 = Person("Yachi", 423, "female");
+    
+    Driver d1 = Driver("Ukai", 602, 2, "male");
+    Driver d2 = Driver("Takeda", 129, 1, "male");
+    Driver d3 = Driver("Sawko", 609, 4, "female");
+    
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    ir.addToPmap(p4);
+    
+    ir.addToDmap(d2);
+    ir.addToDmap(d1);
+    ir.addToDmap(d3);
+    
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    REQUIRE(pm.at("female")->prev->getPerson().getName() == "Yachi");
+   
+    //cout << pm.find("female")->first <<endl;
+    Planner plan = Planner(dm, pm, gl);
+    REQUIRE(plan.getpmap().at("female")->prev->getPerson().getName() == "Yachi");
+    
+    REQUIRE(plan.getdmap() == dm);
+    
+    REQUIRE(plan.getpmap() == pm);
+    REQUIRE(plan.getGList() == gl);
+
+    
+    plan.sortgenPub();
+
+    REQUIRE(plan.getpmap().at("female")->prev == plan.getpmap().at("female"));
+    REQUIRE(plan.getpmap().count("misc") != 0);
+    //REQUIRE(plan.getpmap().at("female")->prev->getPerson() == p3);
+
+    //REQUIRE(dm.count("male") == 0);
+    
+    // REQUIRE(dn1->getPerson().getplist()->getCapacity() == 1);
+
+    // REQUIRE(dn1->getPerson().getplist()->getSentinel()->next->getPerson().getName() == "Hinata");
+    // REQUIRE(dn1->getPerson().getplist()->getSentinel()->prev->getPerson().getName() == "Kageyama");
+    // REQUIRE(plan.getpmap().at("misc")->prev->getPerson().getName() == "Nishinoya");
+
+    
+
+}
+
+TEST_CASE("sortgen, already in gen multiple driver w/ leftovers", "[weight = 1]")
+{
+    InputReader ir = InputReader();
+    
+    Person p1 = Person("Hinata", 604, "male");
+    Person p2 = Person("Kageyama", 778, "male");
+    Person p4 = Person("Nishinoya", 772, "male");
+    Person p3 = Person("Yachi", 423, "female");
+    
+    Driver d1 = Driver("Ukai", 602, 2, "male");
+    //Driver d2 = Driver("Takeda", 129, 1, "male");
+    Driver d3 = Driver("Sawko", 609, 4, "female");
+    
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    ir.addToPmap(p4);
+    
+    //ir.addToDmap(d2);
+    ir.addToDmap(d1);
+    ir.addToDmap(d3);
+    
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    
+    //cout << pm.find("female")->first <<endl;
+    Planner plan = Planner(dm, pm, gl);
+   
+    
+    REQUIRE(plan.getdmap() == dm);
+    
+    REQUIRE(plan.getpmap() == pm);
+    REQUIRE(plan.getGList() == gl);
+
+    
+    plan.sortgenPub();
+
+    REQUIRE(plan.getpmap().at("female")->prev == plan.getpmap().at("female"));
+    REQUIRE(plan.getpmap().at("misc")->next->getPerson().getName() == "Nishinoya");
+    //REQUIRE(plan.getpmap().at("female")->prev->getPerson() == p3);
+
+    //REQUIRE(dm.count("male") == 0);
+    
+    // REQUIRE(dn1->getPerson().getplist()->getCapacity() == 1);
+
+    // REQUIRE(dn1->getPerson().getplist()->getSentinel()->next->getPerson().getName() == "Hinata");
+    // REQUIRE(dn1->getPerson().getplist()->getSentinel()->prev->getPerson().getName() == "Kageyama");
+    // REQUIRE(plan.getpmap().at("misc")->prev->getPerson().getName() == "Nishinoya");
+
+    
+
+}

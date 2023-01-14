@@ -206,33 +206,43 @@ void Planner::sortgen()
     // Loop through driver gender groups
     DNode * dn = dmap.at("male");
     assignGen(dn);
+
     dn = dmap.at("female");
     assignGen(dn);
 
+
     // Loop through driver groups
-    for(auto it = dmap.cbegin(); it != dmap.cend(); it++)
+    for(auto it = dmap.cbegin(); it != dmap.cend();)
     {
-        if (it->first != "misc"){
+
+        if (it->first != "misc" && it->first != "female" && it->first != "male"){
             
             dn = it->second;
             assignGen(dn);
 
         }
+        it++;
     }
 
     // reassign leftover passengers to misc of high priority
     Node * m = pmap.at("male")->next;
     Node * f = pmap.at("female")->next;
-
+    Node * tempnext;
     while(m != pmap.at("male"))
     {
+        tempnext = m->next;
+        removeNode(m);
         addNode(m, "misc");
+        m = tempnext;
         
     }
 
     while(f != pmap.at("female"))
     {
+        tempnext = f->next;
+        removeNode(f);
         addNode(m, "misc");
+        f = tempnext;
         
     }
 
