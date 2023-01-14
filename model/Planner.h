@@ -41,7 +41,7 @@ class Planner
     bool canPublishPub(DNode * d);  
     void assignGenPub(DNode * d);
 
-    
+    void sortgenPub();
 
     // to iterate over an unordered map, use https://www.geeksforgeeks.org/set-cbegin-and-cend-function-in-c-stl/
     private: 
@@ -50,6 +50,7 @@ class Planner
     unordered_map<string, Node *> pmap;
     vector<string> grouplist;
     Publisher pub;
+
 
         /*
 

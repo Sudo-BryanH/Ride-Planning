@@ -395,3 +395,8 @@ void Planner::assignGenPub(DNode * d)
 {
     assignGen(d);
 }
+
+void Planner::sortgenPub()
+{
+    sortgen();
+}
