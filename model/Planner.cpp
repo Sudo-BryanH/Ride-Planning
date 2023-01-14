@@ -194,7 +194,7 @@ void Planner::assignGen(DNode * dn)
         dn = dn->next;
 
         bool b = canPublish(temp);
-        checkEraseDmap(temp, gender);
+        checkEraseDmap(dmap.at(gender), gender);
         
     }
 }
@@ -367,14 +367,14 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 
     if (dl->next == dl)
     {
-        delete dl;
+        //delete dl;
         dmap.erase(g); 
     }
 }
 
 void Planner::checkErasePmap(Node * pl, string g)
 {
-        if (pl->next == pl)
+    if (pl->next == pl)
     {
         delete pl;
         pmap.erase(g);
