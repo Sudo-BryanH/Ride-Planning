@@ -31,7 +31,7 @@ void PList::addNode(Node* n)
     //add node to plist
     
     n->next = sentinel;
-    
+    sentinel->prev = n;
     last->next = n;
     
     n->prev = last;

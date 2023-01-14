@@ -84,6 +84,7 @@ void Planner::sort(DNode * dl, Node* pl)
                 {
                     Node * temp = curp->next;
 
+                    removeNode(curp);
                     if (curp->getPerson().getCanBus()) 
                     {
                         addNodeBack(curp, "misc");
@@ -92,7 +93,7 @@ void Planner::sort(DNode * dl, Node* pl)
 
                     else
                     { 
-                        removeNode(curp);
+                        
                         p->addNode(curp);
                         
                     }
@@ -146,10 +147,10 @@ void Planner::assignGen(DNode * dn)
 {
     DNode * base = dn;
 
-    cout << __LINE__ << endl;
+    
     dn = dn->next;
 
-    cout << __LINE__ << endl;
+    
     while(dn != base)
     {
 
@@ -164,18 +165,26 @@ void Planner::assignGen(DNode * dn)
         PList * p = dr.getplist();
 
 
-        // while car isn't full and there are still people of that gender to get, add them to plist.
+        // while car isn't full and there are still people of that gender to get, add them to plist. if they canBus, push to misc
         
         while(curr && p->getCapacity() > 0 && curr != pmap.at(gender))
         {
             Node * tempnext = curr->next;
             removeNode(curr);
             
-            if (curr->getPerson().getCanBus()) addNodeBack(curr, "misc");
+            if (curr->getPerson().getCanBus()) 
+            {
 
-                // //remove the node
+                //cout << "IF RAN " << curr->getPerson().getName() << endl;
+                addNodeBack(curr, "misc");
+            }
+
             
-            else p->addNode(curr);
+            else 
+            {
+                //cout << "ELSE RAN " << curr->getPerson().getName() << endl;
+                p->addNode(curr);
+            }
             
             curr = tempnext;
         }
@@ -287,17 +296,17 @@ void Planner::addNode(DNode * n, string destination)
 
 void Planner::removeNode(Node * n)
 {
-    cout << "REMOVE" << endl;
+    //cout << "REMOVE" << endl;
     
     Node * temp = n->prev;
-    cout << __LINE__ << endl; 
+    //cout << __LINE__ << endl; 
     n->prev->next = n->next;
-    cout << __LINE__ << endl; //unseen
+    //cout << __LINE__ << endl; //unseen
     n->next->prev = temp;
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
 
     n->next = NULL;
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
     n->prev = NULL;
 }
 

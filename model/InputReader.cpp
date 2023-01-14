@@ -80,7 +80,7 @@ void InputReader::addToPmap(Person & d)
    
     
     Node * n = new Node(d);
-
+    Node * at;
     if (d.getGroup() != "_")
     {
         if (pmap.count(d.getGroup()) == 0)
@@ -94,8 +94,9 @@ void InputReader::addToPmap(Person & d)
             grouplist.push_back(d.getGroup());
             pmap.emplace(d.getGroup(), sentinel);
 
-        } else {
-            Node * at = pmap.find(d.getGroup())->second;
+        } else 
+        {
+            at = pmap.find(d.getGroup())->second;
             addNode(at, n);
         }
 
@@ -103,20 +104,22 @@ void InputReader::addToPmap(Person & d)
     {
         if (d.getGender() == "female")
         {
-            Node * at = pmap.find("female")->second;
+            //cout << d.getName() << endl;
+            at = pmap.at("female");
             addNode(at, n);
-
+            
         } else
         {
-            Node * at = pmap.find("male")->second;
-             //cout << d.getName() << endl;
+            at = pmap.at("male");
+             
             addNode(at, n);
+            //out <<__LINE__ << at->next->getPerson().getName() << endl;
         }
         
     } else
     {
         
-        Node * at = pmap.at("misc");
+        at = pmap.at("misc");
 
         if (n->getPerson().getCanBus()) addBackNode(at, n);
 
@@ -124,7 +127,7 @@ void InputReader::addToPmap(Person & d)
         else addNode(at, n);
     }
 
-
+    //cout << at->next->getPerson().getName() << endl;
 }
 
 void InputReader::addBackNode(Node * at, Node * n)
@@ -140,10 +143,8 @@ void InputReader::addBackNode(Node * at, Node * n)
 
 void InputReader::addNode(Node * at, Node * n)
 {
-        // Node * temp = at->next;
-        // at->next = n;
-        // n->next = temp;
-        // n->prev = at;
+
+        //cout << n->getPerson().getName() << endl;
         //cout << __LINE__ << endl;
         Node * temp = at->prev;
         //cout << __LINE__ << endl;
