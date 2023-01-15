@@ -703,3 +703,37 @@ TEST_CASE("sortgen, groups multiple driver w/ leftovers", "[weight = 1]")
 
 }
 
+TEST_CASE("sort basic", "[weight = 1]")
+{
+    Person p1 = Person("Hinata", 604, "male", "Karasuno");
+    Person p2 = Person("Kageyama", 778, "male", "Karasuno");
+
+    Driver d1 = Driver("Takeda", 129, 3, "male", "Karasuno");
+
+    InputReader ir = InputReader();
+
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+
+    ir.addToDmap(d1);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Planner plan = Planner(dm, pm, gl);
+
+    plan.sortPub(dm.at("Karasuno"), pm.at("Karasuno"));
+
+    pm = plan.getpmap();
+    dm = plan.getdmap();
+    gl = plan.getGList();
+    REQUIRE(d1.getplist()->getCapacity() == 1);
+    //REQUIRE(pm.at("Karasuno")->next == pm.at("Karasuno"));
+    //REQUIRE(dm.at("Karasuno")->next->getPerson().getplist()->getCapacity() == 1);
+    cout << __LINE__ << endl;
+    REQUIRE(pm.size() == 3);
+    cout << __LINE__ << endl;
+
+
+}
+

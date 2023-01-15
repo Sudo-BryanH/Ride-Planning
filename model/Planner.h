@@ -40,6 +40,7 @@ class Planner
     void checkErasePmapPub(Node * pl, string group);    
     bool canPublishPub(DNode * d);  
     void assignGenPub(DNode * d);
+    void sortPub(DNode * dl, Node* pl);
 
     void sortgenPub();
 
@@ -83,6 +84,9 @@ class Planner
     // helper to remove empty elements in the maps
     void checkEraseDmap(DNode * dl, string group);
     void checkErasePmap(Node * pl, string group);
+
+    // helper to decide if a node should be added to plist or to a node
+    void assignOrReassign(Node * sen, PList * pl);
 
     /*
     Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender

@@ -44,8 +44,7 @@ void Planner::planride()
         sort(dl, pl);
 
         // deletes any groups that are now empty. makes it asymptotically easier to determine if there remains any member in a group
-        checkEraseDmap(dl, g);
-        checkErasePmap(pl, g);
+
     }
 
     sortgen();
@@ -60,67 +59,35 @@ void Planner::planride()
 void Planner::sort(DNode * dl, Node* pl)
 {
 
-    //reminder to use pmap's regular add node fn
-
-        // if (dl != dmap.end() && pl == pmap.end())
-        // {
-          
-        // }
-        // else if (dl == dmap.end() && pl != pmap.end())
-        // {
-            
-        // }
-        // else
+        cout << pl->next->getPerson().getName() << endl;
         if (dl && pl)
         {
-            Node * curp = pl->next;
-            DNode * curd = dl->next;
 
+            DNode * curd = dl->next;
+            cout << __LINE__ << endl;
             while(curd != dl)
             {
+                DNode * tempnext = curd->next;
+                cout << __LINE__ << endl;
                 //PList * p = new PList(curd->getPerson().getCapacity());
-                PList * p = dl->getPerson().getplist();
-                while(p->getCapacity() != 0 && curp != pl)
-                {
-                    Node * temp = curp->next;
+                PList * plist = curd->getPerson().getplist();
+                assignOrReassign(pl, plist);
+cout << __LINE__ << endl;
 
-                    removeNode(curp);
-                    if (curp->getPerson().getCanBus()) 
-                    {
-                        addNodeBack(curp, "misc");
-                    }
-                    //remove the node
-
-                    else
-                    { 
-                        
-                        p->addNode(curp);
-                        
-                    }
-                    curp = temp;
-                }
-
-                Node * temp = curd;
-                curd = curd->next;
-                // publish and remove driver if full
-
-
-                dl->getPerson().setplist(p);
-                bool b = canPublish(curd);
                 
+                bool b = canPublish(curd);
+                curd = tempnext;
+                cout << __LINE__ << endl;
             }
-
-
-
-
 
         }
 
         // Reassign leftover nodes
         Node * curr = pl->next;
-       
+       cout << __LINE__ << endl;
         while(curr != pl)
         {
+            Node * tempnext = curr->next;
             if (curr->getPerson().getGender() == "male")
             {
                 removeNode(curr);
@@ -138,8 +105,45 @@ void Planner::sort(DNode * dl, Node* pl)
                 removeNode(curr);
                 addNode(curr, "misc");
             }
+            curr = tempnext;
+        }
+        cout << __LINE__ << endl;
+
+        checkEraseDmap(dl, dl->next->getPerson().getGroup());
+        checkErasePmap(pl, pl->next->getPerson().getGroup());
+}
+
+void Planner::assignOrReassign(Node * sen, PList * p)
+{
+    Node * curr = sen->next;
+
+    while(curr && p->getCapacity() > 0 && curr != sen)
+    {
+
+        Node * tempnext = curr->next;
+
+
+        removeNode(curr);
+        
+        if (curr->getPerson().getCanBus()) 
+        {
+
+            //cout << "IF RAN " << curr->getPerson().getName() << endl;
+            addNodeBack(curr, "misc");
         }
 
+        
+        else 
+        {
+            //cout << "ELSE RAN " << curr->getPerson().getName() << endl;
+            
+            p->addNode(curr);
+
+        }
+        
+        curr = tempnext;
+
+    }
 }
 
 
@@ -154,48 +158,32 @@ void Planner::assignGen(DNode * dn)
     while(dn != base)
     {
 
-   
+        //cout << __LINE__ << endl;
         Driver dr = dn->getPerson();
         string gender = dr.getGender();
         int cap = dr.getplist()->getCapacity();
 
-
-        Node * curr = pmap.at(gender)->next;
-        
+        //cout << __LINE__ << endl;
+        Node * base = pmap.at(gender);
+        Node * curr = base->next;
+        //cout << __LINE__ << endl;
         PList * p = dr.getplist();
 
-
+        //cout << __LINE__ << endl;
         // while car isn't full and there are still people of that gender to get, add them to plist. if they canBus, push to misc
-        
-        while(curr && p->getCapacity() > 0 && curr != pmap.at(gender))
-        {
-            Node * tempnext = curr->next;
-            removeNode(curr);
-            
-            if (curr->getPerson().getCanBus()) 
-            {
-
-                //cout << "IF RAN " << curr->getPerson().getName() << endl;
-                addNodeBack(curr, "misc");
-            }
-
-            
-            else 
-            {
-                //cout << "ELSE RAN " << curr->getPerson().getName() << endl;
-                p->addNode(curr);
-            }
-            
-            curr = tempnext;
-        }
+        assignOrReassign(base, p);
 
         // publish and delete
         DNode * temp = dn;
         dn = dn->next;
-
+        //cout << __LINE__ << endl;
         bool b = canPublish(temp);
-        checkEraseDmap(dmap.at(gender), gender);
-        
+
+        try{
+            checkEraseDmap(dmap.at(dn->getPerson().getGroup()),dn->getPerson().getGroup()); 
+        } catch (std::out_of_range)
+        {}// at not found
+        //cout << __LINE__ << endl;
     }
 }
 
@@ -212,17 +200,17 @@ void Planner::sortgen()
 
 
     // Loop through driver groups
-    for(auto it = dmap.cbegin(); it != dmap.cend();)
+    for(auto it = dmap.cbegin(); it != dmap.cend();  it++)
     {
-        cout << __LINE__ << endl;
+        //cout << __LINE__ << endl;
         if (it->first != "misc" && it->first != "female" && it->first != "male"){
             
             dn = it->second;
             assignGen(dn);
 
         }
-        it++;
-        cout << __LINE__ << endl;
+       
+        //cout << __LINE__ << endl;
     }
 
     // reassign leftover passengers to misc of high priority
@@ -375,20 +363,28 @@ bool Planner::canPublish(DNode * dn)
 void Planner::checkEraseDmap(DNode * dl, string g)
 {
 
-
+    cout << __LINE__ << endl;
     if (dl->next == dl)
-    {
-        //delete dl;
-        dmap.erase(g); 
+    {   
+        cout << __LINE__ << endl;
+        delete dl;
+        dmap.erase(dmap.find(g)); 
     }
 }
 
 void Planner::checkErasePmap(Node * pl, string g)
 {
+    cout << __LINE__ << endl;
     if (pl->next == pl)
     {
         delete pl;
-        pmap.erase(g);
+
+
+        if (0 != pmap.count(g))
+        {
+            pmap.erase(pmap.find(g));
+        }
+        cout << __LINE__ << endl;
     }
 }
 
@@ -410,4 +406,9 @@ void Planner::assignGenPub(DNode * d)
 void Planner::sortgenPub()
 {
     sortgen();
+}
+
+void Planner::sortPub(DNode * d, Node * n)
+{
+    sort(d, n);
 }
