@@ -767,6 +767,7 @@ TEST_CASE("sort basic passenger overflow", "[weight = 1]")
     //REQUIRE(dm.at("Karasuno")->next->getPerson().getplist()->getCapacity() == 1);
     //cout << __LINE__ << endl;
     REQUIRE(pm.count("Karasuno") == 0);
+    //REQUIRE(dm.count("Karasuno") == 0);
     REQUIRE(pm.count("male") != 0);
     REQUIRE(pm.at("male")->prev->getPerson().getName() == "Kageyama");
     REQUIRE(pm.at("misc")->prev->getPerson().getName() == "Ikke");
@@ -775,3 +776,49 @@ TEST_CASE("sort basic passenger overflow", "[weight = 1]")
 
 
 }
+
+
+TEST_CASE("sort multi group passenger overflow", "[weight = 1]")
+{
+    Person p1 = Person("Hinata", 604, "male", "Karasuno");
+    Person p2 = Person("Kageyama", 778, "male", "Karasuno");
+    Person p3 = Person("Kenma", 234, "_", "Nekoma");
+    REQUIRE(p2.getGender() == "male");
+    Driver d1 = Driver("Takeda", 129, 3, "male", "Karasuno");
+    Driver d2 = Driver("Nekomata", 231, 3, "male", "Nekoma");
+
+    InputReader ir = InputReader();
+
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    ir.addToDmap(d1);
+    ir.addToDmap(d2);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Planner plan = Planner(dm, pm, gl);
+
+    plan.sortPub(dm.at("Karasuno"), pm.at("Karasuno"));
+    plan.sortPub(dm.at("Nekoma"), pm.at("Nekoma"));
+
+    pm = plan.getpmap();
+    dm = plan.getdmap();
+    gl = plan.getGList();
+        REQUIRE(d1.getplist()->getCapacity() == 1);
+    REQUIRE(d2.getplist()->getCapacity() == 2);
+    REQUIRE(pm.count("Karasuno") == 0);
+    REQUIRE(pm.count("Nekoma") == 0);
+    REQUIRE(pm.count("male") != 0);
+
+
+    //REQUIRE(pm.at("male")->prev->getPerson().getName() == "Kageyama");
+    //REQUIRE(pm.at("misc")->prev->getPerson().getName() == "Ikke");
+
+    ///cout << __LINE__ << endl;
+
+
+}
+
+
