@@ -87,21 +87,18 @@ void Planner::sort(DNode * dl, Node* pl)
       //cout << "sorting " << pmap.count(group) << endl;
         while(curr != pl)
         {
+            
             Node * tempnext = curr->next;
             if (curr->getPerson().getGender() == "male")
             {
                 removeNode(curr);
                 addNode(curr, "male");
-            }
-
-            else if (curr->getPerson().getGender() == "female") 
+            } else if (curr->getPerson().getGender() == "female") 
             {
                 removeNode(curr);
                 addNode(curr, "female");
-            }
-
-            else addNode(curr, "misc");
-             {
+            } else 
+            {
                 removeNode(curr);
                 addNode(curr, "misc");
             }

@@ -81,7 +81,7 @@ class Planner
        // Assigns based on gender
     void assignGen(DNode * n);
 
-    // helper to remove empty elements in the maps
+    // helper to remove empty elements in the maps. calls erase to remove element from hashmap WITHOUT RESIZING
     void checkEraseDmap(DNode * dl, string group);
     void checkErasePmap(Node * pl, string group);
 
