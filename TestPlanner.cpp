@@ -730,9 +730,9 @@ TEST_CASE("sort basic", "[weight = 1]")
     REQUIRE(d1.getplist()->getCapacity() == 1);
     //REQUIRE(pm.at("Karasuno")->next == pm.at("Karasuno"));
     //REQUIRE(dm.at("Karasuno")->next->getPerson().getplist()->getCapacity() == 1);
-    cout << __LINE__ << endl;
-    REQUIRE(pm.size() == 3);
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
+    REQUIRE(pm.count("Karasuno") == 0);
+    ///cout << __LINE__ << endl;
 
 
 }

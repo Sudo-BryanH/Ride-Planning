@@ -58,7 +58,7 @@ void Planner::planride()
 // void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
 void Planner::sort(DNode * dl, Node* pl)
 {
-
+        string group = pl->next->getPerson().getGroup();
         cout << pl->next->getPerson().getName() << endl;
         if (dl && pl)
         {
@@ -72,7 +72,7 @@ void Planner::sort(DNode * dl, Node* pl)
                 //PList * p = new PList(curd->getPerson().getCapacity());
                 PList * plist = curd->getPerson().getplist();
                 assignOrReassign(pl, plist);
-cout << __LINE__ << endl;
+//cout << "sorting " << pmap.count(group) << endl;
 
                 
                 bool b = canPublish(curd);
@@ -84,7 +84,7 @@ cout << __LINE__ << endl;
 
         // Reassign leftover nodes
         Node * curr = pl->next;
-       cout << __LINE__ << endl;
+      //cout << "sorting " << pmap.count(group) << endl;
         while(curr != pl)
         {
             Node * tempnext = curr->next;
@@ -107,10 +107,15 @@ cout << __LINE__ << endl;
             }
             curr = tempnext;
         }
-        cout << __LINE__ << endl;
-
-        checkEraseDmap(dl, dl->next->getPerson().getGroup());
-        checkErasePmap(pl, pl->next->getPerson().getGroup());
+        //cout << "sorting " << pmap.count(group) << endl;
+        try{
+            checkEraseDmap(dl, group);
+        } catch (std::out_of_range)
+        {}
+        try{
+            checkErasePmap(pl, group);
+        } catch (std::out_of_range)
+        {}
 }
 
 void Planner::assignOrReassign(Node * sen, PList * p)
@@ -363,10 +368,10 @@ bool Planner::canPublish(DNode * dn)
 void Planner::checkEraseDmap(DNode * dl, string g)
 {
 
-    cout << __LINE__ << endl;
+  //  cout << __LINE__ << endl;
     if (dl->next == dl)
     {   
-        cout << __LINE__ << endl;
+       // cout << __LINE__ << endl;
         delete dl;
         dmap.erase(dmap.find(g)); 
     }
@@ -374,17 +379,13 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 
 void Planner::checkErasePmap(Node * pl, string g)
 {
-    cout << __LINE__ << endl;
+   // cout << __LINE__ << endl;
     if (pl->next == pl)
     {
         delete pl;
+        //cout << pmap.count(g) << endl;
+        pmap.erase(pmap.find(g));
 
-
-        if (0 != pmap.count(g))
-        {
-            pmap.erase(pmap.find(g));
-        }
-        cout << __LINE__ << endl;
     }
 }
 
