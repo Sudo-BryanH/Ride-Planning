@@ -49,7 +49,7 @@ void Planner::planride()
 
     sortgen();
 
-    sortmisc();
+    // sortmisc();
 
 }
 

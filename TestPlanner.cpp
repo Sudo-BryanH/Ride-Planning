@@ -821,4 +821,4 @@ TEST_CASE("sort multi group passenger overflow", "[weight = 1]")
 
 }
 
-
+// test if there is no cars but passengers or no passengers but cars
