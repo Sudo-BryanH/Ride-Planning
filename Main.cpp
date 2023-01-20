@@ -12,7 +12,9 @@
 
 using namespace std;
 
-void makeDriver(InputReader & ir) 
+InputReader ir = InputReader();
+
+void makeDriver() 
 {
     string name;
     string gender;
@@ -36,7 +38,7 @@ void makeDriver(InputReader & ir)
 
 }
 
-void makePassenger(InputReader & ir)
+void makePassenger()
 {
     string name;
     string gender;
@@ -77,24 +79,29 @@ int main() {
 
     while (response != "plan") 
     {
-        while(response != "driver" && response != "passenger")
+        cout << "Do you want to add a passenger or driver?";
+
+        
+        cin >> response;
+
+        if (response == "driver")
         {
-            cout << "Do you want to add a passenger or driver?";
-            cin >> response;
-            if (response == "driver")
-            {
-                makeDriver(ir);
-            } else 
-            {
-                makePassenger(ir);
-            }
+            makeDriver();
+        } else if (response == "passenger")
+        {
+            makePassenger();
+        } else {
+            break;
         }
+        
     }
     unordered_map<string, DNode*> dmap = ir.getDmap();
     unordered_map<string, Node*> pmap = ir.getPmap();
     vector<string> glist = ir.getGroupList();
-
+    cout << __LINE__ << endl;
     Planner plan = Planner(dmap, pmap, glist);
+
+    cout << __LINE__ << endl;
     plan.planride();
 
 

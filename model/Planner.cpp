@@ -42,6 +42,8 @@ void Planner::planride()
         }
         // auto pl = pmap.find(g);
         sort(dl, pl);
+    // TODO need to print out everything whether full or not
+
 
         // deletes any groups that are now empty. makes it asymptotically easier to determine if there remains any member in a group
 
@@ -50,6 +52,15 @@ void Planner::planride()
     sortgen();
 
     // sortmisc();
+
+    for (auto it = dmap.cbegin(); it != dmap.cend(); it++)
+    {
+        DNode * base = it->second;
+        DNode * curr = base->next;
+
+        while (curr != base) pub.publish(curr);
+        
+    }
 
 }
 
