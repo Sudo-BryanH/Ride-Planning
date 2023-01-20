@@ -1,8 +1,8 @@
 
 all: planride testperson testnode testplist testinreader testplanner
 
-planride : Main.o
-	clang++ Main.o -std=c++14 -o planride
+planride : Main.o Person.o Driver.o Planner.o InputReader.o Node.o DNode.o PList.o Publisher.o
+	clang++ Main.o Person.o Driver.o Planner.o InputReader.o Node.o DNode.o PList.o Publisher.o -std=c++14 -o planride
 	
 testperson : TestPerson.o Person.o Driver.o PList.o Node.o
 	clang++ TestPerson.o Person.o Driver.o PList.o Node.o -std=c++14 -o testperson
@@ -19,7 +19,7 @@ testinreader : TestReader.o Person.o Node.o Driver.o DNode.o InputReader.o PList
 testplanner : TestPlanner.o Planner.o InputReader.o Person.o Node.o Driver.o DNode.o PList.o Publisher.o
 	clang++  TestPlanner.o Planner.o InputReader.o Person.o Node.o Driver.o DNode.o PList.o Publisher.o -std=c++14 -o testplanner
 
-Main.o: Main.cpp
+Main.o: Main.cpp model/Person.h model/Driver.h model/Planner.h model/InputReader.h
 	clang++ -std=c++14 -c -g Main.cpp
 
 TestPerson.o: TestPerson.cpp model/Person.h model/Driver.h model/PList.h model/Node.h
