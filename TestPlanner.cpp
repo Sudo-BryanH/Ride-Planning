@@ -820,3 +820,51 @@ TEST_CASE("sort multi group passenger overflow", "[weight = 1]")
 }
 
 // test if there is no cars but passengers or no passengers but cars
+
+
+
+TEST_CASE("sort no cars but passengers", "[weight = 1]")
+{
+    Person p1 = Person("Hinata", 604, "male", "Karasuno");
+    Person p2 = Person("Kageyama", 778, "male", "Karasuno");
+    Person p3 = Person("Kenma", 234, "_", "Nekoma");
+    REQUIRE(p2.getGender() == "male");
+    Driver d1 = Driver("Takeda", 129, 3, "male", "Karasuno");
+    Driver d2 = Driver("Nekomata", 231, 3, "male", "Nekoma");
+
+    InputReader ir = InputReader();
+cout << __LINE__ << endl;
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    //ir.addToDmap(d1);
+    //ir.addToDmap(d2);
+cout << __LINE__ << endl;
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+
+    cout << __LINE__ << endl;
+    Planner plan = Planner(dm, pm, gl);
+cout << __LINE__ << endl;
+    plan.sortPub(NULL, pm.at("Karasuno"));
+    cout << __LINE__ << endl;
+    plan.sortPub(NULL, pm.at("Nekoma"));
+    cout << __LINE__ << endl;
+
+    pm = plan.getpmap();
+    dm = plan.getdmap();
+    gl = plan.getGList();
+
+    cout << __LINE__ << endl;
+    //     REQUIRE(d1.getplist()->getCapacity() == 1);
+    // REQUIRE(d2.getplist()->getCapacity() == 2);
+    // REQUIRE(pm.count("Karasuno") == 0);
+    // REQUIRE(pm.count("Nekoma") == 0);
+    //REQUIRE(pm.count("male") != 0);
+
+
+
+
+
+}

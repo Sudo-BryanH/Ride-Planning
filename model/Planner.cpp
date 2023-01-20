@@ -10,10 +10,12 @@ Planner::Planner()
 
 Planner::Planner(unordered_map<string, DNode * > & drmap, unordered_map<string, Node * > & pamap, vector<string> & glist) 
 {
+
     pub = Publisher();
     dmap = drmap;
     pmap = pamap;
     grouplist = glist;
+
 
 }
 
@@ -57,7 +59,7 @@ void Planner::planride()
     {
         DNode * base = it->second;
         DNode * curr = base->next;
-
+        cout << __LINE__ << endl;
         while (curr != base) pub.publish(curr);
         
     }
@@ -69,26 +71,28 @@ void Planner::planride()
 // void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
 void Planner::sort(DNode * dl, Node* pl)
 {
+    cout << __LINE__ << endl;
         string group = pl->next->getPerson().getGroup();
-        cout << pl->next->getPerson().getName() << endl;
+     cout << __LINE__ << endl;
+     cout << pl->next->getPerson().getName() << " began" << endl;
         if (dl && pl)
         {
 
             DNode * curd = dl->next;
-            //cout << __LINE__ << endl;
+            cout << __LINE__ << endl;
             while(curd != dl)
             {
                 DNode * tempnext = curd->next;
-               // cout << __LINE__ << endl;
+                cout << __LINE__ << endl;
                 //PList * p = new PList(curd->getPerson().getCapacity());
                 PList * plist = curd->getPerson().getplist();
                 assignOrReassign(pl, plist);
 //cout << "sorting " << pmap.count(group) << endl;
 
-                
+                cout << __LINE__ << endl;
                 bool b = canPublish(curd);
                 curd = tempnext;
-             //   cout << __LINE__ << endl;
+                cout << __LINE__ << endl;
             }
 
         }
@@ -96,6 +100,7 @@ void Planner::sort(DNode * dl, Node* pl)
         // Reassign leftover nodes
         Node * curr = pl->next;
       //cout << "sorting " << pmap.count(group) << endl;
+      cout << __LINE__ << endl;
         while(curr != pl)
         {
             
@@ -116,6 +121,7 @@ void Planner::sort(DNode * dl, Node* pl)
             curr = tempnext;
         }
         //cout << "sorting " << pmap.count(group) << endl;
+        cout << __LINE__ << endl;
         try{
             checkEraseDmap(dl, group);
         } catch (std::out_of_range)
@@ -124,6 +130,7 @@ void Planner::sort(DNode * dl, Node* pl)
             checkErasePmap(pl, group);
         } catch (std::out_of_range)
         {}
+        cout << pl->next->getPerson().getName() << "  done" << endl;
 }
 
 void Planner::assignOrReassign(Node * sen, PList * p)
@@ -377,7 +384,7 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 {
 
   //  cout << __LINE__ << endl;
-    if (dl->next == dl)
+    if (dl != NULL && dl->next == dl)
     {   
        // cout << __LINE__ << endl;
         delete dl;
@@ -388,7 +395,7 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 void Planner::checkErasePmap(Node * pl, string g)
 {
    // cout << __LINE__ << endl;
-    if (pl->next == pl)
+    if (pl != NULL &&pl->next == pl)
     {
         delete pl;
         //cout << pmap.count(g) << endl;
@@ -419,5 +426,6 @@ void Planner::sortgenPub()
 
 void Planner::sortPub(DNode * d, Node * n)
 {
+    cout << __LINE__ << endl;
     sort(d, n);
 }

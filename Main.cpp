@@ -35,6 +35,7 @@ void makeDriver()
 
     Driver d = Driver(name, phone, cap, gender, group);
     ir.addToDmap(d);
+    cout << "Driver " << name << " added" << endl;
 
 }
 
@@ -67,6 +68,8 @@ void makePassenger()
 
     Person p = Person(name, phone, gender, group, cb);
     ir.addToPmap(p);
+
+    cout << "Passenger " << name << " added" << endl;
 }
 
 int main() {
