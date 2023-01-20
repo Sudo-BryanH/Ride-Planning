@@ -377,7 +377,7 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 {
 
   //  cout << __LINE__ << endl;
-    if (dl->next == dl)
+    if (dl && dl->next == dl)
     {   
        // cout << __LINE__ << endl;
         delete dl;
@@ -388,7 +388,7 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 void Planner::checkErasePmap(Node * pl, string g)
 {
    // cout << __LINE__ << endl;
-    if (pl->next == pl)
+    if (pl && pl->next == pl)
     {
         delete pl;
         //cout << pmap.count(g) << endl;
