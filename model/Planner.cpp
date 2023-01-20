@@ -64,11 +64,11 @@ void Planner::sort(DNode * dl, Node* pl)
         {
 
             DNode * curd = dl->next;
-            cout << __LINE__ << endl;
+            //cout << __LINE__ << endl;
             while(curd != dl)
             {
                 DNode * tempnext = curd->next;
-                cout << __LINE__ << endl;
+               // cout << __LINE__ << endl;
                 //PList * p = new PList(curd->getPerson().getCapacity());
                 PList * plist = curd->getPerson().getplist();
                 assignOrReassign(pl, plist);
@@ -77,7 +77,7 @@ void Planner::sort(DNode * dl, Node* pl)
                 
                 bool b = canPublish(curd);
                 curd = tempnext;
-                cout << __LINE__ << endl;
+             //   cout << __LINE__ << endl;
             }
 
         }

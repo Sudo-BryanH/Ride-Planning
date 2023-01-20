@@ -91,11 +91,9 @@ TEST_CASE("test add node", "[weight = 1][part construction]")
     Planner tester = Planner(dm, pm, gl);
 
     Node * n = new Node(alpha2);
-    cout << __LINE__ << endl;
+    //cout << __LINE__ << endl;
     tester.addNodePub(n, "PL");
-     cout << __LINE__ << endl;
-    //iterator<string, Node*> pl = tester.getpmap().at("PL");
-    cout << __LINE__ << endl;
+
     REQUIRE(tester.getpmap().at("PL")->next == n);
      
     delete n;
