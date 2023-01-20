@@ -71,10 +71,10 @@ void Planner::planride()
 // void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
 void Planner::sort(DNode * dl, Node* pl)
 {
-    cout << __LINE__ << endl;
+
         string group = pl->next->getPerson().getGroup();
-     cout << __LINE__ << endl;
-     cout << pl->next->getPerson().getName() << " began" << endl;
+
+        cout << pl->next->getPerson().getName() << " began" << endl;
         if (dl && pl)
         {
 
@@ -122,14 +122,11 @@ void Planner::sort(DNode * dl, Node* pl)
         }
         //cout << "sorting " << pmap.count(group) << endl;
         cout << __LINE__ << endl;
-        try{
-            checkEraseDmap(dl, group);
-        } catch (std::out_of_range)
-        {}
-        try{
-            checkErasePmap(pl, group);
-        } catch (std::out_of_range)
-        {}
+
+        checkEraseDmap(dl, group);
+        cout << __LINE__ << endl;
+        checkErasePmap(pl, group);
+
         cout << pl->next->getPerson().getName() << "  done" << endl;
 }
 
@@ -395,7 +392,7 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 void Planner::checkErasePmap(Node * pl, string g)
 {
    // cout << __LINE__ << endl;
-    if (pl != NULL &&pl->next == pl)
+    if (pl != NULL && pl->next == pl)
     {
         delete pl;
         //cout << pmap.count(g) << endl;
