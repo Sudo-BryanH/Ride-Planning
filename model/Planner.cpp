@@ -69,61 +69,62 @@ void Planner::planride()
 // void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
 void Planner::sort(DNode * dl, Node* pl)
 {
-        string group = pl->next->getPerson().getGroup();
-        cout << pl->next->getPerson().getName() << endl;
-        if (dl && pl)
-        {
+    if (!pl) return;
+    string group = pl->next->getPerson().getGroup();
+    cout << pl->next->getPerson().getName() << endl;
+    if (dl && pl)
+    {
 
-            DNode * curd = dl->next;
-            //cout << __LINE__ << endl;
-            while(curd != dl)
-            {
-                DNode * tempnext = curd->next;
-               // cout << __LINE__ << endl;
-                //PList * p = new PList(curd->getPerson().getCapacity());
-                PList * plist = curd->getPerson().getplist();
-                assignOrReassign(pl, plist);
+        DNode * curd = dl->next;
+        //cout << __LINE__ << endl;
+        while(curd != dl)
+        {
+            DNode * tempnext = curd->next;
+            // cout << __LINE__ << endl;
+            //PList * p = new PList(curd->getPerson().getCapacity());
+            PList * plist = curd->getPerson().getplist();
+            assignOrReassign(pl, plist);
 //cout << "sorting " << pmap.count(group) << endl;
 
-                
-                bool b = canPublish(curd);
-                curd = tempnext;
-             //   cout << __LINE__ << endl;
-            }
-
-        }
-
-        // Reassign leftover nodes
-        Node * curr = pl->next;
-      //cout << "sorting " << pmap.count(group) << endl;
-        while(curr != pl)
-        {
             
-            Node * tempnext = curr->next;
-            if (curr->getPerson().getGender() == "male")
-            {
-                removeNode(curr);
-                addNode(curr, "male");
-            } else if (curr->getPerson().getGender() == "female") 
-            {
-                removeNode(curr);
-                addNode(curr, "female");
-            } else 
-            {
-                removeNode(curr);
-                addNode(curr, "misc");
-            }
-            curr = tempnext;
+            bool b = canPublish(curd);
+            curd = tempnext;
+            //   cout << __LINE__ << endl;
         }
-        //cout << "sorting " << pmap.count(group) << endl;
-        try{
-            checkEraseDmap(dl, group);
-        } catch (std::out_of_range)
-        {}
-        try{
-            checkErasePmap(pl, group);
-        } catch (std::out_of_range)
-        {}
+
+    }
+
+    // Reassign leftover nodes
+    Node * curr = pl->next;
+    //cout << "sorting " << pmap.count(group) << endl;
+    while(curr != pl)
+    {
+        
+        Node * tempnext = curr->next;
+        if (curr->getPerson().getGender() == "male")
+        {
+            removeNode(curr);
+            addNode(curr, "male");
+        } else if (curr->getPerson().getGender() == "female") 
+        {
+            removeNode(curr);
+            addNode(curr, "female");
+        } else 
+        {
+            removeNode(curr);
+            addNode(curr, "misc");
+        }
+        curr = tempnext;
+    }
+    //cout << "sorting " << pmap.count(group) << endl;
+    try{
+        checkEraseDmap(dl, group);
+    } catch (std::out_of_range)
+    {}
+    try{
+        checkErasePmap(pl, group);
+    } catch (std::out_of_range)
+    {}
 }
 
 void Planner::assignOrReassign(Node * sen, PList * p)
