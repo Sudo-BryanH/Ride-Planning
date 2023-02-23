@@ -85,7 +85,7 @@ class Planner
     void checkEraseDmap(DNode * dl, string group);
     void checkErasePmap(Node * pl, string group);
 
-    // helper to decide if a node should be added to plist or to a node
+    // helper to decide if a node should be added to plist or to misc
     void assignOrReassign(Node * sen, PList * pl);
 
     /*

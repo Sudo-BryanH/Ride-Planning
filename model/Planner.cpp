@@ -8,6 +8,7 @@ Planner::Planner()
 }
 
 
+
 Planner::Planner(unordered_map<string, DNode * > & drmap, unordered_map<string, Node * > & pamap, vector<string> & glist) 
 {
     pub = Publisher();
@@ -19,10 +20,14 @@ Planner::Planner(unordered_map<string, DNode * > & drmap, unordered_map<string, 
 
 void Planner::planride()
 {
+
+    // cout << __LINE__ << endl;
     for(string g : grouplist)
     {
+        // cout << __LINE__ << endl;
         DNode * dl;
         Node * pl;
+        //cout << __LINE__ << endl;
         try
         {
             dl = dmap.at(g); 
@@ -31,7 +36,7 @@ void Planner::planride()
         {
             dl = NULL;
         }
-
+    // cout << __LINE__ << endl;
         try
         {
             pl = pmap.at(g); 
@@ -41,26 +46,32 @@ void Planner::planride()
             pl = NULL;
         }
         // auto pl = pmap.find(g);
+        // cout << __LINE__ << endl;
         sort(dl, pl);
     // TODO need to print out everything whether full or not
-
+    // cout << __LINE__ << endl;
 
         // deletes any groups that are now empty. makes it asymptotically easier to determine if there remains any member in a group
 
     }
+    // cout << __LINE__ << endl;
 
     sortgen();
-
-    // sortmisc();
-
+    // cout << __LINE__ << endl;
+    sortmisc();
+    // cout << __LINE__ << endl;
     for (auto it = dmap.cbegin(); it != dmap.cend(); it++)
     {
         DNode * base = it->second;
         DNode * curr = base->next;
 
-        while (curr != base) pub.publish(curr);
+        while (curr != base) {
+            pub.publish(curr);
+            curr = curr->next;
+        }
         
     }
+    cout << __LINE__ << endl;
 
 }
 
@@ -253,12 +264,65 @@ void Planner::sortgen()
 
 void Planner::sortmisc()
 {
-    Node * curr = pmap.at("misc")->next;
 
-    while(curr != pmap.at("misc"))
-    {
+    cout << __LINE__ << endl;
+    Node * curr = pmap.at("misc")->next;
+cout << __LINE__ << endl;
+    while (curr != pmap.at("misc")) {
+        cout << __LINE__ << endl;
+
+        string group = curr->getPerson().getGroup();
+        string gen = curr->getPerson().getGender();
+
+cout << curr->getPerson().getName() << endl;
+
+        Node * tempnext = curr->next;
+
+        cout << __LINE__ << endl;
+
+        if (curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
+            DNode * grplist = dmap.at(group);
+            DNode * dr = grplist->next;
+            cout << __LINE__ << endl;
+            if (grplist->next != grplist) {
+                cout << __LINE__ << endl;
+                PList * pl = dr->getPerson().getplist();
+                removeNode(curr);
+                pl->addNode(curr);
+                cout << __LINE__ << endl;
+                bool b = canPublish(dr);
+                cout << __LINE__ << endl;
+                // if (b) removeNode(grplist->next);
+                cout << __LINE__ << endl;
+                curr = tempnext;
+                cout << __LINE__ << endl;
+                continue;
+            }
+cout << __LINE__ << endl;
+        } else if (curr->getPerson().getGender() != "_") {
+            DNode * grplist = dmap.at(gen);
+            if (grplist->next != grplist) {
+                PList * pl = grplist->next->getPerson().getplist();
+                removeNode(curr);
+                pl->addNode(curr);
+                bool b = canPublish(grplist->next);
+                // if (b) removeNode(grplist->next);
+                curr = tempnext;
+                continue;
+            }
+        } 
+
+
+
+
+
+        curr = tempnext;
+cout << __LINE__ << endl;
 
     }
+    
+    cout << __LINE__ << endl;   
+    
 }
 
 
@@ -323,6 +387,19 @@ void Planner::removeNode(Node * n)
     n->prev = NULL;
 }
 
+void Planner::removeNode(DNode *n)
+{
+        DNode * temp = n->prev;
+    //cout << __LINE__ << endl; 
+    n->prev->next = n->next;
+    //cout << __LINE__ << endl; //unseen
+    n->next->prev = temp;
+    //cout << __LINE__ << endl;
+
+    n->next = NULL;
+    //cout << __LINE__ << endl;
+    n->prev = NULL;
+}
 
 
 
@@ -365,6 +442,7 @@ bool Planner::canPublish(DNode * dn)
     {
         //cout << __LINE__ << endl;
         pub.publish(dn);
+        
         //cout << __LINE__ << endl;
         //p->~PList();
         delete dn;

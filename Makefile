@@ -7,8 +7,8 @@ planride : Main.o Person.o Driver.o Planner.o InputReader.o Node.o DNode.o PList
 testperson : TestPerson.o Person.o Driver.o PList.o Node.o
 	clang++ TestPerson.o Person.o Driver.o PList.o Node.o -std=c++14 -o testperson
 
-testnode : TestNode.o Person.o Driver.o Node.o DNode.o
-	clang++ TestNode.o Person.o Driver.o DNode.o Node.o -std=c++14 -o testnode
+testnode : TestNode.o Person.o Driver.o Node.o DNode.o PList.o
+	clang++ TestNode.o Person.o Driver.o DNode.o Node.o PList.o -std=c++14 -o testnode
 
 testplist : TestPList.o Person.o PList.o Node.o
 	clang++ TestPList.o Person.o PList.o Node.o -std=c++14 -o testplist
@@ -37,7 +37,7 @@ TestReader.o: TestReader.cpp model/InputReader.h model/Node.h model/DNode.h mode
 TestPlanner.o: TestPlanner.cpp model/Person.h model/Driver.h model/Node.h model/PList.h model/DNode.h model/InputReader.h model/Planner.h
 	clang++ -std=c++14 -c -g TestPlanner.cpp
 
-Person.o: model/Person.h model/Person.cpp 
+Person.o: model/Person.h model/Person.cpp model/PList.h
 	clang++ -std=c++14 -c -g model/Person.cpp
 
 Driver.o: model/Person.h model/Driver.h model/Driver.cpp model/PList.h
@@ -63,3 +63,5 @@ Publisher.o : model/Publisher.h model/Publisher.cpp model/DNode.h model/Node.h m
 
 clean:
 	rm *.o planride testperson testnode testplist testinreader testplanner
+
+.PHONY: all clean

@@ -865,6 +865,7 @@ TEST_CASE("sort multi group no cars but passengers", "[weight = 1]")
 
 TEST_CASE("sort multi group no passengers but car", "[weight = 1]")
 {
+    cout << "TESTING 20. " << endl;
     // Person p1 = Person("Hinata", 604, "male", "Karasuno");
     // Person p2 = Person("Kageyama", 778, "male", "Karasuno");
     // Person p3 = Person("Kenma", 234, "_", "Nekoma");
@@ -903,6 +904,90 @@ TEST_CASE("sort multi group no passengers but car", "[weight = 1]")
 
     ///cout << __LINE__ << endl;
 
+    cout << "20. PASSED" << endl;
+}
+
+
+TEST_CASE("21. basic misc test canBus=true only, drivers available", "[weight = 1]")
+{
+    cout << "TESTING 21. basic misc test canBus=true only, drivers availabe" << endl;
+    Person p1 = Person("Hinata", 604, "male", "Karasuno", true);
+    Person p2 = Person("Kageyama", 778, "male", "Karasuno", true);
+    Person p3 = Person("Kenma", 234, "_", "Nekoma", true);
+    REQUIRE(p2.getGender() == "male");
+    Driver d1 = Driver("Takeda", 129, 3, "male", "Karasuno");
+    Driver d2 = Driver("Nekomata", 231, 3, "male", "Nekoma");
+
+    InputReader ir = InputReader();
+
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    ir.addToDmap(d1);
+    ir.addToDmap(d2);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Planner plan = Planner(dm, pm, gl);
+
+    // plan.sortPub(dm.at("Karasuno"), pm.at("Karasuno"));
+    // plan.sortPub(dm.at("Nekoma"), pm.at("Nekoma"));
+
+    plan.planride();
+
+    pm = plan.getpmap();
+    dm = plan.getdmap();
+    gl = plan.getGList();
+
+    REQUIRE(d1.getplist()->getCapacity() == 1);
+    REQUIRE(d2.getplist()->getCapacity() == 2);
+    REQUIRE(pm.count("Karasuno") == 0);
+    REQUIRE(pm.count("Nekoma") == 0);
+    REQUIRE(pm.count("male") != 0);
+
+    cout << "21. PASSED" << endl;
 
 }
 
+TEST_CASE("22. basic misc test canBus=true only, not enough drivers", "[weight = 1]")
+{
+    cout << "22. basic misc test canBus=true only, not enough drivers" << endl;
+    Person p1 = Person("Hinata", 604, "male", "Karasuno", true);
+    Person p2 = Person("Kageyama", 778, "male", "Karasuno", true);
+    Person p3 = Person("Kenma", 234, "_", "Nekoma", true);
+    REQUIRE(p2.getGender() == "male");
+    Driver d1 = Driver("Takeda", 129, 1, "male", "Karasuno");
+    Driver d2 = Driver("Nekomata", 231, 3, "male", "Nekoma");
+
+    InputReader ir = InputReader();
+
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    ir.addToDmap(d1);
+    //ir.addToDmap(d2);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Planner plan = Planner(dm, pm, gl);
+
+    // plan.sortPub(dm.at("Karasuno"), pm.at("Karasuno"));
+    // plan.sortPub(dm.at("Nekoma"), pm.at("Nekoma"));
+
+    plan.planride();
+
+    pm = plan.getpmap();
+    dm = plan.getdmap();
+    gl = plan.getGList();
+
+    REQUIRE(d1.getplist()->getCapacity() == 0);
+    //REQUIRE(d2.getplist()->getCapacity() == 2);
+    // REQUIRE(pm.count("Karasuno") == 0);
+    // REQUIRE(pm.count("Nekoma") == 0);
+   // REQUIRE(pm.count("male") != 0);
+
+    cout << "22. PASSED" << endl;
+
+}
