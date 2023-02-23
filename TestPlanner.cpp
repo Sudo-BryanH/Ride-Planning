@@ -232,9 +232,9 @@ TEST_CASE("test checkErase", "[weight = 1][part construction")
 
 }
 
-TEST_CASE("test canPublish", "[weight = 1][part construction")
+TEST_CASE("7. test canPublish", "[weight = 1][part construction")
 {
-
+    cout << "TESTING 7. test canPublish" << endl;
     // TODO THIS TEST CREATES CREATES THE PLIST IN DRIVER BEFORE ADDING IT TO A NODE. IF TESTS FAIL OR SEGFAULT, TRY THIS IMPLEMENTATION
     Driver d = Driver("Touma", 604, 2, "female");
     Person p1 = Person("Haruki", 778, "male");
@@ -246,7 +246,7 @@ TEST_CASE("test canPublish", "[weight = 1][part construction")
     PList * pl = new PList(2);
 
     Planner p = Planner();
-
+    cout << __LINE__ << endl;
     d.setplist(pl);
     DNode * dn = new DNode(d);
     REQUIRE(dn->getPerson() == d);
@@ -266,7 +266,7 @@ TEST_CASE("test canPublish", "[weight = 1][part construction")
     REQUIRE(p.canPublishPub(dn) == TRUE);
     REQUIRE(pl->getCapacity() == 0);
 
-   // cout << __LINE__ << endl;
+   cout << "6. PASSED" << endl;
 
 }
 
@@ -914,6 +914,7 @@ TEST_CASE("21. basic misc test canBus=true only, drivers available", "[weight = 
     Person p1 = Person("Hinata", 604, "male", "Karasuno", true);
     Person p2 = Person("Kageyama", 778, "male", "Karasuno", true);
     Person p3 = Person("Kenma", 234, "_", "Nekoma", true);
+    Person p4 = Person("Suga", 2313, "_", "Karasuno", true);
     REQUIRE(p2.getGender() == "male");
     Driver d1 = Driver("Takeda", 129, 3, "male", "Karasuno");
     Driver d2 = Driver("Nekomata", 231, 3, "male", "Nekoma");
@@ -923,8 +924,10 @@ TEST_CASE("21. basic misc test canBus=true only, drivers available", "[weight = 
     ir.addToPmap(p1);
     ir.addToPmap(p2);
     ir.addToPmap(p3);
+
     ir.addToDmap(d1);
     ir.addToDmap(d2);
+        ir.addToPmap(p4);
 
     unordered_map<string, Node*> pm = ir.getPmap();
     unordered_map<string, DNode*> dm = ir.getDmap();
@@ -940,7 +943,7 @@ TEST_CASE("21. basic misc test canBus=true only, drivers available", "[weight = 
     dm = plan.getdmap();
     gl = plan.getGList();
 
-    REQUIRE(d1.getplist()->getCapacity() == 1);
+    REQUIRE(d1.getplist()->getCapacity() == 0);
     REQUIRE(d2.getplist()->getCapacity() == 2);
     REQUIRE(pm.count("Karasuno") == 0);
     REQUIRE(pm.count("Nekoma") == 0);
@@ -956,6 +959,7 @@ TEST_CASE("22. basic misc test canBus=true only, not enough drivers", "[weight =
     Person p1 = Person("Hinata", 604, "male", "Karasuno", true);
     Person p2 = Person("Kageyama", 778, "male", "Karasuno", true);
     Person p3 = Person("Kenma", 234, "_", "Nekoma", true);
+    Person p4 = Person("Suga", 2313, "_", "Karasuno", true);
     REQUIRE(p2.getGender() == "male");
     Driver d1 = Driver("Takeda", 129, 1, "male", "Karasuno");
     Driver d2 = Driver("Nekomata", 231, 3, "male", "Nekoma");
@@ -966,6 +970,7 @@ TEST_CASE("22. basic misc test canBus=true only, not enough drivers", "[weight =
     ir.addToPmap(p2);
     ir.addToPmap(p3);
     ir.addToDmap(d1);
+    ir.addToPmap(p4);
     //ir.addToDmap(d2);
 
     unordered_map<string, Node*> pm = ir.getPmap();
@@ -984,10 +989,69 @@ TEST_CASE("22. basic misc test canBus=true only, not enough drivers", "[weight =
 
     REQUIRE(d1.getplist()->getCapacity() == 0);
     //REQUIRE(d2.getplist()->getCapacity() == 2);
-    // REQUIRE(pm.count("Karasuno") == 0);
-    // REQUIRE(pm.count("Nekoma") == 0);
-   // REQUIRE(pm.count("male") != 0);
+    REQUIRE(pm.count("Karasuno") == 0);
+    REQUIRE(pm.count("Nekoma") == 0);
+   REQUIRE(pm.count("male") != 0);
 
     cout << "22. PASSED" << endl;
 
+}
+
+TEST_CASE("23. findNextAvailableDriver", "[weight = 1]") 
+{
+    cout << "TESTING 23. findNextAvailableDriver" << endl;
+    Person p1 = Person("Hinata", 604, "male", "Karasuno", true);
+    Driver d1 = Driver("Kaguya", 129, 1, "female", "Stuco");
+    Driver d2 = Driver("Shirogane", 231, 3, "male", "Stuco");
+    Driver d3 = Driver("Miko", 1234235, 1, "female", "Disciplinary");
+    Driver d4 = Driver("Tsubasa", 23523, 3, "male");
+    Driver d5 = Driver("Ishigami", 2343, 4, "_", "_");
+    InputReader ir = InputReader();
+
+    ir.addToPmap(p1);
+    ir.addToDmap(d1);
+    ir.addToDmap(d2);
+    ir.addToDmap(d3);
+    ir.addToDmap(d4);
+    ir.addToDmap(d5);
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Planner plan = Planner(dm, pm, gl);
+
+    
+
+    REQUIRE(plan.findNextAvailableDriver("Disciplinary", "female")->getPerson().getName() == "Miko");
+    REQUIRE(plan.findNextAvailableDriver("Stuco", "male")->getPerson().getName() == "Shirogane");
+    REQUIRE(plan.findNextAvailableDriver("Stuco")->getPerson().getName() == "Kaguya");
+    REQUIRE(plan.findNextAvailableDriver("Stuco", "female")->getPerson().getName() == "Kaguya");
+    REQUIRE(plan.findNextAvailableDriver("_", "male")->getPerson().getName() == "Shirogane");
+    REQUIRE(plan.findNextAvailableDriver()->getPerson().getName() == "Ishigami");
+    
+    
+
+
+    cout << "23. PASSED" << endl;
+}
+
+TEST_CASE("23.5. findNextAvailableDriver NULL", "[weight = 1]") 
+{
+    cout << "TESTING 23.5. findNextAvailableDriver NULL" << endl;
+
+    InputReader ir = InputReader();
+
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Planner plan = Planner(dm, pm, gl);
+
+    
+
+    REQUIRE(plan.findNextAvailableDriver("Disciplinary", "female") == NULL);
+
+    
+
+    cout << "23.5. PASSED" << endl;
 }

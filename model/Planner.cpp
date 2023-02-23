@@ -99,6 +99,11 @@ void Planner::sort(DNode * dl, Node* pl)
 
             
             bool b = canPublish(curd);
+            if (b) {
+                removeNode(curd);
+                delete(curd);
+            }
+
             curd = tempnext;
             //   cout << __LINE__ << endl;
         }
@@ -203,7 +208,10 @@ void Planner::assignGen(DNode * dn)
         dn = dn->next;
         //cout << __LINE__ << endl;
         bool b = canPublish(temp);
-
+        if (b) {
+            removeNode(temp);
+            delete(temp);
+        }
         try{
             checkEraseDmap(dmap.at(dn->getPerson().getGroup()),dn->getPerson().getGroup()); 
         } catch (std::out_of_range)
@@ -265,9 +273,9 @@ void Planner::sortgen()
 void Planner::sortmisc()
 {
 
-    cout << __LINE__ << endl;
+    
     Node * curr = pmap.at("misc")->next;
-cout << __LINE__ << endl;
+
     while (curr != pmap.at("misc")) {
         cout << __LINE__ << endl;
 
@@ -278,27 +286,36 @@ cout << curr->getPerson().getName() << endl;
 
         Node * tempnext = curr->next;
 
-        cout << __LINE__ << endl;
+        
 
         if (curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
             DNode * grplist = dmap.at(group);
             DNode * dr = grplist->next;
-            cout << __LINE__ << endl;
+            // cout << __LINE__ << endl;
             if (grplist->next != grplist) {
-                cout << __LINE__ << endl;
+                // cout << __LINE__ << endl;
                 PList * pl = dr->getPerson().getplist();
-                removeNode(curr);
                 pl->addNode(curr);
-                cout << __LINE__ << endl;
-                bool b = canPublish(dr);
-                cout << __LINE__ << endl;
+                // cout << __LINE__ << endl;
+                int b = (int) canPublish(dr);
+                // cout << b << " " << pl->getCapacity() << endl;
+                if (b) {
+                    
+                    removeNode(dr);
+                    cout << __LINE__ << endl;
+                    checkEraseDmap(grplist, group);
+                    cout << __LINE__ << endl;
+                    delete(dr);
+                }             
+                // cout << __LINE__ << endl;
                 // if (b) removeNode(grplist->next);
-                cout << __LINE__ << endl;
+
+                // cout << __LINE__ << endl;
                 curr = tempnext;
-                cout << __LINE__ << endl;
+                // cout << __LINE__ << endl;
                 continue;
             }
-cout << __LINE__ << endl;
+
         } else if (curr->getPerson().getGender() != "_") {
             DNode * grplist = dmap.at(gen);
             if (grplist->next != grplist) {
@@ -306,13 +323,20 @@ cout << __LINE__ << endl;
                 removeNode(curr);
                 pl->addNode(curr);
                 bool b = canPublish(grplist->next);
-                // if (b) removeNode(grplist->next);
+                if (b) {
+                    removeNode(grplist->next);
+                    delete(grplist->next);
+                    checkEraseDmap(grplist, group);
+                } 
                 curr = tempnext;
                 continue;
             }
         } 
 
 
+       
+        //cout << __LINE__ << endl;
+        
 
 
 
@@ -325,6 +349,48 @@ cout << __LINE__ << endl;
     
 }
 
+DNode * Planner::Planner::findNextAvailableDriver(string group, string gender) {
+
+    DNode * bestOption = NULL;
+    DNode * curr = NULL;
+
+    if (dmap.count(group) == 1 && dmap.at(group)->next != dmap.at(group))
+    {
+        
+        bestOption = curr = dmap.at(group)->next;
+        
+        while (curr != dmap.at(group)) {
+            if (curr->getPerson().getGender() == gender) {
+                return curr;
+            }
+            curr = curr->next;
+        }
+        return bestOption;
+    }
+    
+    for(auto it = dmap.cbegin(); it != dmap.cend();  it++)
+    {
+        
+        curr = it->second->next;
+        if (curr != it->second) {
+            bestOption = curr;
+        }
+        
+        while (curr != it->second) {
+
+            if (curr->getPerson().getGender() == gender) {
+                return curr;
+            }
+            curr = curr->next;
+        }
+    
+
+    }
+
+
+    
+    return bestOption;
+}
 
 
 void Planner::addNodeBack(Node * n, string destination)
@@ -389,15 +455,18 @@ void Planner::removeNode(Node * n)
 
 void Planner::removeNode(DNode *n)
 {
+
+    cout << "REMOVING DRIVER" << endl;
         DNode * temp = n->prev;
-    //cout << __LINE__ << endl; 
+    // cout << __LINE__ << endl; 
+
     n->prev->next = n->next;
-    //cout << __LINE__ << endl; //unseen
+    // cout << __LINE__ << endl; //unseen
     n->next->prev = temp;
-    //cout << __LINE__ << endl;
+    // cout << __LINE__ << endl;
 
     n->next = NULL;
-    //cout << __LINE__ << endl;
+    // cout << __LINE__ << endl;
     n->prev = NULL;
 }
 
@@ -445,7 +514,8 @@ bool Planner::canPublish(DNode * dn)
         
         //cout << __LINE__ << endl;
         //p->~PList();
-        delete dn;
+        // removeNode(dn);
+        // delete dn;
         //cout << __LINE__ << endl;
         return true;
     }
