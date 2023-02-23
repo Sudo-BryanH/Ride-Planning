@@ -198,8 +198,9 @@ TEST_CASE("test remove node sandwiched", "[weight = 1][part construction]")
 // TESTED SO FAR: add, add back, remove
 // TO TEST: checkerase, canpublish, assigngen, sortgen
 
-TEST_CASE("test checkErase", "[weight = 1][part construction")
+TEST_CASE("6. test checkErase", "[weight = 1][part construction")
 {
+    cout << "TESTING 6. checkErase" << endl;
     Person alpha = Person("Ken",14, "male",  "PL", false);
     Person alpha1 = Person("Kim",14, "female",  "AW", false);
     //Person alpha2 = Person("Al",14, "male",  "PL", false);
@@ -224,12 +225,12 @@ TEST_CASE("test checkErase", "[weight = 1][part construction")
     REQUIRE(tester.getpmap().count("PL") != 0);
 
     tester.removeNodePub(tester.getpmap().at("PL")->next);
-    //tester.removeDNodePub(tester.getdmap().at("MM")->next);
+    tester.removeNodePub(tester.getdmap().at("MM")->next);
     tester.checkErasePmapPub(tester.getpmap().at("PL"), "PL");
-    //tester.checkEraseDmapPub(tester.getdmap().at("MM"), "MM");
+    tester.checkEraseDmapPub(tester.getdmap().at("MM"), "MM");
     REQUIRE(tester.getpmap().count("PL") == 0);
-    //REQUIRE(tester.getdmap().count("MM") == 0);
-
+    REQUIRE(tester.getdmap().count("MM") == 0);
+    cout << "6. PASSED" << endl;
 }
 
 TEST_CASE("7. test canPublish", "[weight = 1][part construction")
@@ -1054,4 +1055,35 @@ TEST_CASE("24. findNextAvailableDriver NULL", "[weight = 1]")
     
 
     cout << "24. PASSED" << endl;
+}
+
+TEST_CASE("25. basic misc test canBus=false", "[weight = 1]")
+{
+    cout << "25. basic misc test canBus=false" << endl;
+    Person p1 = Person("Kaguya", 129, "female", "Stuco");
+    Driver d1 = Driver("Hayasaka (Chika Version)", 231, 3, "male");
+
+    InputReader ir = InputReader();
+
+    Node * pnode = new Node(p1);
+    ir.addToDmap(d1);
+
+
+    unordered_map<string, Node*> pm = ir.getPmap();
+    unordered_map<string, DNode*> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Node * atMisc  = pm.at("misc");
+    pnode->prev = atMisc;
+    pnode->next = atMisc;
+    atMisc->next = pnode;
+    atMisc->prev = pnode;
+
+
+    REQUIRE(pm.at("misc")->next == pnode);
+    
+    REQUIRE(d1.getplist()->getCapacity() == 2);
+
+
+
+    cout << "25. PASSED" << endl;
 }

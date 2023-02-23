@@ -37,7 +37,8 @@ class Planner
     void addNodeBackPub(Node * n, string destination);
     void addNodePub(Node * n, string destination);
     void removeNodePub(Node * n);     
-    void checkErasePmapPub(Node * pl, string group);    
+    void checkErasePmapPub(Node * pl, string group);   
+    void checkEraseDmapPub(DNode * pl, string group);    
     bool canPublishPub(DNode * d);  
     void assignGenPub(DNode * d);
     void sortPub(DNode * dl, Node* pl);
@@ -85,7 +86,7 @@ class Planner
        // Assigns based on gender
     void assignGen(DNode * n);
 
-    // helper to remove empty elements in the maps. calls erase to remove element from hashmap WITHOUT RESIZING
+    // helper to remove empty elements in the maps. calls erase to remove element from hashmap without resizings
     void checkEraseDmap(DNode * dl, string group);
     void checkErasePmap(Node * pl, string group);
 

@@ -278,6 +278,7 @@ void Planner::sortmisc()
     
     Node * curr = pmap.at("misc")->next;
     DNode * available = NULL;
+    string driverGroup;
     while (curr != pmap.at("misc")) {
         
 
@@ -287,6 +288,7 @@ void Planner::sortmisc()
 
         if (!available) {
             available = findNextAvailableDriver(group, gen);
+            driverGroup = available->getPerson().getGroup();
             if (!available) break;
         }
 
@@ -334,7 +336,7 @@ void Planner::sortmisc()
                 if (b) {
                     removeNode(grplist->next);
                     delete(grplist->next);
-                    checkEraseDmap(grplist, group);
+
                 } 
                 curr = tempnext;
                 cout << __LINE__ << endl;
@@ -343,7 +345,6 @@ void Planner::sortmisc()
         } 
         
 
-        string driverGroup = available->getPerson().getGroup();
         PList * pl = available->getPerson().getplist();
         pl->addNode(curr);
         cout << __LINE__ << endl;
@@ -353,7 +354,7 @@ void Planner::sortmisc()
 
             removeNode(available);
             
-            //checkEraseDmap(dmap.at(driverGroup), group);
+            checkEraseDmap(dmap.at(driverGroup), driverGroup);
 
             delete(available);
 
@@ -574,6 +575,11 @@ void Planner::checkErasePmap(Node * pl, string g)
 void Planner::checkErasePmapPub(Node * pl, string group)
 {
     checkErasePmap(pl, group);
+}
+
+void Planner::checkEraseDmapPub(DNode * pl, string group)
+{
+    checkEraseDmap(pl, group);
 }
 
 bool Planner::canPublishPub(DNode * d)
