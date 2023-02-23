@@ -44,6 +44,10 @@ class Planner
 
     void sortgenPub();
 
+    // Looks for the next available DNode given the constraints. It will first try to look based on both, then on group alone, then on gender. 
+    // If nothing returned on constraints, it will return the first one it found. If still nothing is found, it will return NULL
+    DNode * findNextAvailableDriver(string group = "_", string gender = "_");
+
     // to iterate over an unordered map, use https://www.geeksforgeeks.org/set-cbegin-and-cend-function-in-c-stl/
     private: 
 
@@ -85,9 +89,10 @@ class Planner
     void checkEraseDmap(DNode * dl, string group);
     void checkErasePmap(Node * pl, string group);
 
-    // helper to decide if a node should be added to plist or to a node
+    // helper to decide if a node should be added to plist or to misc
     void assignOrReassign(Node * sen, PList * pl);
 
+    
     /*
     Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender
      It will identify a driver that is most optimal for it

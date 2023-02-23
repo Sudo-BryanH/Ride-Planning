@@ -8,6 +8,7 @@ Planner::Planner()
 }
 
 
+
 Planner::Planner(unordered_map<string, DNode * > & drmap, unordered_map<string, Node * > & pamap, vector<string> & glist) 
 {
 
@@ -21,10 +22,14 @@ Planner::Planner(unordered_map<string, DNode * > & drmap, unordered_map<string, 
 
 void Planner::planride()
 {
+
+    // cout << __LINE__ << endl;
     for(string g : grouplist)
     {
+        // cout << __LINE__ << endl;
         DNode * dl;
         Node * pl;
+        //cout << __LINE__ << endl;
         try
         {
             dl = dmap.at(g); 
@@ -33,7 +38,7 @@ void Planner::planride()
         {
             dl = NULL;
         }
-
+    // cout << __LINE__ << endl;
         try
         {
             pl = pmap.at(g); 
@@ -43,26 +48,32 @@ void Planner::planride()
             pl = NULL;
         }
         // auto pl = pmap.find(g);
+        // cout << __LINE__ << endl;
         sort(dl, pl);
     // TODO need to print out everything whether full or not
-
+    // cout << __LINE__ << endl;
 
         // deletes any groups that are now empty. makes it asymptotically easier to determine if there remains any member in a group
 
     }
+    // cout << __LINE__ << endl;
 
     sortgen();
-
-    // sortmisc();
-
+    // cout << __LINE__ << endl;
+    sortmisc();
+    // cout << __LINE__ << endl;
     for (auto it = dmap.cbegin(); it != dmap.cend(); it++)
     {
         DNode * base = it->second;
         DNode * curr = base->next;
-        cout << __LINE__ << endl;
-        while (curr != base) pub.publish(curr);
+
+        while (curr != base) {
+            pub.publish(curr);
+            curr = curr->next;
+        }
         
     }
+    cout << __LINE__ << endl;
 
 }
 
@@ -71,63 +82,67 @@ void Planner::planride()
 // void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
 void Planner::sort(DNode * dl, Node* pl)
 {
+    if (!pl) return;
+    string group = pl->next->getPerson().getGroup();
+    cout << pl->next->getPerson().getName() << endl;
+    if (dl && pl)
+    {
 
-        string group = pl->next->getPerson().getGroup();
-
-        cout << pl->next->getPerson().getName() << " began" << endl;
-        if (dl && pl)
+        DNode * curd = dl->next;
+        //cout << __LINE__ << endl;
+        while(curd != dl)
         {
-
-            DNode * curd = dl->next;
-            cout << __LINE__ << endl;
-            while(curd != dl)
-            {
-                DNode * tempnext = curd->next;
-                cout << __LINE__ << endl;
-                //PList * p = new PList(curd->getPerson().getCapacity());
-                PList * plist = curd->getPerson().getplist();
-                assignOrReassign(pl, plist);
+            DNode * tempnext = curd->next;
+            // cout << __LINE__ << endl;
+            //PList * p = new PList(curd->getPerson().getCapacity());
+            PList * plist = curd->getPerson().getplist();
+            assignOrReassign(pl, plist);
 //cout << "sorting " << pmap.count(group) << endl;
 
-                cout << __LINE__ << endl;
-                bool b = canPublish(curd);
-                curd = tempnext;
-                cout << __LINE__ << endl;
-            }
-
-        }
-
-        // Reassign leftover nodes
-        Node * curr = pl->next;
-      //cout << "sorting " << pmap.count(group) << endl;
-      cout << __LINE__ << endl;
-        while(curr != pl)
-        {
             
-            Node * tempnext = curr->next;
-            if (curr->getPerson().getGender() == "male")
-            {
-                removeNode(curr);
-                addNode(curr, "male");
-            } else if (curr->getPerson().getGender() == "female") 
-            {
-                removeNode(curr);
-                addNode(curr, "female");
-            } else 
-            {
-                removeNode(curr);
-                addNode(curr, "misc");
+            bool b = canPublish(curd);
+            if (b) {
+                removeNode(curd);
+                delete(curd);
             }
-            curr = tempnext;
+
+            curd = tempnext;
+            //   cout << __LINE__ << endl;
         }
-        //cout << "sorting " << pmap.count(group) << endl;
-        cout << __LINE__ << endl;
 
+    }
+
+    // Reassign leftover nodes
+    Node * curr = pl->next;
+    //cout << "sorting " << pmap.count(group) << endl;
+    while(curr != pl)
+    {
+        
+        Node * tempnext = curr->next;
+        if (curr->getPerson().getGender() == "male")
+        {
+            removeNode(curr);
+            addNode(curr, "male");
+        } else if (curr->getPerson().getGender() == "female") 
+        {
+            removeNode(curr);
+            addNode(curr, "female");
+        } else 
+        {
+            removeNode(curr);
+            addNode(curr, "misc");
+        }
+        curr = tempnext;
+    }
+    //cout << "sorting " << pmap.count(group) << endl;
+    try{
         checkEraseDmap(dl, group);
-        cout << __LINE__ << endl;
+    } catch (std::out_of_range)
+    {}
+    try{
         checkErasePmap(pl, group);
-
-        cout << pl->next->getPerson().getName() << "  done" << endl;
+    } catch (std::out_of_range)
+    {}
 }
 
 void Planner::assignOrReassign(Node * sen, PList * p)
@@ -195,7 +210,10 @@ void Planner::assignGen(DNode * dn)
         dn = dn->next;
         //cout << __LINE__ << endl;
         bool b = canPublish(temp);
-
+        if (b) {
+            removeNode(temp);
+            delete(temp);
+        }
         try{
             checkEraseDmap(dmap.at(dn->getPerson().getGroup()),dn->getPerson().getGroup()); 
         } catch (std::out_of_range)
@@ -256,14 +274,125 @@ void Planner::sortgen()
 
 void Planner::sortmisc()
 {
+
+    
     Node * curr = pmap.at("misc")->next;
 
-    while(curr != pmap.at("misc"))
-    {
+    while (curr != pmap.at("misc")) {
+        cout << __LINE__ << endl;
+
+        string group = curr->getPerson().getGroup();
+        string gen = curr->getPerson().getGender();
+
+cout << curr->getPerson().getName() << endl;
+
+        Node * tempnext = curr->next;
+
+        
+
+        if (curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
+            DNode * grplist = dmap.at(group);
+            DNode * dr = grplist->next;
+            // cout << __LINE__ << endl;
+            if (grplist->next != grplist) {
+                // cout << __LINE__ << endl;
+                PList * pl = dr->getPerson().getplist();
+                pl->addNode(curr);
+                // cout << __LINE__ << endl;
+                int b = (int) canPublish(dr);
+                // cout << b << " " << pl->getCapacity() << endl;
+                if (b) {
+                    
+                    removeNode(dr);
+                    cout << __LINE__ << endl;
+                    checkEraseDmap(grplist, group);
+                    cout << __LINE__ << endl;
+                    delete(dr);
+                }             
+                // cout << __LINE__ << endl;
+                // if (b) removeNode(grplist->next);
+
+                // cout << __LINE__ << endl;
+                curr = tempnext;
+                // cout << __LINE__ << endl;
+                continue;
+            }
+
+        } else if (curr->getPerson().getGender() != "_") {
+            DNode * grplist = dmap.at(gen);
+            if (grplist->next != grplist) {
+                PList * pl = grplist->next->getPerson().getplist();
+                removeNode(curr);
+                pl->addNode(curr);
+                bool b = canPublish(grplist->next);
+                if (b) {
+                    removeNode(grplist->next);
+                    delete(grplist->next);
+                    checkEraseDmap(grplist, group);
+                } 
+                curr = tempnext;
+                continue;
+            }
+        } 
+
+
+       
+        //cout << __LINE__ << endl;
+        
+
+
+
+        curr = tempnext;
+cout << __LINE__ << endl;
 
     }
+    
+    cout << __LINE__ << endl;   
+    
 }
 
+DNode * Planner::Planner::findNextAvailableDriver(string group, string gender) {
+
+    DNode * bestOption = NULL;
+    DNode * curr = NULL;
+
+    if (dmap.count(group) == 1 && dmap.at(group)->next != dmap.at(group))
+    {
+        
+        bestOption = curr = dmap.at(group)->next;
+        
+        while (curr != dmap.at(group)) {
+            if (curr->getPerson().getGender() == gender) {
+                return curr;
+            }
+            curr = curr->next;
+        }
+        return bestOption;
+    }
+    
+    for(auto it = dmap.cbegin(); it != dmap.cend();  it++)
+    {
+        
+        curr = it->second->next;
+        if (curr != it->second) {
+            bestOption = curr;
+        }
+        
+        while (curr != it->second) {
+
+            if (curr->getPerson().getGender() == gender) {
+                return curr;
+            }
+            curr = curr->next;
+        }
+    
+
+    }
+
+
+    
+    return bestOption;
+}
 
 
 void Planner::addNodeBack(Node * n, string destination)
@@ -326,6 +455,22 @@ void Planner::removeNode(Node * n)
     n->prev = NULL;
 }
 
+void Planner::removeNode(DNode *n)
+{
+
+    cout << "REMOVING DRIVER" << endl;
+        DNode * temp = n->prev;
+    // cout << __LINE__ << endl; 
+
+    n->prev->next = n->next;
+    // cout << __LINE__ << endl; //unseen
+    n->next->prev = temp;
+    // cout << __LINE__ << endl;
+
+    n->next = NULL;
+    // cout << __LINE__ << endl;
+    n->prev = NULL;
+}
 
 
 
@@ -368,9 +513,11 @@ bool Planner::canPublish(DNode * dn)
     {
         //cout << __LINE__ << endl;
         pub.publish(dn);
+        
         //cout << __LINE__ << endl;
         //p->~PList();
-        delete dn;
+        // removeNode(dn);
+        // delete dn;
         //cout << __LINE__ << endl;
         return true;
     }
@@ -381,7 +528,7 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 {
 
   //  cout << __LINE__ << endl;
-    if (dl != NULL && dl->next == dl)
+    if (dl && dl->next == dl)
     {   
        // cout << __LINE__ << endl;
         delete dl;
@@ -392,7 +539,7 @@ void Planner::checkEraseDmap(DNode * dl, string g)
 void Planner::checkErasePmap(Node * pl, string g)
 {
    // cout << __LINE__ << endl;
-    if (pl != NULL && pl->next == pl)
+    if (pl && pl->next == pl)
     {
         delete pl;
         //cout << pmap.count(g) << endl;
