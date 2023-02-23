@@ -277,23 +277,29 @@ void Planner::sortmisc()
 
     
     Node * curr = pmap.at("misc")->next;
-    DNode * available = findNextAvailableDriver();
+    DNode * available = NULL;
     while (curr != pmap.at("misc")) {
-        cout << __LINE__ << endl;
+        
 
         string group = curr->getPerson().getGroup();
         string gen = curr->getPerson().getGender();
+        cout << curr->getPerson().getName() << endl;
 
-cout << curr->getPerson().getName() << endl;
+        if (!available) {
+            available = findNextAvailableDriver(group, gen);
+            if (!available) break;
+        }
+
+        cout << curr->getPerson().getName() << " " << group << endl;
 
         Node * tempnext = curr->next;
 
         
 
-        if (curr->getPerson().canbus() && curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
+        if (curr->getPerson().getCanBus() && curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
             DNode * grplist = dmap.at(group);
             DNode * dr = grplist->next;
-            // cout << __LINE__ << endl;
+             cout << __LINE__ << endl;
             if (grplist->next != grplist) {
                 // cout << __LINE__ << endl;
                 PList * pl = dr->getPerson().getplist();
@@ -304,23 +310,21 @@ cout << curr->getPerson().getName() << endl;
                 if (b) {
                     
                     removeNode(dr);
-                    cout << __LINE__ << endl;
+                    
                     checkEraseDmap(grplist, group);
-                    cout << __LINE__ << endl;
+                    
                     delete(dr);
-                } else {
-                    available = dr;
-                }         
+                }     
                 // cout << __LINE__ << endl;
                 // if (b) removeNode(grplist->next);
 
                 // cout << __LINE__ << endl;
                 curr = tempnext;
-                // cout << __LINE__ << endl;
+                cout << __LINE__ << endl;
                 continue;
             }
-
-        } else if (curr->getPerson().canbus() && curr->getPerson().getGender() != "_") {
+            cout << __LINE__ << endl;
+        } else if (curr->getPerson().getCanBus() && curr->getPerson().getGender() != "_") {
             DNode * grplist = dmap.at(gen);
             if (grplist->next != grplist) {
                 PList * pl = grplist->next->getPerson().getplist();
@@ -331,29 +335,29 @@ cout << curr->getPerson().getName() << endl;
                     removeNode(grplist->next);
                     delete(grplist->next);
                     checkEraseDmap(grplist, group);
-                } else {
-                    available = dr;
-                }  
+                } 
                 curr = tempnext;
+                cout << __LINE__ << endl;
                 continue;
             }
         } 
         
-        if (!available) available = findNextAvailableDriver(group, gen);
 
+        string driverGroup = available->getPerson().getGroup();
         PList * pl = available->getPerson().getplist();
         pl->addNode(curr);
-        // cout << __LINE__ << endl;
-        int b = (int) canPublish(dr);
-        // cout << b << " " << pl->getCapacity() << endl;
+        cout << __LINE__ << endl;
+        int b = (int) canPublish(available);
+        
         if (b) {
+
+            removeNode(available);
             
-            removeNode(dr);
+            //checkEraseDmap(dmap.at(driverGroup), group);
+
+            delete(available);
+
             available = NULL;
-            cout << __LINE__ << endl;
-            checkEraseDmap(grplist, group);
-            cout << __LINE__ << endl;
-            delete(dr);
         } 
         
 
@@ -475,7 +479,7 @@ void Planner::removeNode(Node * n)
 void Planner::removeNode(DNode *n)
 {
 
-    cout << "REMOVING DRIVER" << endl;
+    // cout << "REMOVING DRIVER" << endl;
         DNode * temp = n->prev;
     // cout << __LINE__ << endl; 
 
@@ -547,6 +551,8 @@ void Planner::checkEraseDmap(DNode * dl, string g)
   //  cout << __LINE__ << endl;
     if (dl && dl->next == dl)
     {   
+
+        string driverGroup = dl->getPerson().getGroup();
        // cout << __LINE__ << endl;
         delete dl;
         dmap.erase(dmap.find(g)); 
