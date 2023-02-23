@@ -277,7 +277,7 @@ void Planner::sortmisc()
 
     
     Node * curr = pmap.at("misc")->next;
-
+    DNode * available = findNextAvailableDriver();
     while (curr != pmap.at("misc")) {
         cout << __LINE__ << endl;
 
@@ -290,7 +290,7 @@ cout << curr->getPerson().getName() << endl;
 
         
 
-        if (curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
+        if (curr->getPerson().canbus() && curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
             DNode * grplist = dmap.at(group);
             DNode * dr = grplist->next;
             // cout << __LINE__ << endl;
@@ -308,7 +308,9 @@ cout << curr->getPerson().getName() << endl;
                     checkEraseDmap(grplist, group);
                     cout << __LINE__ << endl;
                     delete(dr);
-                }             
+                } else {
+                    available = dr;
+                }         
                 // cout << __LINE__ << endl;
                 // if (b) removeNode(grplist->next);
 
@@ -318,7 +320,7 @@ cout << curr->getPerson().getName() << endl;
                 continue;
             }
 
-        } else if (curr->getPerson().getGender() != "_") {
+        } else if (curr->getPerson().canbus() && curr->getPerson().getGender() != "_") {
             DNode * grplist = dmap.at(gen);
             if (grplist->next != grplist) {
                 PList * pl = grplist->next->getPerson().getplist();
@@ -329,15 +331,30 @@ cout << curr->getPerson().getName() << endl;
                     removeNode(grplist->next);
                     delete(grplist->next);
                     checkEraseDmap(grplist, group);
-                } 
+                } else {
+                    available = dr;
+                }  
                 curr = tempnext;
                 continue;
             }
         } 
+        
+        if (!available) available = findNextAvailableDriver(group, gen);
 
-
-       
-        //cout << __LINE__ << endl;
+        PList * pl = available->getPerson().getplist();
+        pl->addNode(curr);
+        // cout << __LINE__ << endl;
+        int b = (int) canPublish(dr);
+        // cout << b << " " << pl->getCapacity() << endl;
+        if (b) {
+            
+            removeNode(dr);
+            available = NULL;
+            cout << __LINE__ << endl;
+            checkEraseDmap(grplist, group);
+            cout << __LINE__ << endl;
+            delete(dr);
+        } 
         
 
 
