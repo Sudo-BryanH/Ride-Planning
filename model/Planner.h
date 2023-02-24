@@ -37,6 +37,7 @@ class Planner
     void addNodeBackPub(Node * n, string destination);
     void addNodePub(Node * n, string destination);
     void removeNodePub(Node * n);     
+    void removeNodePub(DNode * n); 
     void checkErasePmapPub(Node * pl, string group);   
     void checkEraseDmapPub(DNode * pl, string group);    
     bool canPublishPub(DNode * d);  

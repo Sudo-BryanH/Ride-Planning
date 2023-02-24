@@ -281,22 +281,28 @@ void Planner::sortmisc()
     string driverGroup;
     while (curr != pmap.at("misc")) {
         
-
+            cout << __LINE__ << endl;
         string group = curr->getPerson().getGroup();
         string gen = curr->getPerson().getGender();
         cout << curr->getPerson().getName() << endl;
 
         if (!available) {
+            cout << __LINE__ << endl;
+            
             available = findNextAvailableDriver(group, gen);
+            if (available == NULL) break;
+            
+            cout << __LINE__ << endl;
             driverGroup = available->getPerson().getGroup();
-            if (!available) break;
+            cout << __LINE__ << endl;
+            
         }
 
         cout << curr->getPerson().getName() << " " << group << endl;
 
         Node * tempnext = curr->next;
 
-        
+        cout << __LINE__ << endl;
 
         if (curr->getPerson().getCanBus() && curr->getPerson().getGroup() != "_" && dmap.count(group) == 1) {
             DNode * grplist = dmap.at(group);
@@ -339,25 +345,25 @@ void Planner::sortmisc()
 
                 } 
                 curr = tempnext;
-                cout << __LINE__ << endl;
+                
                 continue;
             }
         } 
-        
+        cout << __LINE__ << endl;
 
         PList * pl = available->getPerson().getplist();
         pl->addNode(curr);
         cout << __LINE__ << endl;
         int b = (int) canPublish(available);
-        
+        cout << __LINE__ << endl;
         if (b) {
-
+cout << __LINE__ << endl;
             removeNode(available);
-            
+            cout << __LINE__ << endl;
             checkEraseDmap(dmap.at(driverGroup), driverGroup);
-
+cout << __LINE__ << endl;
             delete(available);
-
+cout << __LINE__ << endl;
             available = NULL;
         } 
         
@@ -365,11 +371,11 @@ void Planner::sortmisc()
 
 
         curr = tempnext;
-cout << __LINE__ << endl;
+    cout << __LINE__ << endl;
 
     }
     
-    cout << __LINE__ << endl;   
+    
     
 }
 
@@ -525,6 +531,11 @@ void Planner::removeNodePub(Node * n)
     removeNode(n);
 }
 
+void Planner::removeNodePub(DNode * n)
+{
+    removeNode(n);
+}
+
 bool Planner::canPublish(DNode * dn)
 {
     //cout << __LINE__ << endl;
@@ -549,12 +560,12 @@ bool Planner::canPublish(DNode * dn)
 void Planner::checkEraseDmap(DNode * dl, string g)
 {
 
-  //  cout << __LINE__ << endl;
+  cout << __LINE__ << endl;
     if (dl && dl->next == dl)
     {   
 
         string driverGroup = dl->getPerson().getGroup();
-       // cout << __LINE__ << endl;
+       cout << __LINE__ << endl;
         delete dl;
         dmap.erase(dmap.find(g)); 
     }
