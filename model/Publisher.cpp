@@ -36,7 +36,7 @@ void Publisher::publishextra(Node * n)
     cout << "There were not enough rides to assign the following to a ride:" << endl;
 
     Node * curr = n->next;
-    cout << __LINE__ << endl;
+    
 
     while(curr && curr != n) 
     {

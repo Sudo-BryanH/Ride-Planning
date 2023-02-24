@@ -1036,7 +1036,8 @@ TEST_CASE("26. planride large test", "[weight = 1]")
     Driver d2 = Driver("Miki Kawai", 28342, 2, "female", "Koe no Katachi");
 
     Driver d3 = Driver("Miki Okudera", 9223, 2, "female", "Kimi no na wa");
-    Driver d4 = Driver("Misato Katsuragi", 5323, 2, "female" "Neon Genesis Evangelion");
+
+    Driver d4 = Driver("Misato Katsuragi", 5323, 2, "female", "Neon Genesis Evangelion");
 
     InputReader ir = InputReader();
 
@@ -1059,7 +1060,9 @@ TEST_CASE("26. planride large test", "[weight = 1]")
     unordered_map<string, DNode *> dm = ir.getDmap();
     vector<string> gl = ir.getGroupList();
     Planner plan = Planner(dm, pm, gl);
-
+    
+    // cout << "groups" << endl;
+    // for (string s : gl) cout << s << endl;
     plan.planride();
 
 
