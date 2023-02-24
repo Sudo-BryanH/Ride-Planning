@@ -101,8 +101,9 @@ class Planner
     */
    void sortgen();
         /*
-    Helper for planride. Uses similar mechanics to sort but applies to the special cases of gender and misc.
-     It will identify a driver that is most optimal for it
+    Helper for planride. For those who cannot bus, given that they are in misc means that no group or gender applies to them. 
+    They will be randomly assigned to a driver if possible. For those who can bus, the algorithm will attempt to find an
+    optimal driver, but this is not guarunteed
     */
    void sortmisc();
 };
