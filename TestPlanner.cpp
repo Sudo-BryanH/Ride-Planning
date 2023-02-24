@@ -1007,8 +1007,61 @@ TEST_CASE("25. basic misc test canBus=false", "[weight = 1]")
     atMisc->prev = pnode;
 
     REQUIRE(pm.at("misc")->next == pnode);
-
+    Planner plan = Planner(dm, pm, gl);
+    plan.planride();
     REQUIRE(d1.getplist()->getCapacity() == 2);
 
     cout << "25. PASSED" << endl;
+}
+
+TEST_CASE("26. planride large test", "[weight = 1]") 
+{
+    cout << "26. planride large test" << endl;
+
+    Person p0 = Person("Violet Evergarden", 27834, "female");
+
+    Person p1 = Person("Shouko Nishimiya", 23421, "female", "Koe no Katachi");
+    Person p2 = Person("Naoka Ueno", 2938, "female", "Koe no Katachi");
+    Person p3 = Person("Tomohiro Nagatsuka", 2938, "male", "Koe no Katachi");
+    Person p4 = Person("Shouya Nishida", 2938, "male", "Koe no Katachi");
+
+    Person p5 = Person("Taki Tachibana", 92305, "male", "Kimi no na wa");
+    Person p6 = Person("Mitsuha Miyamizu", 92305, "male", "Kimi no na wa", true);
+
+    Person p7 = Person("Amano Hina", 983774, "female", "Tenki no Ko");
+    Person p8 = Person("Hodoka Morishima", 983774, "male", "Tenki no Ko");
+
+
+    Driver d1 = Driver("Toshi Mashibasa", 90353, 3, "male", "Koe no Katachi");
+    Driver d2 = Driver("Miki Kawai", 28342, 2, "female", "Koe no Katachi");
+
+    Driver d3 = Driver("Miki Okudera", 9223, 2, "female", "Kimi no na wa");
+    Driver d4 = Driver("Misato Katsuragi", 5323, 2, "female" "Neon Genesis Evangelion");
+
+    InputReader ir = InputReader();
+
+    ir.addToPmap(p0);
+    ir.addToPmap(p1);
+    ir.addToPmap(p2);
+    ir.addToPmap(p3);
+    ir.addToPmap(p4);
+    ir.addToPmap(p5);
+    ir.addToPmap(p6);
+    ir.addToPmap(p7);
+    ir.addToPmap(p8);
+
+    ir.addToDmap(d1);
+    ir.addToDmap(d2);
+    ir.addToDmap(d3);
+    ir.addToDmap(d4);
+    
+    unordered_map<string, Node *> pm = ir.getPmap();
+    unordered_map<string, DNode *> dm = ir.getDmap();
+    vector<string> gl = ir.getGroupList();
+    Planner plan = Planner(dm, pm, gl);
+
+    plan.planride();
+
+
+    cout << "26. PASSED" << endl;
 }

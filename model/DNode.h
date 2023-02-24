@@ -23,6 +23,8 @@ class DNode : public Node
     DNode * next;
     DNode * prev;
 
+    ~DNode();
+
     private: 
     Driver d;
 

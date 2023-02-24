@@ -12,3 +12,11 @@ Driver DNode::getPerson()
 {
     return d;
 }
+
+DNode::~DNode()
+{
+    
+    // prev->next = next;
+    // next->prev = prev;
+    // delete(d.getplist());
+}

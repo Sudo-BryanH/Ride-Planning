@@ -44,7 +44,7 @@ void Planner::planride()
         // auto pl = pmap.find(g);
         // cout << __LINE__ << endl;
         sort(dl, pl);
-        // TODO need to print out everything whether full or not
+        
         // cout << __LINE__ << endl;
 
         // deletes any groups that are now empty. makes it asymptotically easier to determine if there remains any member in a group
@@ -65,8 +65,18 @@ void Planner::planride()
             pub.publish(curr);
             curr = curr->next;
         }
+        delete (base);
+
+    }
+
+    pub.publishextra(pmap.at("misc"));
+
+    for (auto it = pmap.cbegin(); it != pmap.cend(); it++) {
+        delete (it->second);
+
     }
     cout << __LINE__ << endl;
+
 }
 
 // void Planner::sort(unordered_map<string, DNode *>::iterator & dl, unordered_map<string, Node *>::iterator & pl)
