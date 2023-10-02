@@ -7,7 +7,7 @@
 
 Person::Person(){}
 
-Person::Person(string name, int phone, string sex, string group, bool canBus) : name(name), gender(sex), phone(phone), group(group), canBus(canBus)
+Person::Person(string name, long phone, string sex, string group, bool canBus) : name(name), gender(sex), phone(phone), group(group), canBus(canBus)
 {
 
 }
@@ -32,7 +32,7 @@ string Person::getGender()
 }
 
 
-void Person::setPhone(int phone)
+void Person::setPhone(long phone)
 {
     phone = phone;
 }

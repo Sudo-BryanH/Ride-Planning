@@ -6,7 +6,7 @@
 
 Driver::Driver() {}
 
-Driver::Driver(string name, int phone, int capacity, string gender, string group) : capacity(capacity), Person(name, phone, gender, group, false)
+Driver::Driver(string name, long phone, int capacity, string gender, string group) : capacity(capacity), Person(name, phone, gender, group, false)
 {
     passengers = new PList(capacity);
 }    

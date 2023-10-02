@@ -19,7 +19,7 @@ void makeDriver()
     string name;
     string gender;
     string group;
-    int phone;
+    long phone;
     int cap;
     cout << "adding a driver. When prompted, input each as requested." << endl;
     cout << "name: " << endl;
@@ -44,7 +44,7 @@ void makePassenger()
     string name;
     string gender;
     string group;
-    int phone;
+    long phone;
     string canBus;
     bool cb;
     cout << "adding a passenger. When prompted, input each as requested." << endl;

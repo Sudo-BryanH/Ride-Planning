@@ -19,7 +19,7 @@ class Driver : public Person
     public:
     Driver();
     // Constructor to declare the capacity, super class, and PList = NULL
-    Driver(string name, int phone, int capacity, string gender = "_", string group = "_");
+    Driver(string name, long phone, int capacity, string gender = "_", string group = "_");
     
     //getters and setters for capacity
     int getCapacity();

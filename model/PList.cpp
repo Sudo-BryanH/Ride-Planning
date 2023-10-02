@@ -1,13 +1,13 @@
 
 
 #include "PList.h"
-#include <string> 
-#include <vector> 
+#include <string>
+#include <vector>
 #include <iostream>
 #include <stdio.h>
 
-PList::PList(){
-
+PList::PList()
+{
 }
 PList::PList(int capacity) : cap(capacity)
 {
@@ -15,10 +15,9 @@ PList::PList(int capacity) : cap(capacity)
     last = sentinel;
     sentinel->next = sentinel;
     sentinel->prev = NULL;
-
 }
 
-void PList::addNode(Node* n) 
+void PList::addNode(Node *n)
 {
     // cout << __LINE__ << endl;
     // //remove the node
@@ -28,22 +27,20 @@ void PList::addNode(Node* n)
     // cout << __LINE__ << endl;
     // n->next->prev = temp;
 
-    //add node to plist
-    
+    // add node to plist
+
     n->next = sentinel;
     sentinel->prev = n;
     last->next = n;
-    
+
     n->prev = last;
 
     last = n;
 
-
     cap--;
-
 }
 
-Node* PList::PList::getSentinel()
+Node *PList::PList::getSentinel()
 {
     return sentinel;
 }
@@ -56,11 +53,12 @@ PList::~PList()
     deletion(sentinel);
 }
 
-void PList::deletion(Node * curr)
+void PList::deletion(Node *curr)
 {
     if (curr)
     {
-        Node * temp = curr->next;
+        Node *temp = curr->next;
+        free(curr);
         deletion(temp);
     }
 }
@@ -69,4 +67,3 @@ int PList::getCapacity()
 {
     return cap;
 }
-

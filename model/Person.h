@@ -18,7 +18,7 @@ class Person
     public: 
 
     // Fills in the fields of the person abstract class
-    Person(string name,  int phone, string gender = "_", string group = "_", bool canBus = false); // : name(name), sex(sex), phone(phone), group(group);
+    Person(string name,  long phone, string gender = "_", string group = "_", bool canBus = false); // : name(name), sex(sex), phone(phone), group(group);
     Person();
     
     bool operator==(Person p) const;
@@ -29,7 +29,7 @@ class Person
     string getName();
     void setGender(string gender);
     string getGender();
-    void setPhone(int phone);
+    void setPhone(long phone);
     int getPhone();
     void setGroup(string group);
     string getGroup();

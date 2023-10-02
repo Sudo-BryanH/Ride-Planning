@@ -237,17 +237,17 @@ TEST_CASE("7. test canPublish", "[weight = 1][part construction")
     REQUIRE(d.getplist() == pl);
     REQUIRE(pl->getCapacity() == 2);
     // cout << __LINE__ << endl;
-    REQUIRE(p.canPublishPub(dn) == FALSE);
+    REQUIRE(p.canPublishPub(dn) == false);
     // cout << __LINE__ << endl;
     pl->addNode(pn1);
     REQUIRE(pl->getCapacity() == 1);
     // cout << __LINE__ << endl;
 
-    REQUIRE(p.canPublishPub(dn) == FALSE);
+    REQUIRE(p.canPublishPub(dn) == false);
     pl->addNode(pn2);
 
     // cout << __LINE__ << endl;
-    REQUIRE(p.canPublishPub(dn) == TRUE);
+    REQUIRE(p.canPublishPub(dn) == true);
     REQUIRE(pl->getCapacity() == 0);
 
     cout << "6. PASSED" << endl;
